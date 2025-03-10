@@ -658,7 +658,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -682,7 +682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa81e0de59b8db45812327d0bf94f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
+  SpeedX: 0
+  SpeedY: 0
   jumpForce: 5
 --- !u!70 &1590155231
 CapsuleCollider2D:
