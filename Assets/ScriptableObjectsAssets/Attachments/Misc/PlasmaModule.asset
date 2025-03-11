@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 506519411e681fa4eb3b710ebf882aa4, type: 3}
-  m_Name: Att_1
+  m_Name: PlasmaModule
   m_EditorClassIdentifier: 
-  attachmentName: 
-  category: 0
-  addedDamage: 30
-  addedSpread: 10
+  attachmentName: PlasmaModule
+  category: 4
+  addedDamage: 0
+  addedSpread: 0
   addedSpeed: 0
   addedReloadTime: 0
-  addedFireRate: 8
-  addedMagazineSize: 90
-  bulletCountMultiplier: 10
-  subtractedBlockedDamage: 4
+  addedFireRate: 0
+  addedMagazineSize: 0
+  bulletCountMultiplier: 0
+  subtractedBlockedDamage: 0
   addedPlayerSpeed: 0
   damagesEnemiesByCollision: 0
   removesCrossair: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
   enablesSpreadShot: 0
   bipodBehaviour: 0
   explosiveRounds: 0
-  penetratesEnemies: 0
+  penetratesEnemies: 1
   changesWeaponType: 0
   weaponType: 0
-  bulletColor: {r: 0, g: 0, b: 0, a: 0}
+  bulletColor: {r: 1, g: 0, b: 0, a: 0}

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 506519411e681fa4eb3b710ebf882aa4, type: 3}
-  m_Name: Att_2
+  m_Name: DrumMagazine
   m_EditorClassIdentifier: 
-  attachmentName: 
-  category: 0
-  addedDamage: 20
-  addedSpread: 30
-  addedSpeed: 8
-  addedReloadTime: 44
-  addedFireRate: 8
-  addedMagazineSize: 5
-  bulletCountMultiplier: 60
-  subtractedBlockedDamage: 10
+  attachmentName: DrumMagazine
+  category: 3
+  addedDamage: 0
+  addedSpread: 0
+  addedSpeed: 0
+  addedReloadTime: 50
+  addedFireRate: 0
+  addedMagazineSize: 100
+  bulletCountMultiplier: 0
+  subtractedBlockedDamage: 0
   addedPlayerSpeed: 0
   damagesEnemiesByCollision: 0
   removesCrossair: 0

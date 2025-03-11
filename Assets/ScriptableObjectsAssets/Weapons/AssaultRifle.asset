@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e4496ec7ff64e14eb70cac627514696, type: 3}
-  m_Name: Weap_1
+  m_Name: AssaultRifle
   m_EditorClassIdentifier: 
-  weaponName: Weapon_1
+  weaponName: AssaultRifle
   weaponType: 0
-  damage: 2
-  fireRate: 3
-  reloadTime: 10
-  magazineSize: 200
-  spread: 40
-  bulletCount: 2
-  bulletSpeed: 40
+  damage: 50
+  fireRate: 50
+  reloadTime: 50
+  magazineSize: 30
+  spread: 15
+  bulletCount: 1
+  bulletSpeed: 50
   audioClip: {fileID: 0}
   sprite: {fileID: 0}

@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122e5e211a772a34daa108953628d9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 11400000, guid: 8c060f0c55bc96742873badb69a10b6a, type: 2}
+  currentWeapon: {fileID: 0}
   currentAttachments:
-  - {fileID: 11400000, guid: 7e9537f3b8926154e8fdc99924e07a2a, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
