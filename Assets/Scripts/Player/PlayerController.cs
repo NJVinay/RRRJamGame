@@ -56,6 +56,5 @@ public class PlayerController : MonoBehaviour
     public void OnAim(InputValue cc)
     {
         isAiming = cc.Get<float>() > 0;
-        Debug.Log(cc.Get<float>());
     }
 }
