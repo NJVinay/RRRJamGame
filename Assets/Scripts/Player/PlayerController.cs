@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     public void OnAim(InputValue cc)
     {
         isAiming = cc.Get<float>() > 0;
-        Debug.Log(cc.Get<float>());
     }
     // Directly applies Move Direction to the RigidBody's velocity.
     private void FixedUpdate()
