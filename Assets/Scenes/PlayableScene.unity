@@ -443,6 +443,11 @@ MonoBehaviour:
   moveSpeed: 5
   aimMoveSpeedMultiplier: 0.5
   isAiming: 0
+  dashSpeed: 25
+  dashTime: 0.3
+  dashCooldown: 1
+  isDashing: 0
+  lastDashTime: 0
 --- !u!1 &1292486566
 GameObject:
   m_ObjectHideFlags: 0
