@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown;
 
     public bool isDashing = false;
-    public float lastDashTime;
+    private float lastDashTime;
 
 
     private void Awake()
