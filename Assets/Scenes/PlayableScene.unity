@@ -653,6 +653,10 @@ MonoBehaviour:
   moveSpeed: 5
   aimMoveSpeedMultiplier: 0.5
   isAiming: 0
+  dashSpeed: 25
+  dashTime: 0.1
+  dashCooldown: 2
+  isDashing: 0
 --- !u!1 &1004801969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2665,7 +2669,7 @@ MonoBehaviour:
   player: {fileID: 616226437}
   crosshair: {fileID: 493414778}
   playerFocus: 0.2
-  smoothSpeed: 50
+  smoothSpeed: 10
   PC: {fileID: 616226442}
 --- !u!1 &1833472142
 GameObject:

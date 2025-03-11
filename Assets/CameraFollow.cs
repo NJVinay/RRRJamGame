@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     public Transform crosshair;
     [Header("Camera Settings")]
     [Range(0f, 1f)] public float playerFocus = 0.7f;
-    public float smoothSpeed = 5f;
+    public float smoothSpeed = 10f;
     public PlayerController PC;
 
     private void LateUpdate()

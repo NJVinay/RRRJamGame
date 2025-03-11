@@ -7,18 +7,21 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     // Movespeed. Editable in the editor directly for prototyping
-    public float moveSpeed = 5f;
-    public float aimMoveSpeedMultiplier = 0.5f;
-    public bool isAiming = false;
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float aimMoveSpeedMultiplier = 0.5f;
+    [SerializeField] float dashSpeed = 25f;
+    [SerializeField] float dashTime = 0.1f;
+    [SerializeField] float dashCooldown = 2f;
+    private float lastDashTime;
     private Vector2 moveInput;
     private Rigidbody2D rb;
+    private bool isDashing = false;
 
-    public float dashSpeed;
-    public float dashTime;
-    public float dashCooldown;
 
-    public bool isDashing = false;
-    private float lastDashTime;
+    
+    [Header("Shooting Settings")]
+    public bool isAiming = false;
+
 
 
     private void Awake()
