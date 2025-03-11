@@ -19,7 +19,7 @@ public class CrosshairFollow : MonoBehaviour
         mousePosition.z = -9f; // Ensure the crosshair remains on the correct plane
         transform.position = mousePosition;
 
-        // Rotate the specified object to face the crosshair
+        // Rotate the weapon to face the crosshair
         Vector3 direction = mousePosition - weaponObject.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
