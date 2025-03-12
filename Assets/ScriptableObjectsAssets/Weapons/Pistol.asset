@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   weaponName: Pistol
-  weaponType: 1
+  fireMode: 0
   damage: 20
   fireRate: 150
   reloadTime: 50
