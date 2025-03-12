@@ -13,9 +13,9 @@ public enum AttachmentCategory
 public class AttachmentsScrObj : ScriptableObject
 {
     [Tooltip("How the attachment is called")]
-    [SerializeField] private string attachmentName;
+    [SerializeField] public string attachmentName;
     [Tooltip("The attachment category so the player can only equip one attachment of each category")]
-    [SerializeField] private AttachmentCategory category;
+    [SerializeField] public AttachmentCategory category;
 
     [Space(20)]
     [Header("Weapon modifiers")]
@@ -46,9 +46,9 @@ public class AttachmentsScrObj : ScriptableObject
     [Tooltip("Check if the weapon can inflict damage by collision with enemies (ex. bayonet)")]
     [SerializeField] private bool damagesEnemiesByCollision;
     [Tooltip("Check to disable crossair (ex. Laser Sight)")]
-    [SerializeField] private bool removesCrossair;
+    [SerializeField] private bool removesCrosshair;
     [Tooltip("Check to enable crossair zoom (ex. 8x Scope)")]
-    [SerializeField] private bool enablesCrossairZoom;
+    [SerializeField] private bool enablesCrosshairZoom;
     [Tooltip("Check to enable a shader to highlight enemies (ex. Thermal Sight)")]
     [SerializeField] private bool highlightsEnemies;
     [Tooltip("Check to enable throwing grenades (ex. Underbarrel Grenade Launcher)")]
@@ -63,14 +63,15 @@ public class AttachmentsScrObj : ScriptableObject
     [SerializeField] private bool penetratesEnemies;
 
     [Space(20)]
-    [Header("Weapon type change")]
-    [Tooltip("Check to enable a weapon type change. If not checked, the weapon type value below is ignored")]
-    [SerializeField] private bool changesWeaponType;
-    [SerializeField] private WeaponType weaponType;
+    [Header("Fire Mode change")]
+    [Tooltip("Check to enable a Fire Mode change. If not checked, the weapon type value below is ignored")]
+    [SerializeField] private bool changesFireMode;
+    [SerializeField] private FireMode fireMode;
 
     [Space(20)]
     [Header("Bullet color change")]
     [Tooltip("Check to change bulletColor")]
+    [SerializeField] private bool changesColor;
     [SerializeField] private Color bulletColor;
 
     public AttachmentCategory Category => category;
@@ -84,15 +85,15 @@ public class AttachmentsScrObj : ScriptableObject
     public float SubtractedBlockedDamage => subtractedBlockedDamage;
     public float AddedPlayerSpeed => addedPlayerSpeed;
     public bool DamagesEnemiesByCollision => damagesEnemiesByCollision;
-    public bool RemovesCrossair => removesCrossair;
-    public bool EnablesCrossairZoom => enablesCrossairZoom;
+    public bool RemovesCrossair => removesCrosshair;
+    public bool EnablesCrossairZoom => enablesCrosshairZoom;
     public bool HighlightsEnemies => highlightsEnemies;
     public bool EnablesGrenades => enablesGrenades;
     public bool EnablesSpreadShot => enablesSpreadShot;
     public bool BipodBehaviour => bipodBehaviour;
     public bool ExplosiveRounds => explosiveRounds;
     public bool PenetratesEnemies => penetratesEnemies;
-    public bool ChangesWeaponType => changesWeaponType;
-    public WeaponType WeaponType => weaponType;
+    public bool ChangesFireMode => changesFireMode;
+    public FireMode FireMode => fireMode;
     public Color BulletColor => bulletColor;
 }

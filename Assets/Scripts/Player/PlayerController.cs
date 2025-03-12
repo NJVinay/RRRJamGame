@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    // Movespeed. Editable in the editor directly for prototyping
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float aimMoveSpeedMultiplier = 0.5f;
     [SerializeField] float dashSpeed = 25f;
@@ -16,23 +15,22 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Rigidbody2D rb;
     private bool isDashing = false;
-
-
     
     [Header("Shooting Settings")]
     public bool isAiming = false;
-
-
+    public bool isHoldingFire = false;
+    public WeaponsManager weaponsManager;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     public void OnMove(InputValue cc)
     {
         moveInput = cc.Get<Vector2>();
-
     }
+
     public void OnDash(InputValue cc)
     {
         if (!isDashing && !isAiming && Time.time >= lastDashTime + dashCooldown)
@@ -40,14 +38,39 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Dash());
         }
     }
-    // Directly applies Move Direction to the RigidBody's velocity.
+
+    public void OnAim(InputValue cc)
+    {
+        isAiming = cc.Get<float>() > 0;
+    }
+
+    public void OnFire(InputValue cc)
+    {
+        isHoldingFire = cc.Get<float>() > 0;
+        weaponsManager.Fire(isHoldingFire);
+    }
+
+    public void OnDebug01(InputValue cc)
+    {
+        weaponsManager.weaponCheck();
+    }
+
     private void FixedUpdate()
     {
-        if(!isDashing)
+        if (!isDashing)
         {
-            rb.linearVelocity = moveInput * (isAiming ? moveSpeed * 0.5f : moveSpeed);
-        }        
+            rb.linearVelocity = moveInput * (isAiming ? moveSpeed * aimMoveSpeedMultiplier : moveSpeed);
+        }
     }
+
+    private void Update()
+    {
+        if (isHoldingFire)
+        {
+            weaponsManager.Fire(isHoldingFire);
+        }
+    }
+
     IEnumerator Dash()
     {
         isDashing = true;
@@ -55,9 +78,5 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = moveInput * dashSpeed;
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
-    }
-    public void OnAim(InputValue cc)
-    {
-        isAiming = cc.Get<float>() > 0;
     }
 }

@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public enum WeaponType
+public enum FireMode
 {
-    Automatic,
-    Semiautomatic,
-    Manual
+    Auto,
+    Semi
 }
 
 [CreateAssetMenu(fileName = "WeaponsScrObj", menuName = "Scriptable Objects/WeaponsScrObj")]
@@ -13,8 +12,8 @@ public class WeaponsScrObj : ScriptableObject
     [Header("Weapon info")]
     [Tooltip("Literally how the weapon is called ahah")]
     [SerializeField] private string weaponName;
-    [Tooltip("In what extent this weapon is automatic")]
-    [SerializeField] private WeaponType weaponType;
+    [Tooltip("The firemode of the weapon")]
+    [SerializeField] private FireMode fireMode;
     [Tooltip("How much damage a single bullet delivers")]
     [SerializeField] private float damage;
     [Tooltip("How many bullets are being shot in one second")]
@@ -39,7 +38,7 @@ public class WeaponsScrObj : ScriptableObject
     [SerializeField] private Sprite sprite;
 
     public string WeaponName => weaponName;
-    public WeaponType WeaponType => weaponType;
+    public FireMode FireMode => fireMode;
     public float Damage => damage;
     public float FireRate => fireRate;
     public float ReloadTime => reloadTime;
