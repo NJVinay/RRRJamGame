@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 506519411e681fa4eb3b710ebf882aa4, type: 3}
+  m_Name: GunShield
+  m_EditorClassIdentifier: 
+  attachmentName: GunShield
+  category: 2
+  addedDamage: 0
+  addedSpread: 0
+  addedSpeed: 0
+  addedReloadTime: 0
+  addedFireRate: 0
+  addedMagazineSize: 0
+  bulletCountMultiplier: 0
+  subtractedBlockedDamage: 15
+  addedPlayerSpeed: 0
+  damagesEnemiesByCollision: 0
+  removesCrossair: 0
+  enablesCrossairZoom: 0
+  highlightsEnemies: 0
+  enablesGrenades: 0
+  enablesSpreadShot: 0
+  bipodBehaviour: 0
+  explosiveRounds: 0
+  penetratesEnemies: 0
+  changesWeaponType: 0
+  weaponType: 0
+  bulletColor: {r: 0, g: 0, b: 0, a: 0}
