@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   weaponName: Pistol
-  weaponType: 1
-  damage: 20
-  fireRate: 150
+  fireMode: 1
+  damage: 15
+  fireRate: 8
   reloadTime: 50
   magazineSize: 17
   spread: 10
   bulletCount: 1
-  bulletSpeed: 50
+  bulletSpeed: 30
   audioClip: {fileID: 0}
   sprite: {fileID: 0}

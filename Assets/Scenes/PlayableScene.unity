@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122e5e211a772a34daa108953628d9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 11400000, guid: a60412b6c328eec4fa1e7917b6deaf8d, type: 2}
+  currentWeapon: {fileID: 11400000, guid: 4ee546c3b793b9740980415ca0663cf8, type: 2}
   currentAttachments:
   - {fileID: 0}
   - {fileID: 0}
@@ -2791,7 +2791,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
