@@ -20,18 +20,19 @@ MonoBehaviour:
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 0
+  bulletCountMultiplier: 1
   subtractedBlockedDamage: 0
   addedPlayerSpeed: 0
   damagesEnemiesByCollision: 0
-  removesCrossair: 1
-  enablesCrossairZoom: 0
+  removesCrosshair: 0
+  enablesCrosshairZoom: 0
   highlightsEnemies: 0
   enablesGrenades: 0
   enablesSpreadShot: 0
   bipodBehaviour: 0
   explosiveRounds: 0
   penetratesEnemies: 0
-  changesWeaponType: 0
-  weaponType: 0
+  changesFireMode: 0
+  fireMode: 0
+  changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
