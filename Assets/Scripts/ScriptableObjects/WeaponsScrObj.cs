@@ -34,7 +34,14 @@ public class WeaponsScrObj : ScriptableObject
 
     [Space(20)]
     [Header("Asset data")]
+    [Tooltip("The clip for firing the weapon")]
     [SerializeField] private AudioClip audioClip;
+    [Tooltip("The clip for emptying the magazine of the weapon.")]
+    [SerializeField] private AudioClip emptyClip;
+    [Tooltip("The clip for reloading the weapon")]
+    [SerializeField] private AudioClip reloadClip;
+    [Tooltip("The clip for finishing a reload of the weapon.")]
+    [SerializeField] private AudioClip reloadFinishClip;
     [SerializeField] private Sprite sprite;
 
     public string WeaponName => weaponName;
@@ -47,5 +54,8 @@ public class WeaponsScrObj : ScriptableObject
     public int BulletCount => bulletCount;
     public float BulletSpeed => bulletSpeed;
     public AudioClip AudioClip => audioClip;
+    public AudioClip EmptyClip => emptyClip;
+    public AudioClip ReloadClip => reloadClip;
+    public AudioClip ReloadFinishClip => reloadFinishClip;
     public Sprite Sprite => sprite;
 }

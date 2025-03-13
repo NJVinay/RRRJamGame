@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: RPG
   m_EditorClassIdentifier: 
   weaponName: RPG
-  weaponType: 0
-  damage: 300
-  fireRate: 0
-  reloadTime: 150
+  fireMode: 0
+  damage: 400
+  fireRate: 0.5
+  reloadTime: 4
   magazineSize: 1
   spread: 5
   bulletCount: 1
-  bulletSpeed: 50
+  bulletSpeed: 20
   audioClip: {fileID: 0}
+  emptyClip: {fileID: 0}
+  reloadClip: {fileID: 0}
+  reloadFinishClip: {fileID: 0}
   sprite: {fileID: 0}
