@@ -33,21 +33,21 @@ public class AttachmentsScrObj : ScriptableObject
     [SerializeField] private float addedMagazineSize;
     [Tooltip("Multiplier applied to the number of bullets shot at once")]
     [SerializeField] private float bulletCountMultiplier;
-    [Tooltip("Percentage of how much damage value is subtracted when hitting a shield")]
-    [SerializeField] private float subtractedBlockedDamage;
 
     [Space(20)]
     [Header("Player modifiers")]
     [Tooltip("Percentage of how much player speed value is increased (it can be negative)")]
     [SerializeField] private float addedPlayerSpeed;
+    [Tooltip("Percentage of how much damage value is subtracted when hitting a shield")]
+    [SerializeField] private float subtractedBlockedDamage;
 
     [Space(20)]
     [Header("Enablers")]
     [Tooltip("Check if the weapon can inflict damage by collision with enemies (ex. bayonet)")]
     [SerializeField] private bool damagesEnemiesByCollision;
-    [Tooltip("Check to disable crossair (ex. Laser Sight)")]
+    [Tooltip("Check to disable crosshair (ex. Laser Sight)")]
     [SerializeField] private bool removesCrosshair;
-    [Tooltip("Check to enable crossair zoom (ex. 8x Scope)")]
+    [Tooltip("Check to enable crosshair zoom (ex. 8x Scope)")]
     [SerializeField] private bool enablesCrosshairZoom;
     [Tooltip("Check to enable a shader to highlight enemies (ex. Thermal Sight)")]
     [SerializeField] private bool highlightsEnemies;
@@ -82,11 +82,11 @@ public class AttachmentsScrObj : ScriptableObject
     public float AddedFireRate => addedFireRate;
     public float AddedMagazineSize => addedMagazineSize;
     public float BulletCountMultiplier => bulletCountMultiplier;
-    public float SubtractedBlockedDamage => subtractedBlockedDamage;
     public float AddedPlayerSpeed => addedPlayerSpeed;
+    public float SubtractedBlockedDamage => subtractedBlockedDamage;
     public bool DamagesEnemiesByCollision => damagesEnemiesByCollision;
-    public bool RemovesCrossair => removesCrosshair;
-    public bool EnablesCrossairZoom => enablesCrosshairZoom;
+    public bool RemovesCrosshair => removesCrosshair;
+    public bool EnablesCrosshairZoom => enablesCrosshairZoom;
     public bool HighlightsEnemies => highlightsEnemies;
     public bool EnablesGrenades => enablesGrenades;
     public bool EnablesSpreadShot => enablesSpreadShot;
@@ -95,5 +95,6 @@ public class AttachmentsScrObj : ScriptableObject
     public bool PenetratesEnemies => penetratesEnemies;
     public bool ChangesFireMode => changesFireMode;
     public FireMode FireMode => fireMode;
+    public bool ChangesColor => changesColor;
     public Color BulletColor => bulletColor;
 }
