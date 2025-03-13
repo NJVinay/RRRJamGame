@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Audio;
 
 // This class manages the player's weapon, including its attachments and firing mechanics.
 public class WeaponsManager : MonoBehaviour
@@ -184,7 +185,8 @@ public class WeaponsManager : MonoBehaviour
                     if (currentWeapon.AudioClip != null && Time.time >= lastAudioPlayTime + 0.08f)
                     {
                         audioSource.Stop(); // Stop any currently playing audio clip.
-                        audioSource.PlayOneShot(currentWeapon.AudioClip);
+                        audioSource.resource = currentWeapon.AudioClip;
+                        audioSource.Play();
                         lastAudioPlayTime = Time.time; // Update the last audio play time.
                     }
 
@@ -196,7 +198,8 @@ public class WeaponsManager : MonoBehaviour
                 if (currentWeapon.EmptyClip != null && Time.time >= lastAudioPlayTime + 0.3f)
                 {
                     audioSource.Stop(); // Stop any currently playing audio clip.
-                    audioSource.PlayOneShot(currentWeapon.EmptyClip);
+                    audioSource.resource = currentWeapon.EmptyClip;
+                    audioSource.Play();
                     lastAudioPlayTime = Time.time; // Update the last audio play time.
                     semiShotFired = currentFireMode == FireMode.Semi;
                 }

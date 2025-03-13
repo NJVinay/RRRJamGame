@@ -31,7 +31,8 @@ public class ReloadManager : MonoBehaviour
         // Play the reload start sound.
         if (currentWeapon.ReloadClip != null)
         {
-            audioSource.PlayOneShot(currentWeapon.ReloadClip);
+            audioSource.resource = currentWeapon.ReloadClip;
+            audioSource.Play();
         }
 
         while (elapsedTime < currentReloadTime)
@@ -44,7 +45,8 @@ public class ReloadManager : MonoBehaviour
         // Play the reload finish sound.
         if (currentWeapon.ReloadFinishClip != null)
         {
-            audioSource.PlayOneShot(currentWeapon.ReloadFinishClip);
+            audioSource.resource = currentWeapon.ReloadFinishClip;
+            audioSource.Play();
         }
 
         radialWheel.fillAmount = 0f; // Reset the radial wheel fill amount.

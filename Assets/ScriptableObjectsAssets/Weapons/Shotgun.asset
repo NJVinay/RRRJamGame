@@ -21,8 +21,8 @@ MonoBehaviour:
   spread: 25
   bulletCount: 5
   bulletSpeed: 25
-  audioClip: {fileID: 8300000, guid: 33878e96a3de3554cae4a92cab858622, type: 3}
-  emptyClip: {fileID: 8300000, guid: 7502c9e8afb3243459dd688e9255e59c, type: 3}
-  reloadClip: {fileID: 8300000, guid: 9703394128b103c4ca90de133a90bea9, type: 3}
-  reloadFinishClip: {fileID: 8300000, guid: 2aae4eed63aaa64489fe3f6dc96b84e8, type: 3}
+  audioClip: {fileID: 6418180475301049370, guid: b62be9f17fb368b48bcdab95388193af, type: 2}
+  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
+  reloadClip: {fileID: 8300000, guid: 86f241753175da1488bc6d5132b16aae, type: 3}
+  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
   sprite: {fileID: 0}

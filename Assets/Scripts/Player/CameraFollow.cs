@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     public Transform crosshair;
     [Header("Camera Settings")]
     [Range(0f, 1f)] public float playerFocus = 0.7f;
-    public float smoothSpeed = 10f;
+    public float smoothSpeed = 80f;
     public PlayerController PC;
 
     private float currentPlayerFocus;
@@ -24,7 +24,7 @@ public class CameraFollow : MonoBehaviour
         Vector3 targetPosition = Vector3.Lerp(player.position, crosshair.position, currentPlayerFocus);
         targetPosition.z = transform.position.z; // Maintain camera's z position
 
-        // Directly set the camera to the target position
-        transform.position = targetPosition;
+        // Smoothly interpolate the camera's position to the target position
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smoothSpeed);
     }
 }

@@ -36,14 +36,14 @@ public class GameManager : MonoBehaviour
     // ✅ Handle Input (Pause/Restart)
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
+        if (Input.GetKeyDown(KeyCode.O) && !isGameOver)
         {
             if (isGamePaused) ResumeGame();
             else PauseGame();
         }
 
-        // Press 'R' to restart game/map (test purposes)
-        if (Input.GetKeyDown(KeyCode.R))
+        // Press 'P' to restart game/map (test purposes)
+        if (Input.GetKeyDown(KeyCode.P))
         {
             RestartGame();
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public enum FireMode
 {
@@ -35,13 +36,13 @@ public class WeaponsScrObj : ScriptableObject
     [Space(20)]
     [Header("Asset data")]
     [Tooltip("The clip for firing the weapon")]
-    [SerializeField] private AudioClip audioClip;
+    [SerializeField] private AudioResource audioClip;
     [Tooltip("The clip for emptying the magazine of the weapon.")]
-    [SerializeField] private AudioClip emptyClip;
+    [SerializeField] private AudioResource emptyClip;
     [Tooltip("The clip for reloading the weapon")]
-    [SerializeField] private AudioClip reloadClip;
+    [SerializeField] private AudioResource reloadClip;
     [Tooltip("The clip for finishing a reload of the weapon.")]
-    [SerializeField] private AudioClip reloadFinishClip;
+    [SerializeField] private AudioResource reloadFinishClip;
     [SerializeField] private Sprite sprite;
 
     public string WeaponName => weaponName;
@@ -53,9 +54,9 @@ public class WeaponsScrObj : ScriptableObject
     public float Spread => spread;
     public int BulletCount => bulletCount;
     public float BulletSpeed => bulletSpeed;
-    public AudioClip AudioClip => audioClip;
-    public AudioClip EmptyClip => emptyClip;
-    public AudioClip ReloadClip => reloadClip;
-    public AudioClip ReloadFinishClip => reloadFinishClip;
+    public AudioResource AudioClip => audioClip;
+    public AudioResource EmptyClip => emptyClip;
+    public AudioResource ReloadClip => reloadClip;
+    public AudioResource ReloadFinishClip => reloadFinishClip;
     public Sprite Sprite => sprite;
 }

@@ -644,7 +644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 11400000, guid: f763fc151afa3a2449fa0b60dc888f11, type: 2}
   currentAttachments:
-  - {fileID: 11400000, guid: e308723495b513b489294ebd16d872fb, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
