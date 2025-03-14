@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   weaponName: Pistol
-  fireMode: 0
-  damage: 20
-  fireRate: 150
-  reloadTime: 50
-  magazineSize: 17
+  fireMode: 1
+  damage: 16
+  fireRate: 8
+  reloadTime: 1
+  magazineSize: 7
   spread: 10
   bulletCount: 1
-  bulletSpeed: 50
-  audioClip: {fileID: 0}
+  bulletSpeed: 20
+  audioClip: {fileID: 6418180475301049370, guid: 57d2a085367ec99489946f4ef155dc57, type: 2}
+  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
+  reloadClip: {fileID: 8300000, guid: 5c0ee6ffcd7580b4fbe1f624e34436f5, type: 3}
+  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
   sprite: {fileID: 0}
   index: 3

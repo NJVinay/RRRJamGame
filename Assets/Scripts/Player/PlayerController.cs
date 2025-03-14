@@ -70,6 +70,12 @@ public class PlayerController : MonoBehaviour
         weaponsManager.Fire(isHoldingFire); // Trigger the firing mechanism in the WeaponsManager.
     }
 
+    // Called when the player provides reload input.
+    public void OnReload(InputValue cc)
+    {
+        weaponsManager.Reload();
+    }
+
     // Debug function to check the weapon status.
     public void OnDebug01(InputValue cc)
     {

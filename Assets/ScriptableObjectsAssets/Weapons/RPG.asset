@@ -14,13 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: RPG
   fireMode: 0
-  damage: 300
-  fireRate: 0
-  reloadTime: 150
+  damage: 400
+  fireRate: 0.5
+  reloadTime: 4
   magazineSize: 1
   spread: 5
   bulletCount: 1
-  bulletSpeed: 50
-  audioClip: {fileID: 0}
+  bulletSpeed: 20
+  audioClip: {fileID: 6418180475301049370, guid: 2e146eccb2210fa4c9499adeba0c2521, type: 2}
+  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
+  reloadClip: {fileID: 8300000, guid: 40a6825c0a1ff6a41a4003031447637a, type: 3}
+  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
   sprite: {fileID: 0}
   index: 4

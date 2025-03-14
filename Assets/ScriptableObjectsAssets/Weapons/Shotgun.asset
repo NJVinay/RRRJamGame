@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
-  fireMode: 0
-  damage: 20
-  fireRate: 20
-  reloadTime: 50
+  fireMode: 1
+  damage: 5
+  fireRate: 2
+  reloadTime: 2
   magazineSize: 7
   spread: 25
   bulletCount: 5
-  bulletSpeed: 35
-  audioClip: {fileID: 0}
+  bulletSpeed: 25
+  audioClip: {fileID: 6418180475301049370, guid: b62be9f17fb368b48bcdab95388193af, type: 2}
+  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
+  reloadClip: {fileID: 8300000, guid: 86f241753175da1488bc6d5132b16aae, type: 3}
+  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
   sprite: {fileID: 0}
   index: 2

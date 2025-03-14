@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: AssaultRifle
   m_EditorClassIdentifier: 
   weaponName: AssaultRifle
-  weaponType: 0
-  damage: 50
-  fireRate: 50
-  reloadTime: 50
+  fireMode: 0
+  damage: 10
+  fireRate: 10
+  reloadTime: 2
   magazineSize: 30
   spread: 15
   bulletCount: 1
-  bulletSpeed: 50
-  audioClip: {fileID: 0}
+  bulletSpeed: 30
+  audioClip: {fileID: 6418180475301049370, guid: 57d2a085367ec99489946f4ef155dc57, type: 2}
+  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
+  reloadClip: {fileID: 8300000, guid: 39d3f14c8332f0a4c9fb548124d01444, type: 3}
+  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
   sprite: {fileID: 0}

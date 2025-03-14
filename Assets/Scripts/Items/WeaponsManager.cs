@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.Audio;
 
 // This class manages the player's weapon, including its attachments and firing mechanics.
 public class WeaponsManager : MonoBehaviour
@@ -24,6 +26,7 @@ public class WeaponsManager : MonoBehaviour
     public float currentSpread {get; private set;}
     public int currentProjectileCount {get; private set;}
     public float currentSpeed {get; private set;}
+    public int currentAmmo {get; private set;} // Current ammo in the magazine.
 
     // Variables affecting player
     public float addedPlayerSpeed {get; private set;}
@@ -43,6 +46,20 @@ public class WeaponsManager : MonoBehaviour
     [SerializeField] GameObject projectilePrefab; // Prefab for the projectile to be fired.
     [SerializeField] Transform firePoint; // The point from which projectiles are fired.
     private float lastFireTime; // Tracks the last time a shot was fired.
+    private float lastAudioPlayTime; // Tracks the last time an audio clip was played.
+
+    private AudioSource audioSource;
+    private ReloadManager reloadManager;
+
+    private Color currentBulletColor = Color.white; // Default bullet color.
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        reloadManager = GetComponent<ReloadManager>();
+        currentAmmo = currentMagazineSize; // Initialize current ammo.
+        lastAudioPlayTime = -0.1f; // Initialize last audio play time.
+    }
 
     // Method to check and log the current weapon and its attachments.
     public void WeaponCheck()
@@ -91,6 +108,9 @@ public class WeaponsManager : MonoBehaviour
         explosiveRounds = false;
         penetratesEnemies = false;
 
+        // Reset bullet color to default.
+        currentBulletColor = Color.yellow;
+
         // Iterate over each attachment and modify weapon stats accordingly.
         for (int i = 0; i < currentAttachments.Length; i++)
         {
@@ -127,7 +147,7 @@ public class WeaponsManager : MonoBehaviour
                 // Change bullet color if the attachment changes it
                 if (currentAttachments[i].ChangesColor)
                 {
-                    // Insert here the logic to change bullet color
+                    currentBulletColor = currentAttachments[i].BulletColor;
                 }
             }
         }
@@ -137,18 +157,55 @@ public class WeaponsManager : MonoBehaviour
 
     private bool semiShotFired = false; // Tracks if a shot has been fired in semi-automatic mode.
 
+    // Method to handle the reloading process.
+    public void Reload()
+    {
+        if(currentAmmo == currentMagazineSize) return; // Do not reload if the magazine is full.
+        reloadManager.Reload(currentWeapon, currentReloadTime);
+        currentAmmo = currentMagazineSize; // Refill ammo after reloading.
+    }
+
     // Method to handle firing logic based on input.
     public void Fire(bool isHoldingFire)
     {
+        // Prevent firing if the weapon is reloading.
+        if (reloadManager.IsReloading()) return;
+
         // Check if the fire button is held and enough time has passed since the last shot.
         if (isHoldingFire && Time.time >= lastFireTime + 1f / currentFireRate)
         {
-            // Fire in automatic mode or if a semi-automatic shot hasn't been fired yet.
-            if (currentFireMode == FireMode.Auto || !semiShotFired)
+            // Check if there is ammo left to fire.
+            if (currentAmmo > 0)
             {
-                lastFireTime = Time.time; // Update the last fire time.
-                FireProjectiles(); // Fire the projectiles.
-                semiShotFired = currentFireMode == FireMode.Semi; // Set semi-shot fired flag if in semi mode.
+                // Fire in automatic mode or if a semi-automatic shot hasn't been fired yet.
+                if (currentFireMode == FireMode.Auto || !semiShotFired)
+                {
+                    lastFireTime = Time.time; // Update the last fire time.
+                    FireProjectiles(); // Fire the projectiles.
+                    semiShotFired = true; // Set semi-shot fired flag if in semi mode.
+
+                    // Play the weapon's firing sound
+                    if (currentWeapon.AudioClip != null && Time.time >= lastAudioPlayTime + 0.08f)
+                    {
+                        audioSource.Stop(); // Stop any currently playing audio clip.
+                        audioSource.resource = currentWeapon.AudioClip;
+                        audioSource.Play();
+                        lastAudioPlayTime = Time.time; // Update the last audio play time.
+                    }
+
+                    currentAmmo--; // Decrease ammo count.
+                }
+            }
+            else
+            {
+                if (currentWeapon.EmptyClip != null && Time.time >= lastAudioPlayTime + 0.3f)
+                {
+                    audioSource.Stop(); // Stop any currently playing audio clip.
+                    audioSource.resource = currentWeapon.EmptyClip;
+                    audioSource.Play();
+                    lastAudioPlayTime = Time.time; // Update the last audio play time.
+                    semiShotFired = currentFireMode == FireMode.Semi;
+                }
             }
         }
 
@@ -182,11 +239,12 @@ public class WeaponsManager : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90f;
             projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-            // Set the damage for the projectile if it has a Projectile script.
+            // Set the damage and color for the projectile if it has a Projectile script.
             Projectile projectileScript = projectile.GetComponent<Projectile>();
             if (projectileScript != null)
             {
                 projectileScript.damage = currentDamage;
+                projectileScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
             }
         }
     }

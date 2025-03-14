@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: SniperRifle
   m_EditorClassIdentifier: 
   weaponName: SniperRifle
-  fireMode: 0
-  damage: 200
-  fireRate: 15
-  reloadTime: 50
+  fireMode: 1
+  damage: 80
+  fireRate: 1
+  reloadTime: 3
   magazineSize: 10
   spread: 1
   bulletCount: 1
-  bulletSpeed: 150
-  audioClip: {fileID: 0}
+  bulletSpeed: 80
+  audioClip: {fileID: 6418180475301049370, guid: c0890072d6630c34bad0e169068dec59, type: 2}
+  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
+  reloadClip: {fileID: 8300000, guid: 40a6825c0a1ff6a41a4003031447637a, type: 3}
+  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
   sprite: {fileID: 0}
   index: 1
