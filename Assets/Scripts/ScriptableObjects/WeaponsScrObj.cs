@@ -37,6 +37,10 @@ public class WeaponsScrObj : ScriptableObject
     [SerializeField] private AudioClip audioClip;
     [SerializeField] private Sprite sprite;
 
+    [Space(20)]
+    [Header("Index for AudioManager")]
+    [SerializeField] private int index;
+
     public string WeaponName => weaponName;
     public FireMode FireMode => fireMode;
     public float Damage => damage;
@@ -48,4 +52,5 @@ public class WeaponsScrObj : ScriptableObject
     public float BulletSpeed => bulletSpeed;
     public AudioClip AudioClip => audioClip;
     public Sprite Sprite => sprite;
+    public int Index => index;
 }

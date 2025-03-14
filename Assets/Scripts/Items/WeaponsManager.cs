@@ -3,6 +3,7 @@ using UnityEngine;
 // This class manages the player's weapon, including its attachments and firing mechanics.
 public class WeaponsManager : MonoBehaviour
 {
+    public AudioManager audioManager;
     public WeaponsScrObj currentWeapon; // The current weapon being used by the player.
     
     // Array to hold the current attachments for the weapon.
@@ -130,6 +131,8 @@ public class WeaponsManager : MonoBehaviour
                 }
             }
         }
+
+        audioManager.UpdateDynamicMusic();
     }
 
     private bool semiShotFired = false; // Tracks if a shot has been fired in semi-automatic mode.

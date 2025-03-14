@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
-  weaponType: 0
+  fireMode: 0
   damage: 20
   fireRate: 20
   reloadTime: 50
@@ -23,3 +23,4 @@ MonoBehaviour:
   bulletSpeed: 35
   audioClip: {fileID: 0}
   sprite: {fileID: 0}
+  index: 2

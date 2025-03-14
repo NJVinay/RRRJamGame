@@ -74,6 +74,10 @@ public class AttachmentsScrObj : ScriptableObject
     [SerializeField] private bool changesColor;
     [SerializeField] private Color bulletColor;
 
+    [Space(20)]
+    [Header("Index for AudioManager")]
+    [SerializeField] private int index;
+
     public AttachmentCategory Category => category;
     public float AddedDamage => addedDamage;
     public float AddedSpread => addedSpread;
@@ -97,4 +101,5 @@ public class AttachmentsScrObj : ScriptableObject
     public FireMode FireMode => fireMode;
     public bool ChangesColor => changesColor;
     public Color BulletColor => bulletColor;
+    public int Index => index;
 }

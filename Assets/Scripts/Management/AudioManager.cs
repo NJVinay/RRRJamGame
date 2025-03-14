@@ -1,25 +1,168 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource testAudioSource1;
-    public AudioSource testAudioSource2;
-    public AudioResource audioResourceA;
-    public AudioResource audioResourceB;
+    public WeaponsManager weaponsManager;
+    public AudioSource baseAudioSource;
+    public AudioClip baseAudioClip;
+    public AudioMixerGroup musicAudioMixerGroup;
 
-    void Update()
+    // Lists containing module clips for each track
+    public List<AudioClip> barrelSlotClips; 
+    public List<AudioClip> sightClips; 
+    public List<AudioClip> underbarrelClips; 
+    public List<AudioClip> magazineClips; 
+    public List<AudioClip> miscClips;
+    public List<AudioClip> weaponClips; 
+    private List<AudioClip>[] audioClipsBank = new List<AudioClip>[6];
+    private AudioSource[] musicAudioSources = new AudioSource[12];
+
+    private int[] audioSourcesToTrack = new int[12];
+    private List<int> audioSourcesIndexesToStop = new List<int>();
+    private double nextLoopStart;
+
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        audioClipsBank[0] = barrelSlotClips;
+        audioClipsBank[1] = sightClips;
+        audioClipsBank[2] = underbarrelClips;
+        audioClipsBank[3] = magazineClips;
+        audioClipsBank[4] = miscClips;
+        audioClipsBank[5] = weaponClips;
+
+        for (int i = 0; i < 12; i++)
         {
-            testAudioSource1.resource = audioResourceA;
-            testAudioSource1.Play();
+            AudioSource tempAudioSource = gameObject.AddComponent<AudioSource>();
+            tempAudioSource.playOnAwake = false;
+            tempAudioSource.loop = true;
+            tempAudioSource.outputAudioMixerGroup = musicAudioMixerGroup;
+
+            musicAudioSources[i] = tempAudioSource;
+            audioSourcesToTrack[i] = 12;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        // Debug
+        Invoke(nameof(StartDynamicMusic), 1); //1 is only for debug purposes
+        //Invoke(nameof(DebugRefreshAttachments), 0.5f);
+    }
+
+    void StartDynamicMusic()
+    {
+        baseAudioSource.clip = baseAudioClip;
+        baseAudioSource.PlayScheduled(AudioSettings.dspTime);        
+        nextLoopStart = AudioSettings.dspTime +baseAudioClip.length;
+        
+        StartCoroutine(InvokeAtDSPTime(RefreshActiveAudioSources));
+    }
+
+    IEnumerator InvokeAtDSPTime(Action method)
+    {
+        while (true) // Keep invoking at regular intervals
         {
-            testAudioSource2.resource = audioResourceB;
-            testAudioSource2.Play();
+            yield return new WaitUntil(() => AudioSettings.dspTime >= nextLoopStart);
+
+            method?.Invoke(); // Call the method
+            nextLoopStart += baseAudioClip.length; // Schedule next execution
         }
+    }
+    
+    void RefreshActiveAudioSources()
+    {
+        while (audioSourcesIndexesToStop.Count > 0)
+        {
+            int currentIndex = audioSourcesIndexesToStop[0];
+
+            musicAudioSources[currentIndex].clip = null;
+            musicAudioSources[currentIndex].Stop();
+
+            audioSourcesToTrack[currentIndex] = 12;
+            audioSourcesIndexesToStop.RemoveAt(0);
+
+            //Debug.Log("AS " + currentIndex + " stopped.");
+        }
+    }
+
+    public void UpdateDynamicMusic()
+    {
+        for (int i = 0; i < 3; i++) //Change with 5
+        {
+            if (weaponsManager.currentAttachments[i] != null)
+            {
+                int indexOccurrencies = audioSourcesToTrack.Count(n => n == i);
+                
+
+                // Check if the track is passing from null to some clip
+                if (indexOccurrencies == 0)
+                {
+                    SchedulePlayAtNewAudioSource(i);
+                }
+                // Check if the track is passing from a clip to different clip
+                else if (indexOccurrencies == 1)
+                {
+                    int currentSourceIndex = Array.IndexOf(audioSourcesToTrack, i);
+
+                    if (musicAudioSources[currentSourceIndex].clip != audioClipsBank[i][weaponsManager.currentAttachments[i].Index])
+                    {
+                        SchedulePlayAtNewAudioSource(i);
+                        ScheduleStopAudioSource(currentSourceIndex, i);
+                    }
+                }
+            }
+            else
+            {
+                if (Array.Exists(audioSourcesToTrack, element => element == i))
+                {
+                    int currentIndex = Array.IndexOf(audioSourcesToTrack, i);
+
+                    ScheduleStopAudioSource(currentIndex, i);
+                }
+            }
+        }
+
+        // 3 per Magazine
+        // 4 per Misc
+        // 5 per Weapon
+    }
+
+    private void SchedulePlayAtNewAudioSource(int index)
+    {
+        int currentIndex = FindAvailableAudioSource();
+        audioSourcesToTrack[currentIndex] = index;
+
+        musicAudioSources[currentIndex].clip = audioClipsBank[index][weaponsManager.currentAttachments[index].Index];
+        musicAudioSources[currentIndex].PlayScheduled(nextLoopStart);
+        //Debug.Log("Scheduled PLAY: track " + index + " at AS " + currentIndex);
+    }
+
+    private void ScheduleStopAudioSource(int index, int trackIndex) //trackindex only has debug purposes
+    {
+        if (!audioSourcesIndexesToStop.Contains(index))
+        {
+            audioSourcesIndexesToStop.Add(index);
+            //Debug.Log("Scheduled STOP: track " + trackIndex + " at AS " + index);
+        }
+    }
+
+    private int FindAvailableAudioSource()
+    {
+        //Inefficient loop, I have to edit it soon
+        for (int i = 0; i < 12; i++)
+        {
+            if (audioSourcesToTrack[i] == 12) return i;
+        }
+
+        Debug.Log("Error: Available AudioSource not found !");
+        return 0;
+    }
+
+    private void DebugRefreshAttachments()
+    {
+        weaponsManager.WeaponCheck();
+        Invoke(nameof(DebugRefreshAttachments), 0.5f);
     }
 }
