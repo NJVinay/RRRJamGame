@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponsManager: {fileID: 770649886}
   baseAudioSource: {fileID: 1098348536}
-  baseAudioClip: {fileID: 8300000, guid: b3ddd0b800f8b6547b6b06fa88cfa987, type: 3}
+  baseAudioClip: {fileID: 8300000, guid: 13f666e36fe72144a87680c259aeac60, type: 3}
   musicAudioMixerGroup: {fileID: -9180170648217704964, guid: 709bd9bf62f738141b91005c4a352d01, type: 2}
   barrelSlotClips:
   - {fileID: 8300000, guid: c5138b70db961d24e96a0bee4685aae9, type: 3}
@@ -245,8 +245,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7093dfdc453328c45b694615c5faaf39, type: 3}
   - {fileID: 8300000, guid: af57d45aafbb6d9478b4f782005b94bc, type: 3}
   - {fileID: 8300000, guid: 814ad773801866d4f93768c3d2d36d0a, type: 3}
-  magazineClips: []
-  miscClips: []
+  magazineClips:
+  - {fileID: 8300000, guid: ba2e221bc38e62c4fb87d821add7eb80, type: 3}
+  - {fileID: 8300000, guid: 4abab59decb23754392123a90cd2f84e, type: 3}
+  - {fileID: 8300000, guid: 6935b9606225709419e7a3d28d99d6ba, type: 3}
+  - {fileID: 8300000, guid: b6eb27aa89b0487468245cedbecdc93b, type: 3}
+  miscClips:
+  - {fileID: 8300000, guid: 2a29bd0101cbb814493381687480377d, type: 3}
+  - {fileID: 8300000, guid: f7b964bf2c67d0a46b4bf6a8de5e6d77, type: 3}
+  - {fileID: 8300000, guid: fcfd968ec6b2d0041b9940429739b2fa, type: 3}
+  - {fileID: 8300000, guid: 5be94d8cc87eaa54a9d4bea819a0b9df, type: 3}
   weaponClips: []
 --- !u!4 &1098348533
 Transform:
@@ -276,7 +284,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.85
   m_Pitch: 1
   Loop: 1
   Mute: 0

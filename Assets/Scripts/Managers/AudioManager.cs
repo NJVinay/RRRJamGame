@@ -18,11 +18,10 @@ public class AudioManager : MonoBehaviour
     public List<AudioClip> underbarrelClips; 
     public List<AudioClip> magazineClips; 
     public List<AudioClip> miscClips;
-    public List<AudioClip> weaponClips; 
-    private List<AudioClip>[] audioClipsBank = new List<AudioClip>[6];
-    private AudioSource[] musicAudioSources = new AudioSource[12];
+    private List<AudioClip>[] audioClipsBank = new List<AudioClip>[5];
+    private AudioSource[] musicAudioSources = new AudioSource[10];
 
-    private int[] audioSourcesToTrack = new int[12];
+    private int[] audioSourcesToTrack = new int[10];
     private List<int> audioSourcesIndexesToStop = new List<int>();
     private double nextLoopStart;
 
@@ -33,9 +32,8 @@ public class AudioManager : MonoBehaviour
         audioClipsBank[2] = underbarrelClips;
         audioClipsBank[3] = magazineClips;
         audioClipsBank[4] = miscClips;
-        audioClipsBank[5] = weaponClips;
 
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 10; i++)
         {
             AudioSource tempAudioSource = gameObject.AddComponent<AudioSource>();
             tempAudioSource.playOnAwake = false;
@@ -43,7 +41,7 @@ public class AudioManager : MonoBehaviour
             tempAudioSource.outputAudioMixerGroup = musicAudioMixerGroup;
 
             musicAudioSources[i] = tempAudioSource;
-            audioSourcesToTrack[i] = 12;
+            audioSourcesToTrack[i] = 10;
         }
 
         // Debug
@@ -80,22 +78,21 @@ public class AudioManager : MonoBehaviour
             musicAudioSources[currentIndex].clip = null;
             musicAudioSources[currentIndex].Stop();
 
-            audioSourcesToTrack[currentIndex] = 12;
+            audioSourcesToTrack[currentIndex] = 10;
             audioSourcesIndexesToStop.RemoveAt(0);
 
-            //Debug.Log("AS " + currentIndex + " stopped.");
+            Debug.Log("AS " + currentIndex + " stopped.");
         }
     }
 
     public void UpdateDynamicMusic()
     {
-        for (int i = 0; i < 3; i++) //Change with 5
+        for (int i = 0; i < 5; i++)
         {
             if (weaponsManager.currentAttachments[i] != null)
             {
                 int indexOccurrencies = audioSourcesToTrack.Count(n => n == i);
                 
-
                 // Check if the track is passing from null to some clip
                 if (indexOccurrencies == 0)
                 {
@@ -123,10 +120,6 @@ public class AudioManager : MonoBehaviour
                 }
             }
         }
-
-        // 3 per Magazine
-        // 4 per Misc
-        // 5 per Weapon
     }
 
     private void SchedulePlayAtNewAudioSource(int index)
@@ -136,7 +129,7 @@ public class AudioManager : MonoBehaviour
 
         musicAudioSources[currentIndex].clip = audioClipsBank[index][weaponsManager.currentAttachments[index].Index];
         musicAudioSources[currentIndex].PlayScheduled(nextLoopStart);
-        //Debug.Log("Scheduled PLAY: track " + index + " at AS " + currentIndex);
+        Debug.Log("Scheduled PLAY: track " + index + " at AS " + currentIndex);
     }
 
     private void ScheduleStopAudioSource(int index, int trackIndex) //trackindex only has debug purposes
@@ -144,16 +137,16 @@ public class AudioManager : MonoBehaviour
         if (!audioSourcesIndexesToStop.Contains(index))
         {
             audioSourcesIndexesToStop.Add(index);
-            //Debug.Log("Scheduled STOP: track " + trackIndex + " at AS " + index);
+            Debug.Log("Scheduled STOP: track " + trackIndex + " at AS " + index);
         }
     }
 
     private int FindAvailableAudioSource()
     {
         //Inefficient loop, I have to edit it soon
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 10; i++)
         {
-            if (audioSourcesToTrack[i] == 12) return i;
+            if (audioSourcesToTrack[i] == 10) return i;
         }
 
         Debug.Log("Error: Available AudioSource not found !");
