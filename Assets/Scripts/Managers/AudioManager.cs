@@ -25,6 +25,10 @@ public class AudioManager : MonoBehaviour
     private List<int> audioSourcesIndexesToStop = new List<int>();
     private double nextLoopStart;
 
+    //Debug
+    [Space(20)]
+    public bool testDynamicMusic = false;
+
     void Start()
     {
         audioClipsBank[0] = barrelSlotClips;
@@ -46,12 +50,12 @@ public class AudioManager : MonoBehaviour
 
         // Debug
         Invoke(nameof(StartDynamicMusic), 1); //1 is only for debug purposes
-        //Invoke(nameof(DebugRefreshAttachments), 0.5f);
+        if (testDynamicMusic) Invoke(nameof(DebugRefreshAttachments), 0.5f);
     }
 
     void StartDynamicMusic()
     {
-        baseAudioSource.clip = baseAudioClip;
+        //baseAudioSource.clip = baseAudioClip;
         baseAudioSource.PlayScheduled(AudioSettings.dspTime);        
         nextLoopStart = AudioSettings.dspTime +baseAudioClip.length;
         
