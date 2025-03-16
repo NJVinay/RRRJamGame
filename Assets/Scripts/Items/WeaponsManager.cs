@@ -7,7 +7,7 @@ public class WeaponsManager : MonoBehaviour
 {
     public AudioManager audioManager;
     public WeaponsScrObj currentWeapon; // The current weapon being used by the player.
-    
+
     // Array to hold the current attachments for the weapon.
     // Each index corresponds to a specific attachment category:
     // 0 - BarrelSlot, 
@@ -18,30 +18,30 @@ public class WeaponsManager : MonoBehaviour
     public AttachmentsScrObj[] currentAttachments = new AttachmentsScrObj[5];
 
     // Variables to store the current weapon's properties.
-    public FireMode currentFireMode {get; private set;}
-    public float currentDamage {get; private set;}
-    public float currentFireRate {get; private set;}
-    public float currentReloadTime {get; private set;}
-    public int currentMagazineSize {get; private set;}
-    public float currentSpread {get; private set;}
-    public int currentProjectileCount {get; private set;}
-    public float currentSpeed {get; private set;}
-    public int currentAmmo {get; private set;} // Current ammo in the magazine.
+    public FireMode currentFireMode { get; private set; }
+    public float currentDamage { get; private set; }
+    public float currentFireRate { get; private set; }
+    public float currentReloadTime { get; private set; }
+    public int currentMagazineSize { get; private set; }
+    public float currentSpread { get; private set; }
+    public int currentProjectileCount { get; private set; }
+    public float currentSpeed { get; private set; }
+    public int currentAmmo { get; private set; } // Current ammo in the magazine.
 
     // Variables affecting player
-    public float addedPlayerSpeed {get; private set;}
-    public float subtractedBlockedDamage {get; private set;}  
-    
+    public float addedPlayerSpeed { get; private set; }
+    public float subtractedBlockedDamage { get; private set; }
+
     // Variables to store attachment effects.
-    public bool damagesEnemiesByCollision {get; private set;}
-    public bool removesCrosshair {get; private set;}
-    public bool enablesCrosshairZoom {get; private set;}
-    public bool highlightsEnemies {get; private set;}
-    public bool enablesGrenades {get; private set;}
-    public bool enablesSpreadShot {get; private set;}
-    public bool bipodBehaviour {get; private set;}
-    public bool explosiveRounds {get; private set;}
-    public bool penetratesEnemies {get; private set;}
+    public bool damagesEnemiesByCollision { get; private set; }
+    public bool removesCrosshair { get; private set; }
+    public bool enablesCrosshairZoom { get; private set; }
+    public bool highlightsEnemies { get; private set; }
+    public bool enablesGrenades { get; private set; }
+    public bool enablesSpreadShot { get; private set; }
+    public bool bipodBehaviour { get; private set; }
+    public bool explosiveRounds { get; private set; }
+    public bool penetratesEnemies { get; private set; }
 
     [SerializeField] GameObject projectilePrefab; // Prefab for the projectile to be fired.
     [SerializeField] Transform firePoint; // The point from which projectiles are fired.
@@ -62,23 +62,48 @@ public class WeaponsManager : MonoBehaviour
     }
 
     // Method to check and log the current weapon and its attachments.
+    // Method to check and log the current weapon and its attachments.
     public void WeaponCheck()
     {
-        RefreshAttachments(); // Update weapon stats based on attachments.
+        // Refresh all stats based on attachments
+        RefreshAttachments();
 
-        // Log the current weapon and attachment details.
+        // Log current weapon and its attachments for debugging
+        Debug.Log("----- Weapon Status -----");
         Debug.Log("Weapon: " + currentWeapon.WeaponName);
         Debug.Log("Barrel Attachment: " + (currentAttachments[0] != null ? currentAttachments[0].attachmentName : "None"));
         Debug.Log("Sight Attachment: " + (currentAttachments[1] != null ? currentAttachments[1].attachmentName : "None"));
         Debug.Log("Underbarrel Attachment: " + (currentAttachments[2] != null ? currentAttachments[2].attachmentName : "None"));
         Debug.Log("Magazine Attachment: " + (currentAttachments[3] != null ? currentAttachments[3].attachmentName : "None"));
         Debug.Log("Misc Attachment: " + (currentAttachments[4] != null ? currentAttachments[4].attachmentName : "None"));
+
+        // Log weapon stats
         Debug.Log("Damage: " + currentDamage);
         Debug.Log("Fire Rate: " + currentFireRate);
         Debug.Log("Reload Time: " + currentReloadTime);
         Debug.Log("Magazine Size: " + currentMagazineSize);
         Debug.Log("Spread: " + currentSpread);
+        Debug.Log("Projectile Count: " + currentProjectileCount);
+        Debug.Log("Projectile Speed: " + currentSpeed);
+        Debug.Log("Fire Mode: " + currentFireMode);
+
+        // Log player effects
+        Debug.Log("Player Speed Bonus: " + addedPlayerSpeed);
+        Debug.Log("Blocked Damage Reduction: " + subtractedBlockedDamage);
+
+        // Log attachment effects (booleans)
+        Debug.Log("Damages Enemies By Collision: " + damagesEnemiesByCollision);
+        Debug.Log("Removes Crosshair: " + removesCrosshair);
+        Debug.Log("Enables Crosshair Zoom: " + enablesCrosshairZoom);
+        Debug.Log("Highlights Enemies: " + highlightsEnemies);
+        Debug.Log("Enables Grenades: " + enablesGrenades);
+        Debug.Log("Enables Spread Shot: " + enablesSpreadShot);
+        Debug.Log("Bipod Behaviour: " + bipodBehaviour);
+        Debug.Log("Explosive Rounds: " + explosiveRounds);
+        Debug.Log("Penetrates Enemies: " + penetratesEnemies);
+        Debug.Log("--------------------------");
     }
+
 
     // Method to refresh and update weapon stats based on current attachments.
     void RefreshAttachments()
@@ -143,7 +168,7 @@ public class WeaponsManager : MonoBehaviour
 
                 // Update fire mode if the attachment changes it
                 currentFireMode = currentAttachments[i].ChangesFireMode ? currentAttachments[i].FireMode : currentFireMode;
-                
+
                 // Change bullet color if the attachment changes it
                 if (currentAttachments[i].ChangesColor)
                 {
@@ -155,12 +180,40 @@ public class WeaponsManager : MonoBehaviour
         audioManager.UpdateDynamicMusic();
     }
 
+    // Adds the picked up attachment to the correct slot based on its type
+    public void AddAttachment(AttachmentsScrObj attachment)
+    {
+        switch (attachment.Category)
+        {
+            case AttachmentCategory.BarrelSlot:
+                currentWeapon.barrel = attachment;
+                break;
+            case AttachmentCategory.Magazine:
+                currentWeapon.magazine = attachment;
+                break;
+            case AttachmentCategory.Sight:
+                currentWeapon.sight = attachment;
+                break;
+            case AttachmentCategory.Underbarrel:
+                currentWeapon.underbarrel = attachment;
+                break;
+            case AttachmentCategory.Misc:
+                currentWeapon.misc = attachment;
+                break;
+            default:
+                Debug.LogWarning("Unknown attachment type.");
+                break;
+        }
+        WeaponCheck();
+        Debug.Log("Attachment added: " + attachment.name); // Confirmation log
+    }
+
     private bool semiShotFired = false; // Tracks if a shot has been fired in semi-automatic mode.
 
     // Method to handle the reloading process.
     public void Reload()
     {
-        if(currentAmmo == currentMagazineSize) return; // Do not reload if the magazine is full.
+        if (currentAmmo == currentMagazineSize) return; // Do not reload if the magazine is full.
         reloadManager.Reload(currentWeapon, currentReloadTime);
         currentAmmo = currentMagazineSize; // Refill ammo after reloading.
     }
