@@ -6,8 +6,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: shotgunShot_2_{-5759880218269771552}
-  m_AudioClip: {fileID: 8300000, guid: e147771b81c135942b56545aa8014c23, type: 3}
+  m_Name: shotgunShot2_{-5759880218269771552}
+  m_AudioClip: {fileID: 8300000, guid: 982e3de74d3ece548be7e5992d51514a, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &-5347873570566706475
@@ -16,8 +16,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: shotgunShot_3_{-5347873570566706475}
-  m_AudioClip: {fileID: 8300000, guid: 3af118d1e560d294bb041b6a587e4a30, type: 3}
+  m_Name: shotgunShot3_{-5347873570566706475}
+  m_AudioClip: {fileID: 8300000, guid: fcc44956af418da48a5e04f169137116, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &3962200648750303006
@@ -26,8 +26,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: shotgunShot_1_{3962200648750303006}
-  m_AudioClip: {fileID: 8300000, guid: bfb13c686fe050649b67f732a776cf91, type: 3}
+  m_Name: shotgunShot1_{3962200648750303006}
+  m_AudioClip: {fileID: 8300000, guid: efe4b30c4c1573d45bd5d8fb208cdb1a, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1307931743 &6418180475301049370
@@ -49,7 +49,7 @@ AudioRandomContainer:
   - {fileID: 3962200648750303006}
   - {fileID: -5759880218269771552}
   - {fileID: -5347873570566706475}
-  m_AvoidRepeatingLast: 1
+  m_AvoidRepeatingLast: 0
   m_PlaybackMode: 2
   m_TriggerMode: 0
   m_AutomaticTriggerMode: 1
