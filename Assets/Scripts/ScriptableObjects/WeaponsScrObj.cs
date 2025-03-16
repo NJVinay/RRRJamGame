@@ -25,7 +25,7 @@ public class WeaponsScrObj : ScriptableObject
     [SerializeField] private int magazineSize;
     [Tooltip("How wide and imprecise is the shot (in degrees)")]
     [SerializeField] private float spread;
-    
+
     [Space(20)]
     [Header("Bullet info")]
     [Tooltip("How many bullets get shot at once")]
@@ -64,4 +64,9 @@ public class WeaponsScrObj : ScriptableObject
     public AudioResource ReloadFinishClip => reloadFinishClip;
     public Sprite Sprite => sprite;
     public int Index => index;
+    public AttachmentsScrObj barrel;
+    public AttachmentsScrObj sight;
+    public AttachmentsScrObj underbarrel;
+    public AttachmentsScrObj magazine;
+    public AttachmentsScrObj misc;
 }

@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed; // Current movement speed of the player.
     private Rigidbody2D rb; // Reference to the player's Rigidbody2D component.
     private bool isDashing = false; // Indicates if the player is currently dashing.
-    
+
     // Header for organizing shooting-related settings in the Unity Inspector.
     [Header("Shooting Settings")]
     public bool isAiming = false; // Indicates if the player is currently aiming.
@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour
     public WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
 
     [Header("Other Settings")]
-    [SerializeField] float originalBlockedDamage; 
-    private float blockedDamage = 0; 
+    [SerializeField] float originalBlockedDamage;
+    private float blockedDamage = 0;
 
     // Called when the script instance is being loaded.
     private void Awake()
@@ -82,6 +82,17 @@ public class PlayerController : MonoBehaviour
         UpdateWeaponsAndPlayerStats();
     }
 
+    // This function lets the player receive and process the picked attachment
+    public void PickupAttachment(AttachmentsScrObj attachment)
+    {
+        WeaponsManager weaponsManager = GetComponent<WeaponsManager>(); // Get WeaponsManager from player
+        if (weaponsManager != null)
+        {
+            weaponsManager.AddAttachment(attachment); // Call WeaponsManager to handle adding the attachment
+            Debug.Log("Picked up attachment: " + attachment.name); // Confirmation message
+        }
+    }
+
     // Called at a fixed time interval, used for physics calculations.
     private void FixedUpdate()
     {
@@ -89,6 +100,22 @@ public class PlayerController : MonoBehaviour
         if (!isDashing)
         {
             rb.linearVelocity = moveInput * (isAiming ? moveSpeed * aimMoveSpeedMultiplier : moveSpeed);
+        }
+    }
+    // Reference to the nearby attachment (set by AttachmentDetect.cs)
+    public AttachmentsScrObj nearbyAttachment;
+
+    // Method to call when pressing "E"
+    private void InteractWithAttachment()
+    {
+        if (nearbyAttachment != null)
+        {
+            PickupAttachment(nearbyAttachment); // Pick up the attachment
+            nearbyAttachment = null; // Clear after picking up
+        }
+        else
+        {
+            Debug.Log("No attachment nearby to pick up.");
         }
     }
 
@@ -99,6 +126,10 @@ public class PlayerController : MonoBehaviour
         if (isHoldingFire)
         {
             weaponsManager.Fire(isHoldingFire);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            InteractWithAttachment();
         }
     }
 
@@ -119,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
         // Get the player's current weapon and update the player's stats based on the weapon's attachments.
         weaponsManager.WeaponCheck();
-        moveSpeed += originalMoveSpeed *weaponsManager.addedPlayerSpeed /100;
-        blockedDamage += originalBlockedDamage *weaponsManager.subtractedBlockedDamage /100;
+        moveSpeed += originalMoveSpeed * weaponsManager.addedPlayerSpeed / 100;
+        blockedDamage += originalBlockedDamage * weaponsManager.subtractedBlockedDamage / 100;
     }
 }
