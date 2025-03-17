@@ -116,8 +116,8 @@ TextureImporter:
       name: StationV2_0
       rect:
         serializedVersion: 2
-        x: 32
-        y: 257
+        x: 0
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -138,8 +138,8 @@ TextureImporter:
       name: StationV2_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 257
+        x: 32
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -160,8 +160,8 @@ TextureImporter:
       name: StationV2_2
       rect:
         serializedVersion: 2
-        x: 96
-        y: 257
+        x: 64
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -182,8 +182,8 @@ TextureImporter:
       name: StationV2_3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 257
+        x: 96
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -204,8 +204,8 @@ TextureImporter:
       name: StationV2_4
       rect:
         serializedVersion: 2
-        x: 160
-        y: 257
+        x: 128
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -226,8 +226,8 @@ TextureImporter:
       name: StationV2_5
       rect:
         serializedVersion: 2
-        x: 192
-        y: 257
+        x: 160
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -248,8 +248,8 @@ TextureImporter:
       name: StationV2_6
       rect:
         serializedVersion: 2
-        x: 224
-        y: 257
+        x: 192
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -270,8 +270,8 @@ TextureImporter:
       name: StationV2_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 225
+        x: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -292,8 +292,8 @@ TextureImporter:
       name: StationV2_8
       rect:
         serializedVersion: 2
-        x: 64
-        y: 225
+        x: 32
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -314,8 +314,8 @@ TextureImporter:
       name: StationV2_9
       rect:
         serializedVersion: 2
-        x: 96
-        y: 225
+        x: 64
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -336,8 +336,8 @@ TextureImporter:
       name: StationV2_10
       rect:
         serializedVersion: 2
-        x: 128
-        y: 225
+        x: 96
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -358,8 +358,8 @@ TextureImporter:
       name: StationV2_11
       rect:
         serializedVersion: 2
-        x: 160
-        y: 225
+        x: 128
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -380,8 +380,8 @@ TextureImporter:
       name: StationV2_12
       rect:
         serializedVersion: 2
-        x: 192
-        y: 225
+        x: 160
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -402,8 +402,8 @@ TextureImporter:
       name: StationV2_13
       rect:
         serializedVersion: 2
-        x: 224
-        y: 225
+        x: 192
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -424,8 +424,8 @@ TextureImporter:
       name: StationV2_14
       rect:
         serializedVersion: 2
-        x: 32
-        y: 193
+        x: 0
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -446,8 +446,8 @@ TextureImporter:
       name: StationV2_15
       rect:
         serializedVersion: 2
-        x: 64
-        y: 193
+        x: 32
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -468,8 +468,8 @@ TextureImporter:
       name: StationV2_16
       rect:
         serializedVersion: 2
-        x: 96
-        y: 193
+        x: 64
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -490,8 +490,8 @@ TextureImporter:
       name: StationV2_17
       rect:
         serializedVersion: 2
-        x: 128
-        y: 193
+        x: 96
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -512,8 +512,8 @@ TextureImporter:
       name: StationV2_18
       rect:
         serializedVersion: 2
-        x: 160
-        y: 193
+        x: 128
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -534,8 +534,8 @@ TextureImporter:
       name: StationV2_19
       rect:
         serializedVersion: 2
-        x: 192
-        y: 193
+        x: 160
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -556,8 +556,8 @@ TextureImporter:
       name: StationV2_20
       rect:
         serializedVersion: 2
-        x: 224
-        y: 193
+        x: 192
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -578,8 +578,8 @@ TextureImporter:
       name: StationV2_21
       rect:
         serializedVersion: 2
-        x: 32
-        y: 161
+        x: 0
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -600,8 +600,8 @@ TextureImporter:
       name: StationV2_22
       rect:
         serializedVersion: 2
-        x: 64
-        y: 161
+        x: 32
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -622,8 +622,8 @@ TextureImporter:
       name: StationV2_23
       rect:
         serializedVersion: 2
-        x: 96
-        y: 161
+        x: 64
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -644,8 +644,8 @@ TextureImporter:
       name: StationV2_24
       rect:
         serializedVersion: 2
-        x: 128
-        y: 161
+        x: 96
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -666,8 +666,8 @@ TextureImporter:
       name: StationV2_25
       rect:
         serializedVersion: 2
-        x: 160
-        y: 161
+        x: 128
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -688,8 +688,8 @@ TextureImporter:
       name: StationV2_26
       rect:
         serializedVersion: 2
-        x: 192
-        y: 161
+        x: 160
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -710,8 +710,8 @@ TextureImporter:
       name: StationV2_27
       rect:
         serializedVersion: 2
-        x: 224
-        y: 161
+        x: 192
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -732,8 +732,8 @@ TextureImporter:
       name: StationV2_28
       rect:
         serializedVersion: 2
-        x: 32
-        y: 129
+        x: 0
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -754,8 +754,8 @@ TextureImporter:
       name: StationV2_29
       rect:
         serializedVersion: 2
-        x: 64
-        y: 129
+        x: 32
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -776,8 +776,8 @@ TextureImporter:
       name: StationV2_30
       rect:
         serializedVersion: 2
-        x: 96
-        y: 129
+        x: 64
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -798,8 +798,8 @@ TextureImporter:
       name: StationV2_31
       rect:
         serializedVersion: 2
-        x: 128
-        y: 129
+        x: 96
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -820,8 +820,8 @@ TextureImporter:
       name: StationV2_32
       rect:
         serializedVersion: 2
-        x: 160
-        y: 129
+        x: 128
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -842,8 +842,8 @@ TextureImporter:
       name: StationV2_33
       rect:
         serializedVersion: 2
-        x: 192
-        y: 129
+        x: 160
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -864,8 +864,8 @@ TextureImporter:
       name: StationV2_34
       rect:
         serializedVersion: 2
-        x: 224
-        y: 129
+        x: 192
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -886,8 +886,8 @@ TextureImporter:
       name: StationV2_35
       rect:
         serializedVersion: 2
-        x: 32
-        y: 97
+        x: 0
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -908,8 +908,8 @@ TextureImporter:
       name: StationV2_36
       rect:
         serializedVersion: 2
-        x: 64
-        y: 97
+        x: 32
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -930,8 +930,8 @@ TextureImporter:
       name: StationV2_37
       rect:
         serializedVersion: 2
-        x: 96
-        y: 97
+        x: 64
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -952,8 +952,8 @@ TextureImporter:
       name: StationV2_38
       rect:
         serializedVersion: 2
-        x: 128
-        y: 97
+        x: 96
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -974,8 +974,8 @@ TextureImporter:
       name: StationV2_39
       rect:
         serializedVersion: 2
-        x: 160
-        y: 97
+        x: 128
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -996,8 +996,8 @@ TextureImporter:
       name: StationV2_40
       rect:
         serializedVersion: 2
-        x: 192
-        y: 97
+        x: 160
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -1018,8 +1018,8 @@ TextureImporter:
       name: StationV2_41
       rect:
         serializedVersion: 2
-        x: 224
-        y: 97
+        x: 192
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -1040,8 +1040,8 @@ TextureImporter:
       name: StationV2_42
       rect:
         serializedVersion: 2
-        x: 32
-        y: 65
+        x: 0
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1062,8 +1062,8 @@ TextureImporter:
       name: StationV2_43
       rect:
         serializedVersion: 2
-        x: 64
-        y: 65
+        x: 32
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1084,8 +1084,8 @@ TextureImporter:
       name: StationV2_44
       rect:
         serializedVersion: 2
-        x: 96
-        y: 65
+        x: 64
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1106,8 +1106,8 @@ TextureImporter:
       name: StationV2_45
       rect:
         serializedVersion: 2
-        x: 128
-        y: 65
+        x: 96
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1128,8 +1128,8 @@ TextureImporter:
       name: StationV2_46
       rect:
         serializedVersion: 2
-        x: 160
-        y: 65
+        x: 128
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1150,8 +1150,8 @@ TextureImporter:
       name: StationV2_47
       rect:
         serializedVersion: 2
-        x: 192
-        y: 65
+        x: 160
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1172,8 +1172,8 @@ TextureImporter:
       name: StationV2_48
       rect:
         serializedVersion: 2
-        x: 224
-        y: 65
+        x: 192
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -1194,8 +1194,8 @@ TextureImporter:
       name: StationV2_49
       rect:
         serializedVersion: 2
-        x: 64
-        y: 33
+        x: 32
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -1216,8 +1216,8 @@ TextureImporter:
       name: StationV2_50
       rect:
         serializedVersion: 2
-        x: 160
-        y: 33
+        x: 128
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -1238,8 +1238,8 @@ TextureImporter:
       name: StationV2_51
       rect:
         serializedVersion: 2
-        x: 192
-        y: 33
+        x: 160
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -1260,8 +1260,8 @@ TextureImporter:
       name: StationV2_52
       rect:
         serializedVersion: 2
-        x: 224
-        y: 33
+        x: 192
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -1282,8 +1282,8 @@ TextureImporter:
       name: StationV2_53
       rect:
         serializedVersion: 2
-        x: 160
-        y: 1
+        x: 128
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -1304,8 +1304,8 @@ TextureImporter:
       name: StationV2_54
       rect:
         serializedVersion: 2
-        x: 192
-        y: 1
+        x: 160
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -1326,8 +1326,8 @@ TextureImporter:
       name: StationV2_55
       rect:
         serializedVersion: 2
-        x: 224
-        y: 1
+        x: 192
+        y: 0
         width: 32
         height: 32
       alignment: 0

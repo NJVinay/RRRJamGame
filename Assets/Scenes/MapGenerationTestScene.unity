@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1552415407}
-  wallTilebase: {fileID: 11400000, guid: 7609e1989f8dc524f97af1a8ddf38401, type: 2}
+  wallTilebase: {fileID: 0}
   mainRooms: 5
   sizeMain: 20
   sizeVariationMain: 0
