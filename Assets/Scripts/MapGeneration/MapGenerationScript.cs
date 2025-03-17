@@ -6,8 +6,9 @@ using UnityEngine.Tilemaps;
 
 public class MapGenerationScript : MonoBehaviour
 {
-    public Tilemap tilemap;
-    public TileBase wallTilebase;
+    public List<Tilemap> dungeonTilemap = new List<Tilemap>();
+    public List<TileBase> roomTiles = new List<TileBase>();
+
     // Quick customization from the Inspector
     [Header("Map Generation Settings")]
     [Space(10)]
@@ -22,7 +23,7 @@ public class MapGenerationScript : MonoBehaviour
     int sizeVariationMain = 5;
     [Space(10)]
     [SerializeField]
-    [Range(0, 50)]
+    [Range(0, 70)]
     int middleRooms = 5;
     [SerializeField]
     [Range(5, 50)]
@@ -73,7 +74,10 @@ public class MapGenerationScript : MonoBehaviour
         importantNodes.Clear();
         tryAgain = true;
 
-        tilemap.ClearAllTiles();
+        for (int i = 0; i < dungeonTilemap.Count; i++)
+        {
+            dungeonTilemap[i].ClearAllTiles();
+        }
     }
 
     void GenerateMap()
@@ -84,12 +88,18 @@ public class MapGenerationScript : MonoBehaviour
             for (int i = 0; i < mainRooms; i++)
             {
                 float direction = i *2 *Mathf.PI / mainRooms;
-                float x_pos = Mathf.Cos(direction) *sizeMain /1.5f;
-                float y_pos = Mathf.Sin(direction) *sizeMain /1.5f;
+                float x_pos = 0;
+                float y_pos = 0;
+
+                if (i < mainRooms /2)
+                {
+                    x_pos = Mathf.Cos(direction) *sizeMain /1.5f;
+                    y_pos = Mathf.Sin(direction) *sizeMain /1.5f;
+                }
 
                 AddRectangle(new Vector2(x_pos, y_pos), 
-                sizeMain, 
-                sizeMain, Color.grey);
+                sizeMain +Random.Range(0, sizeVariationMain), 
+                sizeMain +Random.Range(0, sizeVariationMain), Color.grey);
                 importantNodes.Add(i);
             }
 
@@ -100,8 +110,8 @@ public class MapGenerationScript : MonoBehaviour
                 float y_pos = Random.Range(-sizeMiddle, sizeMiddle);
 
                 AddRectangle(new Vector2(x_pos, y_pos), 
-                sizeMiddle, 
-                sizeMiddle, Color.grey);
+                sizeMiddle +Random.Range(0, sizeVariationMiddle), 
+                sizeMiddle +Random.Range(0, sizeVariationMiddle), Color.grey);
             }
 
             // Separate overlapping rooms
@@ -174,60 +184,99 @@ public class MapGenerationScript : MonoBehaviour
         }
 
         // Placing wall tiles 
+        PlaceFloorTiles();
         PlaceWallTiles();
     }
 
-    void PlaceWallTiles()
+    void PlaceFloorTiles()
     {
-        HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>(); // Stores potential wall positions
-        HashSet<Vector3Int> roomPositions = new HashSet<Vector3Int>(); // Stores room positions to avoid walls inside
+        HashSet<Vector3Int> floorPositions = new HashSet<Vector3Int>();
 
-        // First, store all room positions
         foreach (var rect in rectangles)
         {
             int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
-            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) -1;
+            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
             int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
-            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) -1;
+            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
 
             for (int x = left; x <= right; x++)
             {
                 for (int y = bottom; y <= top; y++)
                 {
-                    roomPositions.Add(new Vector3Int(x, y, 0)); // Mark as room space
+                    floorPositions.Add(new Vector3Int(x, y, 0)); // Floor Layer
                 }
             }
         }
 
-        // Then, find the exterior border and exclude rooms
-        foreach (var rect in rectangles)
+        // Apply floor tiles to the correct layer
+        foreach (var pos in floorPositions)
         {
-            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
-            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) -1;
-            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
-            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) -1;
+            dungeonTilemap[0].SetTile(pos, roomTiles[0]); // Floor Layer
+        }
+    }
 
-            // Loop around the rectangle to place border walls
+    void PlaceWallTiles()
+    {
+        HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>(); 
+        HashSet<Vector3Int> roomPositions = new HashSet<Vector3Int>(); 
+
+        // Store all room positions to avoid placing walls inside
+        for (int i = 0; i < rectangles.Count; i++)
+        {
+            var rect = rectangles[i];
+
+            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
+            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
+            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
+            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
+
+            for (int x = left; x <= right; x++)
+            {
+                for (int y = bottom; y <= top; y++)
+                {
+                    roomPositions.Add(new Vector3Int(x, y, 0)); // Store room positions
+                }
+            }
+        }
+
+        // Find the exterior border of each rectangle and add walls
+        for (int i = 0; i < rectangles.Count; i++)
+        {
+            var rect = rectangles[i];
+            bool isMainRoom = i < mainRooms; // Check if the room is one of the mainRooms
+
+            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
+            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
+            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
+            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
+
+            // Horizontal Borders (Above & Below the Room)
             for (int x = left - 1; x <= right + 1; x++)
             {
                 Vector3Int topPos = new Vector3Int(x, top + 1, 0);
                 Vector3Int bottomPos = new Vector3Int(x, bottom - 1, 0);
-                if (!roomPositions.Contains(topPos)) wallPositions.Add(topPos);
-                if (!roomPositions.Contains(bottomPos)) wallPositions.Add(bottomPos);
+                
+                if (isMainRoom || !roomPositions.Contains(topPos)) wallPositions.Add(topPos);
+                if (isMainRoom || !roomPositions.Contains(bottomPos)) wallPositions.Add(bottomPos);
             }
+
+            // Vertical Borders (Left & Right of the Room)
             for (int y = bottom - 1; y <= top + 1; y++)
             {
                 Vector3Int leftPos = new Vector3Int(left - 1, y, 0);
                 Vector3Int rightPos = new Vector3Int(right + 1, y, 0);
-                if (!roomPositions.Contains(leftPos)) wallPositions.Add(leftPos);
-                if (!roomPositions.Contains(rightPos)) wallPositions.Add(rightPos);
+                
+                if (isMainRoom || !roomPositions.Contains(leftPos)) wallPositions.Add(leftPos);
+                if (isMainRoom || !roomPositions.Contains(rightPos)) wallPositions.Add(rightPos);
             }
         }
 
-        // Apply valid wall positions to the tilemap
+        // Apply wall tiles to the correct tilemap layer
         foreach (var pos in wallPositions)
         {
-            tilemap.SetTile(pos, wallTilebase);
+            dungeonTilemap[1].SetTile(pos, roomTiles[1]); // Lower Wall Layer
+            dungeonTilemap[2].SetTile(pos + new Vector3Int(0, 1, 0), roomTiles[2]); // Upper Wall Layer
+            dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // Roof Layer
         }
     }
 
