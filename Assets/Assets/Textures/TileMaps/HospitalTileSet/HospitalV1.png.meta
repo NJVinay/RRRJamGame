@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c0146e476cab7e647b0ad5e9d4e2eae1
+guid: eec59c46104f6064a9be15d45fa49709
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2654778332994222214
-    second: StationV2_0
+      213: 2156104230750404078
+    second: HospitalV1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StationV2_0
+      name: HospitalV1_0
       rect:
         serializedVersion: 2
         x: 32
@@ -128,14 +128,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a77c978fb25582bd0800000000000000
-      internalID: -2654778332994222214
+      spriteID: eed3894df550ced10800000000000000
+      internalID: 2156104230750404078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_1
+      name: HospitalV1_1
       rect:
         serializedVersion: 2
         x: 64
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c60e72d41451ef439738f3dba7318bc
-      internalID: -942267268
+      spriteID: 2307636ed1a4c4b4c921d4b518886ceb
+      internalID: 1456512586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_2
+      name: HospitalV1_2
       rect:
         serializedVersion: 2
         x: 96
@@ -172,14 +172,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 216b311aa13e8aa48ab9349f90202c52
-      internalID: -528365903
+      spriteID: a728bc86fd51cb240b7aa85703b84e3c
+      internalID: -35625643
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_3
+      name: HospitalV1_3
       rect:
         serializedVersion: 2
         x: 128
@@ -194,14 +194,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69b40f0022e171a4383bade0e0f9aa71
-      internalID: -1798588083
+      spriteID: 4f5c50fdd98f5a34890888b199c9a005
+      internalID: 218736256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_4
+      name: HospitalV1_4
       rect:
         serializedVersion: 2
         x: 160
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 605e319d3e776c44fb6e1fc21b28c08b
-      internalID: 1838597839
+      spriteID: 5ffa07b0105b2804d9c70fe9d65acb2d
+      internalID: -380454364
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_5
+      name: HospitalV1_5
       rect:
         serializedVersion: 2
         x: 192
@@ -238,14 +238,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 147d2bb39ac70f649a6745efda97dc97
-      internalID: 44490932
+      spriteID: 6f7fb4f998378484cb4bdaee05a94b3e
+      internalID: -1571289189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_6
+      name: HospitalV1_6
       rect:
         serializedVersion: 2
         x: 224
@@ -260,14 +260,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcf5d3e7426167f43a5a5de2872abc92
-      internalID: -236490716
+      spriteID: 419b2ad9a3c16e348ad27516a7a2408e
+      internalID: -1688688820
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_7
+      name: HospitalV1_7
       rect:
         serializedVersion: 2
         x: 32
@@ -282,14 +282,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04822880e4b78804eb9141324afdd132
-      internalID: 328140748
+      spriteID: 98cd902876812754dbee6d4ad3ce4860
+      internalID: -1185582122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_8
+      name: HospitalV1_8
       rect:
         serializedVersion: 2
         x: 64
@@ -304,14 +304,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84a7bc7378f1f2142904114c28d54144
-      internalID: 2010044607
+      spriteID: e81100fc66653ec458279508c63b0434
+      internalID: -1591098499
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_9
+      name: HospitalV1_9
       rect:
         serializedVersion: 2
         x: 96
@@ -326,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63c51714303f3b04089d99ba3d135f37
-      internalID: 1858409622
+      spriteID: f0b92a64b80b3e944b58f682c3f80181
+      internalID: -2081771056
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_10
+      name: HospitalV1_10
       rect:
         serializedVersion: 2
         x: 128
@@ -348,14 +348,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55191059e0b5b23439e6c3155ae3b136
-      internalID: -627269659
+      spriteID: 8ae5bc383193b7c47bd18649bc764155
+      internalID: 940449283
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_11
+      name: HospitalV1_11
       rect:
         serializedVersion: 2
         x: 160
@@ -370,14 +370,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3cdcfa5d74091454484357d4df6327b7
-      internalID: -921388759
+      spriteID: e044c6248df297e40acd194dba8ccacb
+      internalID: -812675307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_12
+      name: HospitalV1_12
       rect:
         serializedVersion: 2
         x: 192
@@ -392,14 +392,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fae8faae22b46649a1af9d49c609aff
-      internalID: -294205142
+      spriteID: 13dfa78168b917948b323ded78bd1604
+      internalID: 244903772
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_13
+      name: HospitalV1_13
       rect:
         serializedVersion: 2
         x: 224
@@ -414,14 +414,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a79833f9e11d82478b0407d5a61089e
-      internalID: -986487389
+      spriteID: 1a7718f060f8cbc47be00f4ecb0003f0
+      internalID: 745998596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_14
+      name: HospitalV1_14
       rect:
         serializedVersion: 2
         x: 32
@@ -436,14 +436,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fc1d568e160062499775d38c5f5ba08
-      internalID: 1543218425
+      spriteID: 26a76b70e644e44489c2c1cb9cf29ba3
+      internalID: 955402917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_15
+      name: HospitalV1_15
       rect:
         serializedVersion: 2
         x: 64
@@ -458,14 +458,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca22c47f6549e774bbe36e72c4879edf
-      internalID: 404653641
+      spriteID: 007155972ae44ef46bfb1306565d7a04
+      internalID: -115772039
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_16
+      name: HospitalV1_16
       rect:
         serializedVersion: 2
         x: 96
@@ -480,14 +480,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c5dec0558776c34ebba18ee2875a3f0
-      internalID: -944750069
+      spriteID: 01fada44d8c76494c885b80226d35f92
+      internalID: 257364691
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_17
+      name: HospitalV1_17
       rect:
         serializedVersion: 2
         x: 128
@@ -502,14 +502,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a11c4324e05c14479062e1e8e909385
-      internalID: 1321627125
+      spriteID: e9bd632f00df5f247ad28bb582934e41
+      internalID: 117406077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_18
+      name: HospitalV1_18
       rect:
         serializedVersion: 2
         x: 160
@@ -524,14 +524,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4e4eb8860670894d9ad8c09b485cffe
-      internalID: 1444125677
+      spriteID: 8e424c35d1665424bade47a8693fdc35
+      internalID: 658041380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_19
+      name: HospitalV1_19
       rect:
         serializedVersion: 2
         x: 192
@@ -546,14 +546,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd16885116cf7d0438edc2c073bb421e
-      internalID: 479350934
+      spriteID: 4d60f04558a92b54ba38839c930179da
+      internalID: -1293495017
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_20
+      name: HospitalV1_20
       rect:
         serializedVersion: 2
         x: 224
@@ -568,14 +568,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48ebd884e3db6c84d921190cf76acd4b
-      internalID: 2121098220
+      spriteID: ca0f5e4067522774e82f800c59ebce63
+      internalID: -1778623287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_21
+      name: HospitalV1_21
       rect:
         serializedVersion: 2
         x: 32
@@ -590,14 +590,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c7cc021c2e1ff34da8470882a0a4db3
-      internalID: 134178879
+      spriteID: 50f017422f99dff4588bf6f6388a4893
+      internalID: -755195671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_22
+      name: HospitalV1_22
       rect:
         serializedVersion: 2
         x: 64
@@ -612,14 +612,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8875468e9fb8ef4f9d16b2156279439
-      internalID: 1795320782
+      spriteID: 4ad2a954e5754dd42863f8a7a5e86f6c
+      internalID: -1791992998
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_23
+      name: HospitalV1_23
       rect:
         serializedVersion: 2
         x: 96
@@ -634,14 +634,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4325f7f5f63f68a45b3eb91ef4961885
-      internalID: 926019709
+      spriteID: 3b81b7040519a2241b86e490c4a06fc6
+      internalID: -767450258
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_24
+      name: HospitalV1_24
       rect:
         serializedVersion: 2
         x: 128
@@ -656,14 +656,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 053f35f21a271d44698b2e92ed56df12
-      internalID: -674979151
+      spriteID: 23933ad5e6d09ae4192e88a2f3f5af75
+      internalID: 1872780030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_25
+      name: HospitalV1_25
       rect:
         serializedVersion: 2
         x: 160
@@ -678,14 +678,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 76f3b59c2ed83304894cccbb89fb56a1
-      internalID: -1827436575
+      spriteID: cbb47427ae266a64c9caa3deadfc0705
+      internalID: -456777264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_26
+      name: HospitalV1_26
       rect:
         serializedVersion: 2
         x: 192
@@ -700,14 +700,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d670c54b53516d54194b6236b405d65a
-      internalID: 1246263602
+      spriteID: 75ff978cc7de67f48b275b766c2968c8
+      internalID: 2007784753
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_27
+      name: HospitalV1_27
       rect:
         serializedVersion: 2
         x: 224
@@ -722,14 +722,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 257b257341da31d4b85287b607071791
-      internalID: 1255916089
+      spriteID: 15e6d994dcde9a147b8fd011e8a121ae
+      internalID: 2013777525
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_28
+      name: HospitalV1_28
       rect:
         serializedVersion: 2
         x: 32
@@ -744,14 +744,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11a5ce48555f2af459ebfa661ace4dfd
-      internalID: -514848776
+      spriteID: 991c1281d88bf7347b2fbf4e4236588f
+      internalID: -493235273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_29
+      name: HospitalV1_29
       rect:
         serializedVersion: 2
         x: 64
@@ -766,14 +766,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2eb329a9d6adea345994d569f4433d4c
-      internalID: -829677719
+      spriteID: 04acc3a4db30954488f662a2b8cd5c7d
+      internalID: 89347478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_30
+      name: HospitalV1_30
       rect:
         serializedVersion: 2
         x: 96
@@ -788,14 +788,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9be765808dba07d4aad02e5b9d5000ca
-      internalID: 340995790
+      spriteID: aaf54e333bcd898438d48d3e6e7328a7
+      internalID: 1396575904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_31
+      name: HospitalV1_31
       rect:
         serializedVersion: 2
         x: 128
@@ -810,14 +810,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0597953b29b49464588f7bfa54c3aa22
-      internalID: -1433183402
+      spriteID: 956059cf011018341b0ba10d66002a1f
+      internalID: 611566278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_32
+      name: HospitalV1_32
       rect:
         serializedVersion: 2
         x: 160
@@ -832,14 +832,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea3e92a64e9f9324185e448567fe6283
-      internalID: 1043056505
+      spriteID: bbe36b982022bab4a8cb214705e5e124
+      internalID: 1004930663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_33
+      name: HospitalV1_33
       rect:
         serializedVersion: 2
         x: 192
@@ -854,14 +854,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10f1a76437c6b37469c9bdf813e5227b
-      internalID: -2011424639
+      spriteID: ca5772104f604ce4b9130bfce3a95ec9
+      internalID: -460886487
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_34
+      name: HospitalV1_34
       rect:
         serializedVersion: 2
         x: 224
@@ -876,14 +876,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fdaf147f9797134ea48c09017dad854
-      internalID: -659629399
+      spriteID: ddf069d80cc639642a4db14e24e4d8e4
+      internalID: 1313172633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_35
+      name: HospitalV1_35
       rect:
         serializedVersion: 2
         x: 32
@@ -898,14 +898,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f06664e5400cd44a98952fefe8618b3
-      internalID: -218340184
+      spriteID: 54c788ab8dea953499d1eb3c98a5e4aa
+      internalID: 660982245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_36
+      name: HospitalV1_36
       rect:
         serializedVersion: 2
         x: 64
@@ -920,14 +920,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 119c64f90bcbacb41b4546dd7b0e3365
-      internalID: -1266737041
+      spriteID: 69449c4d1adfb8a4fb33beb03cea6003
+      internalID: -93780641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_37
+      name: HospitalV1_37
       rect:
         serializedVersion: 2
         x: 96
@@ -942,14 +942,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b9b68aaa53f693408e8cd3a4cd0cc43
-      internalID: 2084709223
+      spriteID: ffb643394c58f584388244d2777d708d
+      internalID: -1430123809
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_38
+      name: HospitalV1_38
       rect:
         serializedVersion: 2
         x: 128
@@ -964,14 +964,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37ac160fc9697164995b12fefe53f712
-      internalID: 2020386737
+      spriteID: bf261619a30f6374eb957dc3a1664a24
+      internalID: -149758487
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_39
+      name: HospitalV1_39
       rect:
         serializedVersion: 2
         x: 160
@@ -986,14 +986,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6ae0bb05f930da428c944e8e1dc5d09
-      internalID: 10934760
+      spriteID: 7c5b6fd3047be53459b285c4f501c6da
+      internalID: -1260225059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_40
+      name: HospitalV1_40
       rect:
         serializedVersion: 2
         x: 192
@@ -1008,14 +1008,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aac16cef269293b42bc338581fb85d11
-      internalID: -1575518149
+      spriteID: 3633ea01c0bc1bc45ab557bbfa9f5add
+      internalID: 509203341
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_41
+      name: HospitalV1_41
       rect:
         serializedVersion: 2
         x: 224
@@ -1030,14 +1030,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0184f5557e4562645b109cfe11a6602d
-      internalID: 994503671
+      spriteID: 9df5b1989ca24b042b080c256a4d2a01
+      internalID: -1297426384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_42
+      name: HospitalV1_42
       rect:
         serializedVersion: 2
         x: 32
@@ -1052,14 +1052,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd0d225f83911a346882f48a85f40599
-      internalID: -1856471102
+      spriteID: 59d72918160a1d44e897775ea2170091
+      internalID: 985642252
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_43
+      name: HospitalV1_43
       rect:
         serializedVersion: 2
         x: 64
@@ -1074,14 +1074,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7987e0fd27ce78478e06ab0f4d78bf7
-      internalID: -1842300856
+      spriteID: 4fdc476ed2bd2d74392b045a55389911
+      internalID: -2096610501
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_44
+      name: HospitalV1_44
       rect:
         serializedVersion: 2
         x: 96
@@ -1096,14 +1096,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53b731075af58f74a92b5be85a2c681e
-      internalID: -1615609565
+      spriteID: 5187e87f63f088540a76aebd23e2f28a
+      internalID: 131760429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_45
+      name: HospitalV1_45
       rect:
         serializedVersion: 2
         x: 128
@@ -1118,14 +1118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e831e9c491ab6eb4d831a8d572aab29c
-      internalID: -1195750735
+      spriteID: 6cb74d8344fca854987a8dc1d5fa532b
+      internalID: -1307402478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_46
+      name: HospitalV1_46
       rect:
         serializedVersion: 2
         x: 160
@@ -1140,14 +1140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8e037b08068b7c458e09ea30f9b59fd
-      internalID: 847193131
+      spriteID: 34f39bae759036342b3fcd8cffd5f6e7
+      internalID: 862263205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_47
+      name: HospitalV1_47
       rect:
         serializedVersion: 2
         x: 192
@@ -1162,14 +1162,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac528ff5abc9ce94b9c77d66a3c09694
-      internalID: -500825443
+      spriteID: 156c861388bcf864a8fab5560da56b1c
+      internalID: 77297167
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_48
+      name: HospitalV1_48
       rect:
         serializedVersion: 2
         x: 224
@@ -1184,14 +1184,36 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dba1efab3a627943ac33d9503e218bb
-      internalID: -852773728
+      spriteID: 6ddc4cb26681e3b409a0d29176e8705a
+      internalID: 1601135439
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_49
+      name: HospitalV1_49
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 33
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc0cb5c4420eea14a8d30985015c89a9
+      internalID: 1907256727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HospitalV1_50
       rect:
         serializedVersion: 2
         x: 64
@@ -1206,14 +1228,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16c8c2c294c2b8d46a5db4167dd08554
-      internalID: -956271331
+      spriteID: e0edb3f69c4562b4a93bd59128b72fc2
+      internalID: -15876777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_50
+      name: HospitalV1_51
       rect:
         serializedVersion: 2
         x: 160
@@ -1228,14 +1250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa631a43e5fe07a41b39d4a2dd8a8008
-      internalID: -756094972
+      spriteID: 06bf07c05c9f01c4b9cd2dc0fbc90a84
+      internalID: -1373486579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_51
+      name: HospitalV1_52
       rect:
         serializedVersion: 2
         x: 192
@@ -1250,14 +1272,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2e238ceab96e724286584a028d3fc5b
-      internalID: 8704467
+      spriteID: c33864e8b30042441b3489a39528aa7c
+      internalID: 1009829867
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_52
+      name: HospitalV1_53
       rect:
         serializedVersion: 2
         x: 224
@@ -1272,14 +1294,58 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 440499ae0c628804b825def183d8b2a7
-      internalID: -1126073765
+      spriteID: 555cc15a73e6d034c96dd7929c2e5ff3
+      internalID: 200539971
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_53
+      name: HospitalV1_54
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4d7c176b1321e442aedc1c7f75ab140
+      internalID: -189821907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HospitalV1_55
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c6d095dc871f82458c5b0af57236add
+      internalID: 1341951325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HospitalV1_56
       rect:
         serializedVersion: 2
         x: 160
@@ -1294,14 +1360,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d04fa68438601441a56f5b9522e0d2c
-      internalID: -1140213239
+      spriteID: aaaf5522521c68546ae5d0474196bb86
+      internalID: -665699763
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_54
+      name: HospitalV1_57
       rect:
         serializedVersion: 2
         x: 192
@@ -1316,14 +1382,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6cfffd691f12fc7448a620fb29cdd6ec
-      internalID: 1494697881
+      spriteID: 54474ebc7444923429a80f863d06066e
+      internalID: -1546942273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StationV2_55
+      name: HospitalV1_58
       rect:
         serializedVersion: 2
         x: 224
@@ -1338,8 +1404,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b67a589b92b19249800ebdd427416c3
-      internalID: 616570674
+      spriteID: 27bad4bc28d1c0443b17cbdd04c21633
+      internalID: -1269092961
       vertices: []
       indices: 
       edges: []
@@ -1348,7 +1414,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 981b8092c9660084b8f2079373fe558f
+    spriteID: 77afab33452fc0c478ab770c5053974f
     internalID: 0
     vertices: []
     indices: 
@@ -1358,62 +1424,65 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      StationV2_0: -2654778332994222214
-      StationV2_1: -942267268
-      StationV2_10: -627269659
-      StationV2_11: -921388759
-      StationV2_12: -294205142
-      StationV2_13: -986487389
-      StationV2_14: 1543218425
-      StationV2_15: 404653641
-      StationV2_16: -944750069
-      StationV2_17: 1321627125
-      StationV2_18: 1444125677
-      StationV2_19: 479350934
-      StationV2_2: -528365903
-      StationV2_20: 2121098220
-      StationV2_21: 134178879
-      StationV2_22: 1795320782
-      StationV2_23: 926019709
-      StationV2_24: -674979151
-      StationV2_25: -1827436575
-      StationV2_26: 1246263602
-      StationV2_27: 1255916089
-      StationV2_28: -514848776
-      StationV2_29: -829677719
-      StationV2_3: -1798588083
-      StationV2_30: 340995790
-      StationV2_31: -1433183402
-      StationV2_32: 1043056505
-      StationV2_33: -2011424639
-      StationV2_34: -659629399
-      StationV2_35: -218340184
-      StationV2_36: -1266737041
-      StationV2_37: 2084709223
-      StationV2_38: 2020386737
-      StationV2_39: 10934760
-      StationV2_4: 1838597839
-      StationV2_40: -1575518149
-      StationV2_41: 994503671
-      StationV2_42: -1856471102
-      StationV2_43: -1842300856
-      StationV2_44: -1615609565
-      StationV2_45: -1195750735
-      StationV2_46: 847193131
-      StationV2_47: -500825443
-      StationV2_48: -852773728
-      StationV2_49: -956271331
-      StationV2_5: 44490932
-      StationV2_50: -756094972
-      StationV2_51: 8704467
-      StationV2_52: -1126073765
-      StationV2_53: -1140213239
-      StationV2_54: 1494697881
-      StationV2_55: 616570674
-      StationV2_6: -236490716
-      StationV2_7: 328140748
-      StationV2_8: 2010044607
-      StationV2_9: 1858409622
+      HospitalV1_0: 2156104230750404078
+      HospitalV1_1: 1456512586
+      HospitalV1_10: 940449283
+      HospitalV1_11: -812675307
+      HospitalV1_12: 244903772
+      HospitalV1_13: 745998596
+      HospitalV1_14: 955402917
+      HospitalV1_15: -115772039
+      HospitalV1_16: 257364691
+      HospitalV1_17: 117406077
+      HospitalV1_18: 658041380
+      HospitalV1_19: -1293495017
+      HospitalV1_2: -35625643
+      HospitalV1_20: -1778623287
+      HospitalV1_21: -755195671
+      HospitalV1_22: -1791992998
+      HospitalV1_23: -767450258
+      HospitalV1_24: 1872780030
+      HospitalV1_25: -456777264
+      HospitalV1_26: 2007784753
+      HospitalV1_27: 2013777525
+      HospitalV1_28: -493235273
+      HospitalV1_29: 89347478
+      HospitalV1_3: 218736256
+      HospitalV1_30: 1396575904
+      HospitalV1_31: 611566278
+      HospitalV1_32: 1004930663
+      HospitalV1_33: -460886487
+      HospitalV1_34: 1313172633
+      HospitalV1_35: 660982245
+      HospitalV1_36: -93780641
+      HospitalV1_37: -1430123809
+      HospitalV1_38: -149758487
+      HospitalV1_39: -1260225059
+      HospitalV1_4: -380454364
+      HospitalV1_40: 509203341
+      HospitalV1_41: -1297426384
+      HospitalV1_42: 985642252
+      HospitalV1_43: -2096610501
+      HospitalV1_44: 131760429
+      HospitalV1_45: -1307402478
+      HospitalV1_46: 862263205
+      HospitalV1_47: 77297167
+      HospitalV1_48: 1601135439
+      HospitalV1_49: 1907256727
+      HospitalV1_5: -1571289189
+      HospitalV1_50: -15876777
+      HospitalV1_51: -1373486579
+      HospitalV1_52: 1009829867
+      HospitalV1_53: 200539971
+      HospitalV1_54: -189821907
+      HospitalV1_55: 1341951325
+      HospitalV1_56: -665699763
+      HospitalV1_57: -1546942273
+      HospitalV1_58: -1269092961
+      HospitalV1_6: -1688688820
+      HospitalV1_7: -1185582122
+      HospitalV1_8: -1591098499
+      HospitalV1_9: -2081771056
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapGenerationScript : MonoBehaviour
 {
+    public Tilemap tilemap;
+    public TileBase wallTilebase;
     // Quick customization from the Inspector
     [Header("Map Generation Settings")]
     [Space(10)]
@@ -26,16 +30,6 @@ public class MapGenerationScript : MonoBehaviour
     [SerializeField]
     [Range(0, 20)]
     int sizeVariationMiddle = 5;
-    [Space(10)]
-    [SerializeField]
-    [Range(0, 50)]
-    int smallRooms = 5;
-    [SerializeField]
-    [Range(5, 50)]
-    int sizeSmall = 30;
-    [SerializeField]
-    [Range(0, 20)]
-    int sizeVariationSmall = 5;
 
     [Space(10)]
     [SerializeField]
@@ -43,6 +37,8 @@ public class MapGenerationScript : MonoBehaviour
     List<MG_Rectangle> rectangles = new List<MG_Rectangle>();
     Dictionary<int, List<int>> dungeonGraph = new Dictionary<int, List<int>>();
     List<int> importantNodes = new List<int>();
+    bool tryAgain = true;
+    int attemptNumber = 1;
 
     void Start()
     {
@@ -55,98 +51,183 @@ public class MapGenerationScript : MonoBehaviour
         // For test purposes: regenerate the map when the Jump button is pressed
         if (Input.GetButtonDown("Jump"))
         {
-            // Destroy all existing rectangles
-            for (int i = 0; i < rectangles.Count; i++)
-            {
-                Destroy(rectangles[i].gameObject);
-            }
-
-            // Clear the lists and dictionary
-            rectangles.Clear();
-            dungeonGraph.Clear();
-            importantNodes.Clear();
+            ClearMap();
+            Debug.ClearDeveloperConsole();
 
             // Generate a new map
             GenerateMap();
         }
     }
 
+    void ClearMap()
+    {
+        // Destroy all existing rectangles
+        for (int i = 0; i < rectangles.Count; i++)
+        {
+            Destroy(rectangles[i].gameObject);
+        }
+
+        // Clear the lists and dictionary
+        rectangles.Clear();
+        dungeonGraph.Clear();
+        importantNodes.Clear();
+        tryAgain = true;
+
+        tilemap.ClearAllTiles();
+    }
+
     void GenerateMap()
     {
-        // Create main rooms with random positions and sizes
-        for (int i = 0; i < mainRooms; i++)
+        while (tryAgain)
         {
-            AddRectangle(new Vector2(Random.Range(-40, 40), Random.Range(-40, 40)), 
-            Mathf.Clamp(Random.Range(sizeMain - sizeVariationMain, sizeMain + sizeVariationMain), 5, 50), 
-            Mathf.Clamp(Random.Range(sizeMain - sizeVariationMain, sizeMain + sizeVariationMain), 5, 50), Color.grey);
-            importantNodes.Add(i);
-        }
-
-        // Create middle rooms with random positions and sizes
-        for (int i = 0; i < middleRooms; i++)
-        {
-            AddRectangle(new Vector2(Random.Range(-40, 40), Random.Range(-40, 40)), 
-            Mathf.Clamp(Random.Range(sizeMiddle - sizeVariationMiddle, sizeMiddle + sizeVariationMiddle), 5, 50), 
-            Mathf.Clamp(Random.Range(sizeMiddle - sizeVariationMiddle, sizeMiddle + sizeVariationMiddle), 5, 50), Color.grey);
-        }
-
-        // Create small rooms with random positions and sizes
-        for (int i = 0; i < smallRooms; i++)
-        {
-            AddRectangle(new Vector2(Random.Range(-40, 40), Random.Range(-40, 40)), 
-            Mathf.Clamp(Random.Range(sizeSmall - sizeVariationSmall, sizeSmall + sizeVariationSmall), 5, 50), 
-            Mathf.Clamp(Random.Range(sizeSmall - sizeVariationSmall, sizeSmall + sizeVariationSmall), 5, 50), Color.grey);
-        }
-
-        // Separate overlapping rooms
-        bool overlapping = true;
-        int overlap_counter = 0;
-
-        while (overlapping)
-        {
-            overlapping = false;
-            overlap_counter += 1;
-
-            // Check for overlapping rectangles and separate them
-            for (int i = 0; i < rectangles.Count; i++)
+            // Create main rooms with random positions and sizes
+            for (int i = 0; i < mainRooms; i++)
             {
-                for (int j = 0; j < rectangles.Count; j++)
+                float direction = i *2 *Mathf.PI / mainRooms;
+                float x_pos = Mathf.Cos(direction) *sizeMain /1.5f;
+                float y_pos = Mathf.Sin(direction) *sizeMain /1.5f;
+
+                AddRectangle(new Vector2(x_pos, y_pos), 
+                sizeMain, 
+                sizeMain, Color.grey);
+                importantNodes.Add(i);
+            }
+
+            // Create middle rooms with random positions and sizes
+            for (int i = 0; i < middleRooms; i++)
+            {
+                float x_pos = Random.Range(-sizeMiddle, sizeMiddle);
+                float y_pos = Random.Range(-sizeMiddle, sizeMiddle);
+
+                AddRectangle(new Vector2(x_pos, y_pos), 
+                sizeMiddle, 
+                sizeMiddle, Color.grey);
+            }
+
+            // Separate overlapping rooms
+            bool overlapping = true;
+            int overlap_counter = 0;
+
+            while (overlapping)
+            {
+                overlapping = false;
+                overlap_counter += 1;
+
+                // Check for overlapping rectangles and separate them
+                for (int i = 0; i < rectangles.Count; i++)
                 {
-                    if (i != j)
+                    for (int j = 0; j < rectangles.Count; j++)
                     {
-                        if (Mathf.Abs(rectangles[i].transform.position.x - rectangles[j].transform.position.x) < (rectangles[i].width / 2 + rectangles[j].width / 2) &&
-                            Mathf.Abs(rectangles[i].transform.position.y - rectangles[j].transform.position.y) < (rectangles[i].height / 2 + rectangles[j].height / 2))
+                        if (i != j)
                         {
-                            SeparateRectangles(rectangles[i], rectangles[j]);
-                            overlapping = true;
+                            if (Mathf.Abs(rectangles[i].transform.position.x - rectangles[j].transform.position.x) < (rectangles[i].width / 2 + rectangles[j].width / 2) &&
+                                Mathf.Abs(rectangles[i].transform.position.y - rectangles[j].transform.position.y) < (rectangles[i].height / 2 + rectangles[j].height / 2))
+                            {
+                                SeparateRectangles(rectangles[i], rectangles[j]);
+                                overlapping = true;
+                            }
                         }
                     }
                 }
-            }
 
-            // Round the position of the rectangles to avoid floating point errors and make the map look better as a grid-like environment
-            for (int i = 0; i < rectangles.Count; i++)
+                // Round the position of the rectangles to avoid floating point errors and make the map look better as a grid-like environment
+                for (int i = 0; i < rectangles.Count; i++)
+                {
+                    rectangles[i].transform.position = new Vector3(Mathf.FloorToInt(rectangles[i].transform.position.x), Mathf.FloorToInt(rectangles[i].transform.position.y), 0);
+                }
+
+                // Safety measure to prevent the game from getting stuck on map generation
+                if (overlap_counter > 1000)
+                {
+                    overlapping = false;
+                }
+            } 
+
+            // Create a graph connecting all the rectangles if they are touching each other
+            BuildGraph();
+
+            if (AreAllImportantNodesConnected())
             {
-                rectangles[i].transform.position = new Vector3(Mathf.FloorToInt(rectangles[i].transform.position.x), Mathf.FloorToInt(rectangles[i].transform.position.y), 0);
-            }
+                tryAgain = false;
 
-            // Safety measure to prevent the game from getting stuck on map generation
-            if (overlap_counter > 1000)
+                // Create a spanning tree from the graph
+                ConnectImportantNodes();
+
+                // Debug: color the main rooms green
+                for (int i = 0; i < mainRooms; i++)
+                {
+                    rectangles[i].color = Color.green;
+                }
+            }
+            else
             {
-                overlapping = false;
+                ClearMap();
+                Debug.LogWarning("Attempt n. " + attemptNumber + " failed. MG algorithm run again.");
+                attemptNumber += 1;
+
+                if (attemptNumber == 100)
+                {
+                    Debug.Log("Attempt n. 100 reached");
+                    return;
+                }
             }
-        } 
+        }
 
-        // Create a graph connecting all the rectangles if they are touching each other
-        BuildGraph();
+        // Placing wall tiles 
+        PlaceWallTiles();
+    }
 
-        // Create a spanning tree from the graph
-        ConnectImportantNodes();
+    void PlaceWallTiles()
+    {
+        HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>(); // Stores potential wall positions
+        HashSet<Vector3Int> roomPositions = new HashSet<Vector3Int>(); // Stores room positions to avoid walls inside
 
-        // Debug: color the main rooms green
-        for (int i = 0; i < mainRooms; i++)
+        // First, store all room positions
+        foreach (var rect in rectangles)
         {
-            rectangles[i].color = Color.green;
+            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
+            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) -1;
+            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
+            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) -1;
+
+            for (int x = left; x <= right; x++)
+            {
+                for (int y = bottom; y <= top; y++)
+                {
+                    roomPositions.Add(new Vector3Int(x, y, 0)); // Mark as room space
+                }
+            }
+        }
+
+        // Then, find the exterior border and exclude rooms
+        foreach (var rect in rectangles)
+        {
+            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
+            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) -1;
+            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
+            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) -1;
+
+            // Loop around the rectangle to place border walls
+            for (int x = left - 1; x <= right + 1; x++)
+            {
+                Vector3Int topPos = new Vector3Int(x, top + 1, 0);
+                Vector3Int bottomPos = new Vector3Int(x, bottom - 1, 0);
+                if (!roomPositions.Contains(topPos)) wallPositions.Add(topPos);
+                if (!roomPositions.Contains(bottomPos)) wallPositions.Add(bottomPos);
+            }
+            for (int y = bottom - 1; y <= top + 1; y++)
+            {
+                Vector3Int leftPos = new Vector3Int(left - 1, y, 0);
+                Vector3Int rightPos = new Vector3Int(right + 1, y, 0);
+                if (!roomPositions.Contains(leftPos)) wallPositions.Add(leftPos);
+                if (!roomPositions.Contains(rightPos)) wallPositions.Add(rightPos);
+            }
+        }
+
+        // Apply valid wall positions to the tilemap
+        foreach (var pos in wallPositions)
+        {
+            tilemap.SetTile(pos, wallTilebase);
         }
     }
 
@@ -206,9 +287,22 @@ public class MapGenerationScript : MonoBehaviour
 
     bool AreAdjacent(MG_Rectangle rectangle1, MG_Rectangle rectangle2)
     {
-        // Check if the rectangles are adjacent (touching each other)
-        return Mathf.Abs(rectangle1.transform.position.x - rectangle2.transform.position.x) <= (rectangle1.width / 2 + rectangle2.width / 2) &&
-               Mathf.Abs(rectangle1.transform.position.y - rectangle2.transform.position.y) <= (rectangle1.height / 2 + rectangle2.height / 2);
+        float deltaX = Mathf.Abs(rectangle1.transform.position.x - rectangle2.transform.position.x);
+        float deltaY = Mathf.Abs(rectangle1.transform.position.y - rectangle2.transform.position.y);
+        
+        float halfWidth1 = rectangle1.width / 2;
+        float halfWidth2 = rectangle2.width / 2;
+        float halfHeight1 = rectangle1.height / 2;
+        float halfHeight2 = rectangle2.height / 2;
+
+        // Check if the adjacent segment is at least 5 units long        
+        bool horizontallyAdjacent = deltaX == (halfWidth1 + halfWidth2) &&
+                                    Mathf.Min(rectangle1.height, rectangle2.height) - deltaY > 2;
+        
+        bool verticallyAdjacent = deltaY == (halfHeight1 + halfHeight2) &&
+                                Mathf.Min(rectangle1.width, rectangle2.width) - deltaX > 2;
+        
+        return horizontallyAdjacent || verticallyAdjacent;
     }
 
     private void ConnectImportantNodes()
@@ -253,6 +347,10 @@ public class MapGenerationScript : MonoBehaviour
             {
                 Destroy(rectangles[i].gameObject);
                 rectangles.RemoveAt(i);
+            }
+            else
+            {
+                rectangles[i].color = Color.yellow;
             }
         }
     }
@@ -305,5 +403,33 @@ public class MapGenerationScript : MonoBehaviour
         path.Reverse();
 
         return path;
+    }
+
+    bool AreAllImportantNodesConnected()
+    {
+        if (importantNodes.Count == 0) return true;
+
+        HashSet<int> visited = new HashSet<int>();
+        Queue<int> queue = new Queue<int>();
+
+        // Start BFS from the first important node
+        queue.Enqueue(importantNodes[0]);
+        visited.Add(importantNodes[0]);
+
+        while (queue.Count > 0)
+        {
+            int current = queue.Dequeue();
+            foreach (int neighbor in dungeonGraph[current])
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    visited.Add(neighbor);
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+
+        // Check if all important nodes are visited
+        return importantNodes.All(node => visited.Contains(node));
     }
 }
