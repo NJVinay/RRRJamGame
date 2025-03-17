@@ -6,6 +6,7 @@ public class FireEnemy : MonoBehaviour
     public float fireRate = 2f;             // Time between fireball shots
     public float detectionRange = 5f;       // Range to detect the player
     public float attackRange = 2f;          // Distance to attack the player
+    public float health = 10f;              // Health of the enemy
 
     private Transform player;               // Reference to the player's transform
     private float nextFireTime = 0f;       // Timer for firing projectiles
@@ -41,5 +42,20 @@ public class FireEnemy : MonoBehaviour
         fireball.transform.up = direction; // Set the fireball's "up" direction to point towards the player
 
         Debug.Log("Firing fireball towards: " + direction);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        // Handle enemy death (e.g., play animation, destroy object)
+        Destroy(gameObject);
     }
 }

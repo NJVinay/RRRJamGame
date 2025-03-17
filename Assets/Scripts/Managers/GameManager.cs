@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     // ✅ Handle Input (Pause/Restart)
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O) && !isGameOver)
+        if (Input.GetKeyDown(KeyCode.O) && !isGameOver) // NOTE - This needs to be changed at some point to be in-line with the new input system
         {
             if (isGamePaused) ResumeGame();
             else PauseGame();
@@ -47,14 +47,6 @@ public class GameManager : MonoBehaviour
         {
             RestartGame();
         }
-    }
-
-    // ✅ Score Handling
-    public void AddScore(int points)
-    {
-        playerScore += points;
-        Debug.Log("Score: " + playerScore);
-        // Future: Call UI update here
     }
 
     // ✅ Lives Handling (Optional for future)
@@ -92,14 +84,7 @@ public class GameManager : MonoBehaviour
         playerScore = 0; // Reset score
         Debug.Log("Game Restarted");
 
-        // Regenerate map if assigned
-        if (mapGenerator != null)
-        {
-            mapGenerator.SendMessage("GenerateMap"); // Call map generation
-        }
-
-        // Optional: Scene reload alternative (if using fixed levels)
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // ✅ Pause/Resume Game

@@ -19,6 +19,17 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Check if the projectile collided with an enemy
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Get the Enemy component and apply damage
+            FireEnemy enemy = collision.gameObject.GetComponent<FireEnemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+        }
+
         Destroy(gameObject); // Destroy immediately on collision
     }
 
