@@ -180,30 +180,55 @@ public class WeaponsManager : MonoBehaviour
         audioManager.UpdateDynamicMusic();
     }
 
+    // Method to drop the previous attachment at the player's location.
+    private void DropAttachment(AttachmentsScrObj previousAttachment)
+    {
+        if (previousAttachment != null)
+        {
+            Vector3 playerPosition = transform.position; // Get the player's current position.
+            Debug.Log("Dropping attachment: " + previousAttachment.name + " at position: " + playerPosition);
+            // Add functionality to instantiate and drop the attachment in the game world.
+        }
+    }
+
     // Adds the picked up attachment to the correct slot based on its type
     public void AddAttachment(AttachmentsScrObj attachment)
     {
+        AttachmentsScrObj previousAttachment = null;
+        Debug.Log("Adding attachment: " + attachment.name);
         switch (attachment.Category)
         {
             case AttachmentCategory.BarrelSlot:
-                currentWeapon.barrel = attachment;
+                previousAttachment = currentAttachments[0];
+                currentAttachments[0] = attachment;
+                Debug.Log("BarrelSlot");
                 break;
             case AttachmentCategory.Magazine:
-                currentWeapon.magazine = attachment;
+                previousAttachment = currentAttachments[3];
+                currentAttachments[3] = attachment;
+                Debug.Log("Magazine");
                 break;
             case AttachmentCategory.Sight:
-                currentWeapon.sight = attachment;
+                previousAttachment = currentAttachments[1];
+                currentAttachments[1] = attachment;
+                Debug.Log("Sight");
                 break;
             case AttachmentCategory.Underbarrel:
-                currentWeapon.underbarrel = attachment;
+                previousAttachment = currentAttachments[2];
+                currentAttachments[2] = attachment;
+                Debug.Log("Underbarrel");
                 break;
             case AttachmentCategory.Misc:
-                currentWeapon.misc = attachment;
+                previousAttachment = currentAttachments[4];
+                currentAttachments[4] = attachment;
+                Debug.Log("Misc");
                 break;
             default:
                 Debug.LogWarning("Unknown attachment type.");
                 break;
         }
+
+        DropAttachment(previousAttachment); // Drop the previous attachment.
         WeaponCheck();
         Debug.Log("Attachment added: " + attachment.name); // Confirmation log
     }

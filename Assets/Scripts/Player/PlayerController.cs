@@ -25,9 +25,11 @@ public class PlayerController : MonoBehaviour
     public bool isHoldingFire = false; // Indicates if the fire button is being held down.
     public WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
 
-    [Header("Other Settings")]
-    [SerializeField] float originalBlockedDamage;
-    private float blockedDamage = 0;
+    [Header("Interaction Settings")]
+    [SerializeField] float interactionRadius = 2f; // Radius within which the player can interact with objects.
+    [SerializeField] Material highlightMaterial; // Material to apply when the player is in range.
+    private Material originalMaterial; // Original material of the interactable object.
+    private GameObject currentInteractable; // Reference to the current interactable object.
 
     // Called when the script instance is being loaded.
     private void Awake()
@@ -76,6 +78,11 @@ public class PlayerController : MonoBehaviour
         weaponsManager.Reload();
     }
 
+    public void OnInteract (InputValue cc)
+    {
+        InteractWithObject();
+    }
+
     // Debug function to check the weapon status.
     public void OnDebug01(InputValue cc)
     {
@@ -102,20 +109,63 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = moveInput * (isAiming ? moveSpeed * aimMoveSpeedMultiplier : moveSpeed);
         }
     }
-    // Reference to the nearby attachment (set by AttachmentDetect.cs)
-    public AttachmentsScrObj nearbyAttachment;
 
-    // Method to call when pressing "E"
-    private void InteractWithAttachment()
+    // Method to call when pressing "E" to interact with objects tagged as "Interactable"
+    private void InteractWithObject()
     {
-        if (nearbyAttachment != null)
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, interactionRadius);
+        foreach (var hitCollider in hitColliders)
         {
-            PickupAttachment(nearbyAttachment); // Pick up the attachment
-            nearbyAttachment = null; // Clear after picking up
+            if (hitCollider.CompareTag("Interactable"))
+            {
+                hitCollider.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                Debug.Log("Interacted with: " + hitCollider.name);
+                break;
+            }
         }
-        else
+    }
+
+    // Method to detect nearby interactable objects and change their materials
+    private void DetectInteractableObjects()
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, interactionRadius);
+        foreach (var hitCollider in hitColliders)
         {
-            Debug.Log("No attachment nearby to pick up.");
+            if (hitCollider.CompareTag("Interactable"))
+            {
+                if (currentInteractable != hitCollider.gameObject)
+                {
+                    if (currentInteractable != null)
+                    {
+                        // Revert material to original material
+                        Renderer renderer = currentInteractable.GetComponent<Renderer>();
+                        if (renderer != null)
+                        {
+                            renderer.material = originalMaterial;
+                        }
+                    }
+
+                    currentInteractable = hitCollider.gameObject;
+                    Renderer newRenderer = currentInteractable.GetComponent<Renderer>();
+                    if (newRenderer != null)
+                    {
+                        originalMaterial = newRenderer.material;
+                        newRenderer.material = highlightMaterial;
+                    }
+                }
+                return;
+            }
+        }
+
+        // Revert material if no interactable object is nearby
+        if (currentInteractable != null)
+        {
+            Renderer renderer = currentInteractable.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.material = originalMaterial;
+            }
+            currentInteractable = null;
         }
     }
 
@@ -127,10 +177,8 @@ public class PlayerController : MonoBehaviour
         {
             weaponsManager.Fire(isHoldingFire);
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InteractWithAttachment();
-        }
+
+        DetectInteractableObjects(); // Detect nearby interactable objects
     }
 
     // Coroutine to handle the dash mechanic.
@@ -146,11 +194,9 @@ public class PlayerController : MonoBehaviour
     private void UpdateWeaponsAndPlayerStats()
     {
         moveSpeed = originalMoveSpeed;
-        blockedDamage = originalBlockedDamage;
 
         // Get the player's current weapon and update the player's stats based on the weapon's attachments.
         weaponsManager.WeaponCheck();
         moveSpeed += originalMoveSpeed * weaponsManager.addedPlayerSpeed / 100;
-        blockedDamage += originalBlockedDamage * weaponsManager.subtractedBlockedDamage / 100;
     }
 }

@@ -20,7 +20,7 @@ MonoBehaviour:
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 0
+  bulletCountMultiplier: 1
   addedPlayerSpeed: 0
   subtractedBlockedDamage: 0
   damagesEnemiesByCollision: 0

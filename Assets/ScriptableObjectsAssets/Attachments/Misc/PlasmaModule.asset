@@ -20,7 +20,7 @@ MonoBehaviour:
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 0
+  bulletCountMultiplier: 1
   addedPlayerSpeed: 0
   subtractedBlockedDamage: 0
   damagesEnemiesByCollision: 0
@@ -34,6 +34,6 @@ MonoBehaviour:
   penetratesEnemies: 1
   changesFireMode: 0
   fireMode: 0
-  changesColor: 0
+  changesColor: 1
   bulletColor: {r: 1, g: 0, b: 0, a: 0}
   index: 3
