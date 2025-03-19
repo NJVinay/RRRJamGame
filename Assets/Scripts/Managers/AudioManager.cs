@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public WeaponsManager weaponsManager;
     public AudioSource baseAudioSource;
+    public AudioSource auxiliaryAudioSource;
     public AudioClip baseAudioClip;
+    public List<AudioClip> menuThemeClips;
     public AudioMixerGroup musicAudioMixerGroup;
 
     // Lists containing module clips for each track
@@ -28,8 +31,25 @@ public class AudioManager : MonoBehaviour
     //Debug
     [Space(20)]
     public bool testDynamicMusic = false;
+    public bool testMenuTheme = false;
 
     void Start()
+    {
+        if (testDynamicMusic) StartDynamicMusic();
+        if (testMenuTheme) StartMenuThemeIntro();
+    }
+
+    void StartMenuThemeIntro()
+    {
+        baseAudioSource.clip = menuThemeClips[0];
+        baseAudioSource.loop = false;
+
+        double startTime = AudioSettings.dspTime + 1;
+        baseAudioSource.PlayScheduled(startTime);
+        auxiliaryAudioSource.PlayScheduled(startTime + menuThemeClips[0].samples / (double)menuThemeClips[0].frequency);
+    }
+
+    void StartDynamicMusic()
     {
         audioClipsBank[0] = barrelSlotClips;
         audioClipsBank[1] = sightClips;
@@ -48,18 +68,15 @@ public class AudioManager : MonoBehaviour
             audioSourcesToTrack[i] = 10;
         }
 
-        // Debug
-        Invoke(nameof(StartDynamicMusic), 1); //1 is only for debug purposes
-        if (testDynamicMusic) Invoke(nameof(DebugRefreshAttachments), 0.5f);
-    }
-
-    void StartDynamicMusic()
-    {
-        //baseAudioSource.clip = baseAudioClip;
-        baseAudioSource.PlayScheduled(AudioSettings.dspTime);        
-        nextLoopStart = AudioSettings.dspTime +baseAudioClip.length;
+        baseAudioSource.clip = baseAudioClip;
+        double startTime = AudioSettings.dspTime +2; // 2 is for debug purposes
+        baseAudioSource.PlayScheduled(startTime);        
+        nextLoopStart = startTime +baseAudioClip.samples / (double)baseAudioClip.frequency;
         
         StartCoroutine(InvokeAtDSPTime(RefreshActiveAudioSources));
+
+        //Debug
+        if (testDynamicMusic) Invoke(nameof(DebugRefreshAttachments), 0.5f);
     }
 
     IEnumerator InvokeAtDSPTime(Action method)
@@ -69,7 +86,6 @@ public class AudioManager : MonoBehaviour
             yield return new WaitUntil(() => AudioSettings.dspTime >= nextLoopStart);
 
             method?.Invoke(); // Call the method
-            nextLoopStart += baseAudioClip.length; // Schedule next execution
         }
     }
     
@@ -87,6 +103,8 @@ public class AudioManager : MonoBehaviour
 
             Debug.Log("AS " + currentIndex + " stopped.");
         }
+
+        nextLoopStart = AudioSettings.dspTime +baseAudioClip.samples / (double)baseAudioClip.frequency;
     }
 
     public void UpdateDynamicMusic()
