@@ -39,4 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 2
-  sprite: {fileID: 21300000, guid: f5826d0ff46acba47baab3940fe27eab, type: 3}
+  sprite: {fileID: 21300000, guid: 6a1d02c9c1d7ba047b03fe1885e77d4d, type: 3}
