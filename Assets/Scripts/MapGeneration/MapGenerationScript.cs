@@ -219,6 +219,7 @@ public class MapGenerationScript : MonoBehaviour
     {
         HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>(); 
         HashSet<Vector3Int> roomPositions = new HashSet<Vector3Int>(); 
+        int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
 
         // Store all room positions to avoid placing walls inside
         for (int i = 0; i < rectangles.Count; i++)
@@ -250,6 +251,11 @@ public class MapGenerationScript : MonoBehaviour
             int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
             int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
 
+            minX = Mathf.Min(minX, left - 15);
+            maxX = Mathf.Max(maxX, right + 15);
+            minY = Mathf.Min(minY, bottom - 15);
+            maxY = Mathf.Max(maxY, top + 15);
+
             // Horizontal Borders (Above & Below the Room)
             for (int x = left - 1; x <= right + 1; x++)
             {
@@ -277,6 +283,19 @@ public class MapGenerationScript : MonoBehaviour
             dungeonTilemap[1].SetTile(pos, roomTiles[1]); // Lower Wall Layer
             dungeonTilemap[2].SetTile(pos + new Vector3Int(0, 1, 0), roomTiles[2]); // Upper Wall Layer
             dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // Roof Layer
+        }
+
+        // Fill outside areas with roof tiles offset by +2 on the Y axis
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = minY; y <= maxY; y++)
+            {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                if (!roomPositions.Contains(pos))
+                {
+                    dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]);
+                }
+            }
         }
     }
 
