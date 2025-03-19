@@ -321,11 +321,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!82 &1467391672 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 469598470857829725, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-  m_PrefabInstance: {fileID: 137271921360185232}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &137271921360185232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374,66 +369,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4476207103905597534, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4476207103905597534, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 8300000, guid: ecaf6e7969ab0b347aa0af45affe3859, type: 3}
-    - target: {fileID: 4476207103905597534, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: ecaf6e7969ab0b347aa0af45affe3859, type: 3}
-    - target: {fileID: 4476207103905597534, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4476207103905597534, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: -9180170648217704964, guid: 709bd9bf62f738141b91005c4a352d01, type: 2}
     - target: {fileID: 4652317520181597703, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
     - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: menuThemeClip
-      value: 
-      objectReference: {fileID: 8300000, guid: ecaf6e7969ab0b347aa0af45affe3859, type: 3}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: testMenuTheme
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
       propertyPath: weaponsManager
       value: 
       objectReference: {fileID: 770649886}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: testDynamicMusic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: auxiliarAudioSource
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: auxiliaryAudioSouce
-      value: 
-      objectReference: {fileID: 1467391672}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: mainThemeClips.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: 'mainThemeClips.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 04a489aa330387040968f9c7c437ba9a, type: 3}
-    - target: {fileID: 9033295294730135479, guid: 12ed9f6bdfda1094cbf3f884cffd2e72, type: 3}
-      propertyPath: 'mainThemeClips.Array.data[1]'
-      value: 
-      objectReference: {fileID: 8300000, guid: ecaf6e7969ab0b347aa0af45affe3859, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
