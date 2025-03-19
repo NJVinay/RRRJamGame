@@ -759,7 +759,7 @@
     "m_Title": "Offset sprite to all 4 directions and clamped it",
     "m_Position": {
         "x": -1874.9998779296875,
-        "y": 829.9998779296875
+        "y": 830.0000610351563
     }
 }
 
@@ -1085,7 +1085,7 @@
     "m_ObjectId": "1c2a0ed3164c442f86a4915b71ee6c2d",
     "m_Title": "Turned sprite into alpha, and subtracted the offsets from it",
     "m_Position": {
-        "x": -397.0,
+        "x": -396.999755859375,
         "y": 1139.0
     }
 }
@@ -1125,7 +1125,7 @@
     "m_Title": "Clamp all alpha colors",
     "m_Position": {
         "x": -560.0,
-        "y": 248.0
+        "y": 248.00003051757813
     }
 }
 
@@ -2448,8 +2448,8 @@
     "m_ObjectId": "762df69e8c384ad4951ead7d5d408692",
     "m_Title": "Default texture",
     "m_Position": {
-        "x": -1274.999755859375,
-        "y": 181.99993896484376
+        "x": -1274.9998779296875,
+        "y": 182.00003051757813
     }
 }
 
@@ -2531,7 +2531,7 @@
     "m_ObjectId": "7b9a3e476bd44f2caeaea48e6a8bb492",
     "m_Title": "Slowly pulse the color",
     "m_Position": {
-        "x": -831.0,
+        "x": -830.9998779296875,
         "y": -252.0
     }
 }

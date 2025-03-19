@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: MuzzleBrake
   m_EditorClassIdentifier: 
   attachmentName: MuzzleBrake
+  description: <color=#FFD76E>Muzzle Brake</color><br>Reduces bullet spread<br><color=#8FA3B0>[Receiver
+    Slot]</color>
   category: 0
   addedDamage: 0
-  addedSpread: 0
-  addedSpeed: -25
+  addedSpread: -25
+  addedSpeed: 0
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 3
+  sprite: {fileID: 21300000, guid: 84b3bb0839af3864d8a4717b9e521945, type: 3}

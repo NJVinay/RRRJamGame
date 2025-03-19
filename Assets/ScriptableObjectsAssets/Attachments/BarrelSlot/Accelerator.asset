@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Accelerator
   m_EditorClassIdentifier: 
   attachmentName: Accelerator
+  description: <color=#FFD76E>Accelerator</color><br>Increases bullet speed<br><color=#8FA3B0>[Receiver
+    Slot]</color>
   category: 0
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 4
+  sprite: {fileID: 21300000, guid: c2b064f4c0352224ba296f2cb512ddfa, type: 3}

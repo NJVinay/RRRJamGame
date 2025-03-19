@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Interactable
+  - PlayerWeapon
+  - ReloadWheel
+  - Crosshair
   layers:
   - Default
   - TransparentFX

@@ -5,6 +5,16 @@ public class AttachmentObject : MonoBehaviour
 {
     public AttachmentsScrObj attachmentData; // Reference to attachment ScriptableObject
 
+    private void Start()
+    {
+        // Change the sprite to the one set in the AttachmentScrObj
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && attachmentData != null)
+        {
+            spriteRenderer.sprite = attachmentData.Sprite;
+        }
+    }
+
     // Method to handle interaction
     public void Interact()
     {   
@@ -14,8 +24,7 @@ public class AttachmentObject : MonoBehaviour
             WeaponsManager weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Get WeaponsManager from player
             if (weaponsManager != null)
             {
-                weaponsManager.AddAttachment(attachmentData); // Call WeaponsManager to handle adding the attachment
-                Destroy(gameObject); // Destroy this pickup object after picking up
+                weaponsManager.AddAttachment(attachmentData, this); // Call WeaponsManager to handle adding the attachment
             }
         }
     }

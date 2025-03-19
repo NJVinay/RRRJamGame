@@ -43,7 +43,8 @@ public class WeaponsScrObj : ScriptableObject
     [SerializeField] private AudioResource reloadClip;
     [Tooltip("The clip for finishing a reload of the weapon.")]
     [SerializeField] private AudioResource reloadFinishClip;
-    [SerializeField] private Sprite sprite;
+    [Tooltip("The prefab for the weapon")]
+    [SerializeField] private GameObject prefab;
 
     [Space(20)]
     [Header("Index for AudioManager")]
@@ -62,7 +63,7 @@ public class WeaponsScrObj : ScriptableObject
     public AudioResource EmptyClip => emptyClip;
     public AudioResource ReloadClip => reloadClip;
     public AudioResource ReloadFinishClip => reloadFinishClip;
-    public Sprite Sprite => sprite;
+    public GameObject Prefab => prefab;
     public int Index => index;
     public AttachmentsScrObj barrel;
     public AttachmentsScrObj sight;

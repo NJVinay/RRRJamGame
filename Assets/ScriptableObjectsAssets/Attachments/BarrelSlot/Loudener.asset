@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Loudener
   m_EditorClassIdentifier: 
   attachmentName: Loudener
+  description: <color=#FFD76E>Loudener</color><br>Slightly increases bullet damage<br><color=#8FA3B0>[Receiver
+    Slot]</color>
   category: 0
   addedDamage: 15
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 0
+  sprite: {fileID: 21300000, guid: c882d3a4a99313a45b0ffd80d0457b99, type: 3}

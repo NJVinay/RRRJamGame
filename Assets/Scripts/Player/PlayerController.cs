@@ -24,23 +24,41 @@ public class PlayerController : MonoBehaviour
     public bool isAiming = false; // Indicates if the player is currently aiming.
     public bool isHoldingFire = false; // Indicates if the fire button is being held down.
     public WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
+    public Transform WeaponPosition; // Reference to the WeaponPosition transform.
 
     [Header("Interaction Settings")]
     [SerializeField] float interactionRadius = 2f; // Radius within which the player can interact with objects.
     [SerializeField] Material highlightMaterial; // Material to apply when the player is in range.
     private Material originalMaterial; // Original material of the interactable object.
     private GameObject currentInteractable; // Reference to the current interactable object.
+    [SerializeField] GameObject descriptionBox; // Reference to the description box GameObject.
+    [SerializeField] TMPro.TextMeshProUGUI descriptionText; // Reference to the TextMeshProUGUI component for the description text.
+
+    [Header("Crosshair Settings")]
+    private Transform weaponObject;
+    private Transform playerObject; // Reference to the player object
+    private Transform crosshairObject; // Reference to the crosshair object
 
     // Called when the script instance is being loaded.
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); // Initialize the Rigidbody2D component.
+        weaponsManager = WeaponPosition.GetComponentInChildren<WeaponsManager>(); // Find the WeaponsManager component in the child object of WeaponPosition.
+        descriptionBox.SetActive(false); // Ensure the description box is initially disabled.
+
+        weaponObject = GameObject.FindWithTag("PlayerWeapon").transform;
+        playerObject = GameObject.FindWithTag("Player").transform;
+        crosshairObject = GameObject.FindWithTag("Crosshair").transform;
     }
 
     // At the moment for debug purposes only
     private void Start()
     {
         UpdateWeaponsAndPlayerStats();
+
+        // Hides the default cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Called when the player provides movement input.
@@ -87,17 +105,6 @@ public class PlayerController : MonoBehaviour
     public void OnDebug01(InputValue cc)
     {
         UpdateWeaponsAndPlayerStats();
-    }
-
-    // This function lets the player receive and process the picked attachment
-    public void PickupAttachment(AttachmentsScrObj attachment)
-    {
-        WeaponsManager weaponsManager = GetComponent<WeaponsManager>(); // Get WeaponsManager from player
-        if (weaponsManager != null)
-        {
-            weaponsManager.AddAttachment(attachment); // Call WeaponsManager to handle adding the attachment
-            Debug.Log("Picked up attachment: " + attachment.name); // Confirmation message
-        }
     }
 
     // Called at a fixed time interval, used for physics calculations.
@@ -152,6 +159,23 @@ public class PlayerController : MonoBehaviour
                         originalMaterial = newRenderer.material;
                         newRenderer.material = highlightMaterial;
                     }
+
+                    // Update and show the description box
+                    AttachmentsScrObj attachment = currentInteractable.GetComponent<AttachmentObject>().attachmentData;
+                    if (attachment != null)
+                    {
+                        descriptionText.text = attachment.description;
+                        descriptionBox.SetActive(true);
+                    }
+                }
+                else
+                {
+                    // Update the description box if the same interactable object is still in range
+                    AttachmentsScrObj attachment = currentInteractable.GetComponent<AttachmentObject>().attachmentData;
+                    if (attachment != null)
+                    {
+                        descriptionText.text = attachment.description;
+                    }
                 }
                 return;
             }
@@ -166,6 +190,7 @@ public class PlayerController : MonoBehaviour
                 renderer.material = originalMaterial;
             }
             currentInteractable = null;
+            descriptionBox.SetActive(false); // Hide the description box
         }
     }
 
@@ -179,6 +204,30 @@ public class PlayerController : MonoBehaviour
         }
 
         DetectInteractableObjects(); // Detect nearby interactable objects
+
+        // Update the crosshair position to follow the mouse
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = -9f; // Ensure the crosshair remains on the correct plane
+        crosshairObject.position = mousePosition;
+
+        // Rotate the weapon to face the crosshair
+        Vector3 direction = mousePosition - weaponObject.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Adjust the angle if the player is facing left
+        if (mousePosition.x < playerObject.position.x)
+        {
+            playerObject.localScale = new Vector3(-1, 1, 1); // Flip the player to face left
+            descriptionBox.transform.localScale = new Vector3(-1, 1, 1); // Flip the description box the other way to ensure text is not reversed
+            angle += 180f; // Adjust the angle by 180 degrees
+        }
+        else
+        {
+            playerObject.localScale = new Vector3(1, 1, 1); // Flip the player to face right
+            descriptionBox.transform.localScale = new Vector3(1, 1, 1); // Flip the description box the other way to ensure text is not reversed
+        }
+
+        weaponObject.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     // Coroutine to handle the dash mechanic.

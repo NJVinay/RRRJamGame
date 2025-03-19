@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Bayonet
   m_EditorClassIdentifier: 
   attachmentName: Bayonet
+  description: <color=#FFD76E>Loudener</color><br>Damage enemies by walking into
+    them!<br><color=#8FA3B0>[Receiver Slot]</color>
   category: 0
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 2
+  sprite: {fileID: 21300000, guid: f5826d0ff46acba47baab3940fe27eab, type: 3}

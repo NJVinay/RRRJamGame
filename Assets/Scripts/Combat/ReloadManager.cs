@@ -11,6 +11,12 @@ public class ReloadManager : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        // Automatically fetch the Image component from the object tagged with "ReloadWheel".
+        GameObject reloadWheelObject = GameObject.FindGameObjectWithTag("ReloadWheel");
+        if (reloadWheelObject != null)
+        {
+            radialWheel = reloadWheelObject.GetComponent<Image>();
+        }
     }
 
     // Method to handle the reloading process.

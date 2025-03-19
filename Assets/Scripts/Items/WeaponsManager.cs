@@ -45,6 +45,7 @@ public class WeaponsManager : MonoBehaviour
 
     [SerializeField] GameObject projectilePrefab; // Prefab for the projectile to be fired.
     [SerializeField] Transform firePoint; // The point from which projectiles are fired.
+    [SerializeField] private GameObject barrelLocation; // Reference to the BarrelLocation object.
     private float lastFireTime; // Tracks the last time a shot was fired.
     private float lastAudioPlayTime; // Tracks the last time an audio clip was played.
 
@@ -57,6 +58,7 @@ public class WeaponsManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         reloadManager = GetComponent<ReloadManager>();
+        audioManager = FindFirstObjectByType<AudioManager>(); // Fetch AudioManager
         currentAmmo = currentMagazineSize; // Initialize current ammo.
         lastAudioPlayTime = -0.1f; // Initialize last audio play time.
     }
@@ -180,19 +182,27 @@ public class WeaponsManager : MonoBehaviour
         audioManager.UpdateDynamicMusic();
     }
 
-    // Method to drop the previous attachment at the player's location.
-    private void DropAttachment(AttachmentsScrObj previousAttachment)
+    // Method to replace the picked-up object with the attachment.
+    private void DropAttachment(AttachmentObject attachmentObject, AttachmentsScrObj previousAttachment)
     {
         if (previousAttachment != null)
         {
-            Vector3 playerPosition = transform.position; // Get the player's current position.
-            Debug.Log("Dropping attachment: " + previousAttachment.name + " at position: " + playerPosition);
-            // Add functionality to instantiate and drop the attachment in the game world.
+            attachmentObject.attachmentData = previousAttachment; // Replace the attachment data.
+            SpriteRenderer spriteRenderer = attachmentObject.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = previousAttachment.Sprite; // Update the sprite.
+            }
+            Debug.Log("Replaced attachment with: " + previousAttachment.name);
+        }
+        else
+        {
+            Destroy(attachmentObject.gameObject); // Destroy the attachment object if there was no previous attachment.
         }
     }
 
-    // Adds the picked up attachment to the correct slot based on its type
-    public void AddAttachment(AttachmentsScrObj attachment)
+    // Adds the picked-up attachment to the correct slot based on its type
+    public AttachmentsScrObj AddAttachment(AttachmentsScrObj attachment, AttachmentObject attachmentObject)
     {
         AttachmentsScrObj previousAttachment = null;
         Debug.Log("Adding attachment: " + attachment.name);
@@ -202,6 +212,16 @@ public class WeaponsManager : MonoBehaviour
                 previousAttachment = currentAttachments[0];
                 currentAttachments[0] = attachment;
                 Debug.Log("BarrelSlot");
+
+                // Update the sprite of the BarrelLocation object
+                if (barrelLocation != null)
+                {
+                    SpriteRenderer barrelSpriteRenderer = barrelLocation.GetComponent<SpriteRenderer>();
+                    if (barrelSpriteRenderer != null)
+                    {
+                        barrelSpriteRenderer.sprite = attachment.Sprite;
+                    }
+                }
                 break;
             case AttachmentCategory.Magazine:
                 previousAttachment = currentAttachments[3];
@@ -228,9 +248,10 @@ public class WeaponsManager : MonoBehaviour
                 break;
         }
 
-        DropAttachment(previousAttachment); // Drop the previous attachment.
+        DropAttachment(attachmentObject, previousAttachment); // Replace the previous attachment with the new one.
         WeaponCheck();
         Debug.Log("Attachment added: " + attachment.name); // Confirmation log
+        return previousAttachment; // Return the previous attachment
     }
 
     private bool semiShotFired = false; // Tracks if a shot has been fired in semi-automatic mode.

@@ -14,6 +14,9 @@ public class AttachmentsScrObj : ScriptableObject
 {
     [Tooltip("How the attachment is called")]
     [SerializeField] public string attachmentName;
+    [Tooltip("A description of the attachment")]
+    [TextArea(3, 10)]
+    [SerializeField] public string description;
     [Tooltip("The attachment category so the player can only equip one attachment of each category")]
     [SerializeField] public AttachmentCategory category;
 
@@ -78,6 +81,11 @@ public class AttachmentsScrObj : ScriptableObject
     [Header("Index for AudioManager")]
     [SerializeField] private int index;
 
+    [Space(20)]
+    [Header("Attachment Sprite")]
+    [Tooltip("The sprite for the attachment")]
+    [SerializeField] private Sprite sprite;
+
     public AttachmentCategory Category => category;
     public float AddedDamage => addedDamage;
     public float AddedSpread => addedSpread;
@@ -102,4 +110,5 @@ public class AttachmentsScrObj : ScriptableObject
     public bool ChangesColor => changesColor;
     public Color BulletColor => bulletColor;
     public int Index => index;
+    public Sprite Sprite => sprite;
 }

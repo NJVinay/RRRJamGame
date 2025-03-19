@@ -29,6 +29,11 @@ public class AudioManager : MonoBehaviour
     [Space(20)]
     public bool testDynamicMusic = false;
 
+    void Awake()
+    {
+        FetchManagers();
+    }
+    
     void Start()
     {
         audioClipsBank[0] = barrelSlotClips;
@@ -51,6 +56,7 @@ public class AudioManager : MonoBehaviour
         // Debug
         Invoke(nameof(StartDynamicMusic), 1); //1 is only for debug purposes
         if (testDynamicMusic) Invoke(nameof(DebugRefreshAttachments), 0.5f);
+    
     }
 
     void StartDynamicMusic()
@@ -161,5 +167,19 @@ public class AudioManager : MonoBehaviour
     {
         weaponsManager.WeaponCheck();
         Invoke(nameof(DebugRefreshAttachments), 0.5f);
+    }
+
+    void OnSceneLoaded()
+    {
+        FetchManagers();
+    }
+
+    private void FetchManagers()
+    {
+        weaponsManager = FindFirstObjectByType<WeaponsManager>();
+        if (weaponsManager == null)
+        {
+            Debug.LogError("WeaponsManager not found!");
+        }
     }
 }
