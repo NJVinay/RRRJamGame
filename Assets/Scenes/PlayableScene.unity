@@ -769,6 +769,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &493414778
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -796,8 +797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42780816c6b1fd443b0c3bd191c39680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponObject: {fileID: 0}
-  playerObject: {fileID: 0}
 --- !u!1 &616226435
 GameObject:
   m_ObjectHideFlags: 0
@@ -7453,6 +7452,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7449970940254226725, guid: 40dcb9d21eb235d4692812021d4e143d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b59bdcf8aab562d469b77fbd56cbd881, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
