@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      TrainDriver_0: 8259020456353178807
+      TrainDriver_1: -9044591019937226726
+      TrainDriver_2: 4644622477976200791
+      TrainDriver_3: 8142047772521528630
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

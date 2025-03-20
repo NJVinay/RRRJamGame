@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class MapGenerationScript : MonoBehaviour
 {
+    // Erir's recommendations:
+    // - same room count each time
+    // i.e 2 item rooms, 1 boss room, 1 spawn room, 10 enemy rooms
+    // also, make sure that item rooms and boss rooms are on the edges.
+    // spawn room can be anywhere really
+
     public List<Tilemap> dungeonTilemap = new List<Tilemap>();
     public List<TileBase> roomTiles = new List<TileBase>();
 
@@ -183,7 +188,7 @@ public class MapGenerationScript : MonoBehaviour
             }
         }
 
-        // Placing wall tiles 
+        // Placing tiles 
         PlaceFloorTiles();
         PlaceWallTiles();
     }
@@ -217,15 +222,11 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlaceWallTiles()
     {
-        HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>(); 
-        HashSet<Vector3Int> roomPositions = new HashSet<Vector3Int>(); 
-        int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
-
-        // Store all room positions to avoid placing walls inside
-        for (int i = 0; i < rectangles.Count; i++)
+        // Store each room's positions separately
+        List<HashSet<Vector3Int>> roomPositionSets = new List<HashSet<Vector3Int>>();
+        foreach (var rect in rectangles)
         {
-            var rect = rectangles[i];
-
+            HashSet<Vector3Int> currentRoomPositions = new HashSet<Vector3Int>();
             int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
             int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
             int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
@@ -235,57 +236,148 @@ public class MapGenerationScript : MonoBehaviour
             {
                 for (int y = bottom; y <= top; y++)
                 {
-                    roomPositions.Add(new Vector3Int(x, y, 0)); // Store room positions
+                    currentRoomPositions.Add(new Vector3Int(x, y, 0));
+                }
+            }
+            roomPositionSets.Add(currentRoomPositions);
+        }
+
+        // Combine all room positions into one set
+        HashSet<Vector3Int> allRoomPositions = new HashSet<Vector3Int>();
+        foreach (var set in roomPositionSets)
+            foreach (var pos in set)
+                allRoomPositions.Add(pos);
+
+        Vector3Int[] directions = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
+
+        // Step 1: Place walls on each room's inner border
+        for (int i = 0; i < roomPositionSets.Count; i++)
+        {
+            HashSet<Vector3Int> thisRoomPositions = roomPositionSets[i];
+            HashSet<Vector3Int> innerBorderPositions = new HashSet<Vector3Int>();
+
+            foreach (var pos in thisRoomPositions)
+            {
+                foreach (var dir in directions)
+                {
+                    Vector3Int neighborPos = pos + dir;
+                    if (!allRoomPositions.Contains(neighborPos) ||
+                        (!thisRoomPositions.Contains(neighborPos) && allRoomPositions.Contains(neighborPos)))
+                    {
+                        innerBorderPositions.Add(pos);
+                        break;
+                    }
+                }
+            }
+
+            foreach (var pos in innerBorderPositions)
+            {
+                dungeonTilemap[1].SetTile(pos, roomTiles[1]); // Lower wall
+                dungeonTilemap[2].SetTile(pos + Vector3Int.up, roomTiles[2]); // Upper wall
+                dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // Roof
+            }
+        }
+
+        // Step 2: Create hallways between adjacent rooms
+        for (int i = 0; i < rectangles.Count; i++)
+        {
+            for (int j = i + 1; j < rectangles.Count; j++)
+            {
+                if (AreAdjacent(rectangles[i], rectangles[j]))
+                {
+                    CreateHallwayBetween(rectangles[i], rectangles[j]);
                 }
             }
         }
 
-        // Find the exterior border of each rectangle and add walls
-        for (int i = 0; i < rectangles.Count; i++)
+        PlaceRoofBackgroundTiles(allRoomPositions);
+    }
+
+    void CreateHallwayBetween(MG_Rectangle rect1, MG_Rectangle rect2)
+    {
+        float x1 = rect1.transform.position.x;
+        float y1 = rect1.transform.position.y;
+        float x2 = rect2.transform.position.x;
+        float y2 = rect2.transform.position.y;
+
+        int left1 = Mathf.FloorToInt(x1 - rect1.width / 2);
+        int right1 = Mathf.FloorToInt(x1 + rect1.width / 2) - 1;
+        int bottom1 = Mathf.FloorToInt(y1 - rect1.height / 2);
+        int top1 = Mathf.FloorToInt(y1 + rect1.height / 2) - 1;
+
+        int left2 = Mathf.FloorToInt(x2 - rect2.width / 2);
+        int right2 = Mathf.FloorToInt(x2 + rect2.width / 2) - 1;
+        int bottom2 = Mathf.FloorToInt(y2 - rect2.height / 2);
+        int top2 = Mathf.FloorToInt(y2 + rect2.height / 2) - 1;
+
+        int hallwayWidth = 4;
+
+        if (Mathf.Abs(x1 - x2) > Mathf.Abs(y1 - y2))
         {
-            var rect = rectangles[i];
-            bool isMainRoom = i < mainRooms; // Check if the room is one of the mainRooms
+            // Horizontal adjacency
+            int overlapStart = Mathf.Max(bottom1, bottom2);
+            int overlapEnd = Mathf.Min(top1, top2);
+            int hallwayStartY = (overlapStart + overlapEnd + 1) / 2 - (hallwayWidth / 2);
 
-            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
-            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
-            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
-            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
+            int wallX = (right1 < left2) ? right1 : right2; // border wall line
 
-            minX = Mathf.Min(minX, left - 15);
-            maxX = Mathf.Max(maxX, right + 15);
-            minY = Mathf.Min(minY, bottom - 15);
-            maxY = Mathf.Max(maxY, top + 15);
-
-            // Horizontal Borders (Above & Below the Room)
-            for (int x = left - 1; x <= right + 1; x++)
+            for (int y = hallwayStartY; y < hallwayStartY + hallwayWidth; y++)
             {
-                Vector3Int topPos = new Vector3Int(x, top + 1, 0);
-                Vector3Int bottomPos = new Vector3Int(x, bottom - 1, 0);
-                
-                if (isMainRoom || !roomPositions.Contains(topPos)) wallPositions.Add(topPos);
-                if (isMainRoom || !roomPositions.Contains(bottomPos)) wallPositions.Add(bottomPos);
-            }
-
-            // Vertical Borders (Left & Right of the Room)
-            for (int y = bottom - 1; y <= top + 1; y++)
-            {
-                Vector3Int leftPos = new Vector3Int(left - 1, y, 0);
-                Vector3Int rightPos = new Vector3Int(right + 1, y, 0);
-                
-                if (isMainRoom || !roomPositions.Contains(leftPos)) wallPositions.Add(leftPos);
-                if (isMainRoom || !roomPositions.Contains(rightPos)) wallPositions.Add(rightPos);
+                ClearAndFloorTile(new Vector3Int(wallX, y, 0));     
+                ClearAndFloorTile(new Vector3Int(wallX + 1, y, 0)); 
+                ClearAndFloorTile(new Vector3Int(wallX + 2, y, 0)); 
+                ClearAndFloorTile(new Vector3Int(wallX + 3, y, 0)); 
             }
         }
-
-        // Apply wall tiles to the correct tilemap layer
-        foreach (var pos in wallPositions)
+        else
         {
-            dungeonTilemap[1].SetTile(pos, roomTiles[1]); // Lower Wall Layer
-            dungeonTilemap[2].SetTile(pos + new Vector3Int(0, 1, 0), roomTiles[2]); // Upper Wall Layer
-            dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // Roof Layer
+            // Vertical adjacency
+            int overlapStart = Mathf.Max(left1, left2);
+            int overlapEnd = Mathf.Min(right1, right2);
+            int hallwayStartX = (overlapStart + overlapEnd + 1) / 2 - (hallwayWidth / 2);
+
+            int wallY = (top1 < bottom2) ? top1 : top2; // border wall line
+
+            for (int x = hallwayStartX; x < hallwayStartX + hallwayWidth; x++)
+            {
+                ClearAndFloorTile(new Vector3Int(x, wallY, 0));     
+                ClearAndFloorTile(new Vector3Int(x, wallY + 1, 0)); 
+                ClearAndFloorTile(new Vector3Int(x, wallY + 2, 0)); 
+                ClearAndFloorTile(new Vector3Int(x, wallY + 3, 0)); 
+            }
+        }
+    }
+
+    void ClearAndFloorTile(Vector3Int pos)
+    {
+        // Clear existing tiles
+        dungeonTilemap[1].SetTile(pos, null);
+        dungeonTilemap[2].SetTile(pos + Vector3Int.up, null);
+        dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), null);
+
+        // Optionally: place a floor tile (if you have a floor layer, replace below)
+        dungeonTilemap[0].SetTile(pos, roomTiles[0]);
+    }
+
+    void PlaceRoofBackgroundTiles(HashSet<Vector3Int> roomPositions)
+    {
+        // Calculate map bounds
+        int minX = int.MaxValue, maxX = int.MinValue;
+        int minY = int.MaxValue, maxY = int.MinValue;
+
+        foreach (var pos in roomPositions)
+        {
+            if (pos.x < minX) minX = pos.x;
+            if (pos.x > maxX) maxX = pos.x;
+            if (pos.y < minY) minY = pos.y;
+            if (pos.y > maxY) maxY = pos.y;
         }
 
-        // Fill outside areas with roof tiles offset by +2 on the Y axis
+        // Add some padding
+        minX -= 15; maxX += 15;
+        minY -= 15; maxY += 15;
+
+        // Fill outside areas with roof tiles
         for (int x = minX; x <= maxX; x++)
         {
             for (int y = minY; y <= maxY; y++)
@@ -293,7 +385,7 @@ public class MapGenerationScript : MonoBehaviour
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 if (!roomPositions.Contains(pos))
                 {
-                    dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]);
+                    dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // place roof/background tile
                 }
             }
         }
@@ -363,12 +455,12 @@ public class MapGenerationScript : MonoBehaviour
         float halfHeight1 = rectangle1.height / 2;
         float halfHeight2 = rectangle2.height / 2;
 
-        // Check if the adjacent segment is at least 5 units long        
+        // Check if the adjacent segment is at least 6 units long        
         bool horizontallyAdjacent = deltaX == (halfWidth1 + halfWidth2) &&
-                                    Mathf.Min(rectangle1.height, rectangle2.height) - deltaY > 2;
+                                    Mathf.Min(rectangle1.height, rectangle2.height) - deltaY >= 6;
         
         bool verticallyAdjacent = deltaY == (halfHeight1 + halfHeight2) &&
-                                Mathf.Min(rectangle1.width, rectangle2.width) - deltaX > 2;
+                                Mathf.Min(rectangle1.width, rectangle2.width) - deltaX >= 6;
         
         return horizontallyAdjacent || verticallyAdjacent;
     }
