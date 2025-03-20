@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: RPG
   fireMode: 0
+  defaultWeaponProjectile: 1
   damage: 400
   fireRate: 0.5
   reloadTime: 4

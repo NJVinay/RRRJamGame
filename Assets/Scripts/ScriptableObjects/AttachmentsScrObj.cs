@@ -34,8 +34,6 @@ public class AttachmentsScrObj : ScriptableObject
     [SerializeField] private float addedFireRate;
     [Tooltip("Multiplier applied to the number of bullets shot at once")]
     [SerializeField] private float addedMagazineSize;
-    [Tooltip("Multiplier applied to the number of bullets shot at once")]
-    [SerializeField] private float bulletCountMultiplier;
 
     [Space(20)]
     [Header("Player modifiers")]
@@ -48,8 +46,7 @@ public class AttachmentsScrObj : ScriptableObject
     [Header("Enablers")]
     [Tooltip("Check if the weapon can inflict damage by collision with enemies (ex. bayonet)")]
     [SerializeField] private bool damagesEnemiesByCollision;
-    [Tooltip("Check to disable crosshair (ex. Laser Sight)")]
-    [SerializeField] private bool removesCrosshair;
+    
     [Tooltip("Check to enable crosshair zoom (ex. 8x Scope)")]
     [SerializeField] private bool enablesCrosshairZoom;
     [Tooltip("Check to enable a shader to highlight enemies (ex. Thermal Sight)")]
@@ -87,17 +84,11 @@ public class AttachmentsScrObj : ScriptableObject
     [SerializeField] private Sprite sprite;
 
     [Space(20)]
-    [Header("Attachment Locations")]
-    [Tooltip("Location for the barrel attachment")]
-    [SerializeField] private GameObject barrelLocation;
-    [Tooltip("Location for the sight attachment")]
-    [SerializeField] private GameObject sightLocation;
-    [Tooltip("Location for the underbarrel attachment")]
-    [SerializeField] private GameObject underbarrelLocation;
-    [Tooltip("Location for the magazine attachment")]
-    [SerializeField] private GameObject magazineLocation;
-    [Tooltip("Location for the misc attachment")]
-    [SerializeField] private GameObject miscLocation;
+    [Header("Projectile Count Change")]
+    [Tooltip("Check to change projectile count")]
+    [SerializeField] private bool changesProjectileCount;
+    [Tooltip("Multiplier applied to the number of bullets shot at once")]
+    [SerializeField] private float bulletCountMultiplier;
 
     public AttachmentCategory Category => category;
     public float AddedDamage => addedDamage;
@@ -110,7 +101,6 @@ public class AttachmentsScrObj : ScriptableObject
     public float AddedPlayerSpeed => addedPlayerSpeed;
     public float SubtractedBlockedDamage => subtractedBlockedDamage;
     public bool DamagesEnemiesByCollision => damagesEnemiesByCollision;
-    public bool RemovesCrosshair => removesCrosshair;
     public bool EnablesCrosshairZoom => enablesCrosshairZoom;
     public bool HighlightsEnemies => highlightsEnemies;
     public bool EnablesGrenades => enablesGrenades;
@@ -124,4 +114,5 @@ public class AttachmentsScrObj : ScriptableObject
     public Color BulletColor => bulletColor;
     public int Index => index;
     public Sprite Sprite => sprite;
+    public bool ChangesProjectileCount => changesProjectileCount;
 }

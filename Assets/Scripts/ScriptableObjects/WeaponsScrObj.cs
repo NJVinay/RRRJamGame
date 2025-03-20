@@ -6,6 +6,11 @@ public enum FireMode
     Auto,
     Semi
 }
+public enum DefaultWeaponProjectile
+{
+    Bullet,
+    Rocket
+}
 
 [CreateAssetMenu(fileName = "WeaponsScrObj", menuName = "Scriptable Objects/WeaponsScrObj")]
 public class WeaponsScrObj : ScriptableObject
@@ -15,6 +20,8 @@ public class WeaponsScrObj : ScriptableObject
     [SerializeField] private string weaponName;
     [Tooltip("The firemode of the weapon")]
     [SerializeField] private FireMode fireMode;
+    [Tooltip("The default projectile of the weapon")]
+    [SerializeField] private DefaultWeaponProjectile defaultWeaponProjectile;
     [Tooltip("How much damage a single bullet delivers")]
     [SerializeField] private float damage;
     [Tooltip("How many bullets are being shot in one second")]
@@ -52,6 +59,7 @@ public class WeaponsScrObj : ScriptableObject
 
     public string WeaponName => weaponName;
     public FireMode FireMode => fireMode;
+    public DefaultWeaponProjectile DefaultWeaponProjectile => defaultWeaponProjectile;
     public float Damage => damage;
     public float FireRate => fireRate;
     public float ReloadTime => reloadTime;

@@ -13,20 +13,18 @@ MonoBehaviour:
   m_Name: ThermalSight
   m_EditorClassIdentifier: 
   attachmentName: ThermalSight
-  description: <color=#FFD76E>Thermal sight</color><br>Enemies are highlighted<br><color=#8FA3B0>[Sight
-    Slot]</color>
+  description: <color=#FFD76E>Thermal sight</color><br>Slightly increased damage,
+    enemies are highlighted<br><color=#8FA3B0>[Sight Slot]</color>
   category: 1
-  addedDamage: 0
+  addedDamage: 10
   addedSpread: 0
   addedSpeed: 0
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 1
   addedPlayerSpeed: 0
   subtractedBlockedDamage: 0
   damagesEnemiesByCollision: 0
-  removesCrosshair: 0
   enablesCrosshairZoom: 0
   highlightsEnemies: 1
   enablesGrenades: 0
@@ -40,3 +38,5 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 3
   sprite: {fileID: 21300000, guid: fcddfb2596d57714bbd213976929a23f, type: 3}
+  changesProjectileCount: 0
+  bulletCountMultiplier: 1

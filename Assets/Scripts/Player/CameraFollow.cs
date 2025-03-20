@@ -7,8 +7,8 @@ public class CameraFollow : MonoBehaviour
     public Transform player;
     public Transform crosshair;
     [Header("Camera Settings")]
-    [Range(0f, 1f)] public float playerFocus = 0.7f;
-    public float smoothSpeed = 80f;
+    [Range(0f, 1f)] public float playerFocus = 0.2f;
+    public float smoothSpeed = 25f;
     public PlayerController PC;
 
     private float currentPlayerFocus;
@@ -36,6 +36,11 @@ public class CameraFollow : MonoBehaviour
     {
         StopAllCoroutines(); // Stop any ongoing shake.
         StartCoroutine(Shake(duration, magnitude));
+    }
+
+    public void UpdatePlayerFocus(float newFocus)
+    {
+        playerFocus = newFocus;
     }
 
     private IEnumerator Shake(float duration, float magnitude)

@@ -1,38 +1,30 @@
+using Pathfinding;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    AIDestinationSetter enemyTargetScript;
 
-    public float moveSpeed;
-    Rigidbody2D rb;
-    Transform target;
-    Vector2 moveDirection;
+    public float health = 500; // Add health property
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        target = GameObject.Find("Player").transform;
-        
+        enemyTargetScript = GetComponent<AIDestinationSetter>();
+        enemyTargetScript.target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float damage)
     {
-        if (target)
+        health -= damage;
+        if (health <= 0)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            moveDirection = direction;
-
-            //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            //rb.rotation = angle;
+            Die();
         }
     }
 
-    private void FixedUpdate()
+    private void Die()
     {
-        if (target)
-        {
-            rb.linearVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
-        }
+        // Add logic for enemy death, e.g., play animation, destroy object, etc.
+        Destroy(gameObject);
     }
 }

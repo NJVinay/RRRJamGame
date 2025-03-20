@@ -9,6 +9,7 @@ TagManager:
   - PlayerWeapon
   - ReloadWheel
   - Crosshair
+  - SniperCrosshair
   layers:
   - Default
   - TransparentFX

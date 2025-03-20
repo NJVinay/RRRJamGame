@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private Transform weaponObject;
     private Transform playerObject; // Reference to the player object
     private Transform crosshairObject; // Reference to the crosshair object
+    [SerializeField] private GameObject sniperCrosshairObject; // Reference to the sniper crosshair object
 
     // Called when the script instance is being loaded.
     private void Awake()
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
         weaponObject = GameObject.FindWithTag("PlayerWeapon").transform;
         playerObject = GameObject.FindWithTag("Player").transform;
         crosshairObject = GameObject.FindWithTag("Crosshair").transform;
+        sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
+        sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
     }
 
     // At the moment for debug purposes only
@@ -81,6 +84,10 @@ public class PlayerController : MonoBehaviour
     public void OnAim(InputValue cc)
     {
         isAiming = cc.Get<float>() > 0; // Update aiming status based on input.
+        if(weaponsManager.enablesCrosshairZoom)
+        {
+            sniperCrosshairObject.SetActive(isAiming); // Enable/disable the sniper crosshair based on aiming status.
+        }
     }
 
     // Called when the player provides fire input.

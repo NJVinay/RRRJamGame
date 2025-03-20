@@ -22,11 +22,9 @@ MonoBehaviour:
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 3
   addedPlayerSpeed: 0
   subtractedBlockedDamage: 0
   damagesEnemiesByCollision: 0
-  removesCrosshair: 0
   enablesCrosshairZoom: 0
   highlightsEnemies: 0
   enablesGrenades: 0
@@ -40,8 +38,5 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 1
   sprite: {fileID: 21300000, guid: 55699409be102fd4e8d333024e4daeea, type: 3}
-  barrelLocation: {fileID: 0}
-  sightLocation: {fileID: 0}
-  underbarrelLocation: {fileID: 0}
-  magazineLocation: {fileID: 0}
-  miscLocation: {fileID: 0}
+  changesProjectileCount: 1
+  bulletCountMultiplier: 3

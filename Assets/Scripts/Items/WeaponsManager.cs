@@ -34,7 +34,6 @@ public class WeaponsManager : MonoBehaviour
 
     // Variables to store attachment effects.
     public bool damagesEnemiesByCollision { get; private set; }
-    public bool removesCrosshair { get; private set; }
     public bool enablesCrosshairZoom { get; private set; }
     public bool highlightsEnemies { get; private set; }
     public bool enablesGrenades { get; private set; }
@@ -43,7 +42,9 @@ public class WeaponsManager : MonoBehaviour
     public bool explosiveRounds { get; private set; }
     public bool penetratesEnemies { get; private set; }
 
-    [SerializeField] GameObject projectilePrefab; // Prefab for the projectile to be fired.
+    [SerializeField] GameObject currentProjectilePrefab; // Prefab for the projectile to be fired.
+    [SerializeField] GameObject BulletPrefab; // Default bullet projectile prefab.
+    [SerializeField] GameObject RocketPrefab; // Default rocket projectile prefab.
     [SerializeField] Transform firePoint; // The point from which projectiles are fired.
     [SerializeField] private GameObject barrelLocation; // Reference to the BarrelLocation object.
     [SerializeField] private GameObject sightLocation; // Reference to the SightLocation object.
@@ -104,7 +105,6 @@ public class WeaponsManager : MonoBehaviour
 
         // Log attachment effects (booleans)
         Debug.Log("Damages Enemies By Collision: " + damagesEnemiesByCollision);
-        Debug.Log("Removes Crosshair: " + removesCrosshair);
         Debug.Log("Enables Crosshair Zoom: " + enablesCrosshairZoom);
         Debug.Log("Highlights Enemies: " + highlightsEnemies);
         Debug.Log("Enables Grenades: " + enablesGrenades);
@@ -135,7 +135,6 @@ public class WeaponsManager : MonoBehaviour
 
         // Disable every attachment effect
         damagesEnemiesByCollision = false;
-        removesCrosshair = false;
         enablesCrosshairZoom = false;
         highlightsEnemies = false;
         enablesGrenades = false;
@@ -158,7 +157,6 @@ public class WeaponsManager : MonoBehaviour
                 currentReloadTime += currentWeapon.ReloadTime * currentAttachments[i].AddedReloadTime / 100;
                 currentMagazineSize += (int)(currentWeapon.MagazineSize * currentAttachments[i].AddedMagazineSize / 100);
                 currentSpread += currentWeapon.Spread * currentAttachments[i].AddedSpread / 100;
-                currentProjectileCount = (int)(currentWeapon.BulletCount * currentAttachments[i].BulletCountMultiplier);
                 currentSpeed += currentWeapon.BulletSpeed * currentAttachments[i].AddedSpeed / 100;
 
                 //Apply player modifiers
@@ -168,7 +166,6 @@ public class WeaponsManager : MonoBehaviour
                 // Apply attachment effects
                 // If multiple attachments have the same effect (they shouldn't), the effect is enabled
                 damagesEnemiesByCollision |= currentAttachments[i].DamagesEnemiesByCollision;
-                removesCrosshair |= currentAttachments[i].RemovesCrosshair;
                 enablesCrosshairZoom |= currentAttachments[i].EnablesCrosshairZoom;
                 highlightsEnemies |= currentAttachments[i].HighlightsEnemies;
                 enablesGrenades |= currentAttachments[i].EnablesGrenades;
@@ -185,7 +182,18 @@ public class WeaponsManager : MonoBehaviour
                 {
                     currentBulletColor = currentAttachments[i].BulletColor;
                 }
+
+                if (currentAttachments[i].ChangesProjectileCount)
+                {
+                    currentProjectileCount = (int)(currentWeapon.BulletCount * currentAttachments[i].BulletCountMultiplier);
+                }
             }
+        }
+
+        // Update playerFocus on CameraFollow based on enablesCrosshairZoom
+        if (cameraFollow != null)
+        {
+            cameraFollow.UpdatePlayerFocus(enablesCrosshairZoom ? 0.28f : 0.2f);
         }
 
         audioManager.UpdateDynamicMusic();
@@ -365,6 +373,24 @@ public class WeaponsManager : MonoBehaviour
     // Method to instantiate and fire projectiles.
     private void FireProjectiles()
     {
+        // Determine the default projectile prefab based on defaultWeaponProjectile
+        switch (currentWeapon.DefaultWeaponProjectile)
+        {
+            case DefaultWeaponProjectile.Rocket:
+                currentProjectilePrefab = RocketPrefab;
+                break;
+            case DefaultWeaponProjectile.Bullet:
+            default:
+                currentProjectilePrefab = BulletPrefab;
+                break;
+        }
+
+        // Override the projectile prefab if explosiveRounds is true
+        if (explosiveRounds)
+        {
+            currentProjectilePrefab = RocketPrefab;
+        }
+
         // Loop to fire multiple projectiles if needed.
         for (int i = 0; i < currentProjectileCount; i++)
         {
@@ -380,7 +406,7 @@ public class WeaponsManager : MonoBehaviour
             }
 
             // Instantiate the projectile and set its velocity.
-            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            GameObject projectile = Instantiate(currentProjectilePrefab, firePoint.position, Quaternion.identity);
             Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
             projectileRb.linearVelocity = direction * currentSpeed;
 
@@ -394,6 +420,15 @@ public class WeaponsManager : MonoBehaviour
             {
                 projectileScript.damage = currentDamage;
                 projectileScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
+            }
+
+            // Set the damage and color for the projectile if it has a Projectile script.
+            Explosive explosiveScript = projectile.GetComponent<Explosive>();
+            if (explosiveScript != null)
+            {
+                explosiveScript.damage = currentDamage;
+                explosiveScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
+                explosiveScript.explosiveRound = explosiveRounds;
             }
         }
     }
