@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: UnderbarrelShotgun
   m_EditorClassIdentifier: 
   attachmentName: UnderbarrelShotgun
+  description: <color=#FFD76E>Underbarrel Shotgun</color><br>Press "Q" for quick
+    spread shot<br><color=#8FA3B0>[Underbarrel Slot]</color>
   category: 2
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 1
+  sprite: {fileID: 21300000, guid: 3051590ecbcea2340915a5fb22249c9b, type: 3}

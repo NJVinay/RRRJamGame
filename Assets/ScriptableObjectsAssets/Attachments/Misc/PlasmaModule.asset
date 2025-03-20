@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PlasmaModule
   m_EditorClassIdentifier: 
   attachmentName: PlasmaModule
+  description: <color=#FFD76E>Plasma Module</color><br>Bullets pierce through enemies<br><color=#8FA3B0>[Misc
+    Slot]</color>
   category: 4
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 1
   bulletColor: {r: 1, g: 0, b: 0, a: 0}
   index: 3
+  sprite: {fileID: 21300000, guid: 215f258fc483ee64991656da5fedd4e7, type: 3}

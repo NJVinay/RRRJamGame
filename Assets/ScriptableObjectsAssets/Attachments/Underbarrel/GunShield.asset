@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: GunShield
   m_EditorClassIdentifier: 
   attachmentName: GunShield
+  description: <color=#FFD76E>Gun Shield</color><br>Added  shield<br><color=#8FA3B0>[Underbarrel
+    Slot]</color>
   category: 2
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 2
+  sprite: {fileID: 21300000, guid: 66ba19408ae5d5e4ebcd89d4a6b1a74f, type: 3}

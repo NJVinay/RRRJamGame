@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: SemiAutoReceiver
   m_EditorClassIdentifier: 
   attachmentName: SemiAutoReceiver
+  description: <color=#FFD76E>Semi auto Reveiver</color><br>Increase spread<br><color=#8FA3B0>[Misc
+    Slot]</color>
   category: 4
   addedDamage: 0
   addedSpread: -30
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 1
+  sprite: {fileID: 21300000, guid: 7a91294b44f68bb4596d2f4e397d51ed, type: 3}

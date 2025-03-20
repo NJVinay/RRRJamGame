@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ThermalSight
   m_EditorClassIdentifier: 
   attachmentName: ThermalSight
+  description: <color=#FFD76E>Thermal sight</color><br>Enemies are highlighted<br><color=#8FA3B0>[Sight
+    Slot]</color>
   category: 1
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 3
+  sprite: {fileID: 21300000, guid: fcddfb2596d57714bbd213976929a23f, type: 3}

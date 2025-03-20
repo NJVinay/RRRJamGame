@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: NoSight
   m_EditorClassIdentifier: 
   attachmentName: 
+  description: <color=#FFD76E>No sight</color><br>Added spread<br>Increases reload
+    time<br><color=#8FA3B0>[Sight Slot]</color>
   category: 1
   addedDamage: 0
   addedSpread: 50
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 0
+  sprite: {fileID: 21300000, guid: 6aae4b133dece6745b717e6e7c37256b, type: 3}

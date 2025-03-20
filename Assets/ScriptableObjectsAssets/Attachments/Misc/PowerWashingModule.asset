@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PowerWashingModule
   m_EditorClassIdentifier: 
   attachmentName: PowerWashingModule
+  description: <color=#FFD76E>Power Washing Module</color><br>Increase damage<br>Added
+    fire rate<br>Added Magazine size<br><color=#8FA3B0>[Misc Slot]</color>
   category: 4
   addedDamage: -90
   addedSpread: 0
@@ -36,3 +38,5 @@ MonoBehaviour:
   fireMode: 0
   changesColor: 1
   bulletColor: {r: 0, g: 0.64059305, b: 1, a: 0.35686275}
+  index: 0
+  sprite: {fileID: 21300000, guid: cfe944790a7144e4a977b5ee491b869a, type: 3}

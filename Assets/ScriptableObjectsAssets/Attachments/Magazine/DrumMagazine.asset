@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: DrumMagazine
   m_EditorClassIdentifier: 
   attachmentName: DrumMagazine
+  description: <color=#FFD76E>Drum Magazine</color><br>Added reload time<br>Added
+    Magazine Size<br><color=#8FA3B0>[Magazine Slot]</color>
   category: 3
   addedDamage: 0
   addedSpread: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 1
+  sprite: {fileID: 21300000, guid: c9354f4166a6f8a47af76c140b46d54f, type: 3}

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Bipod
   m_EditorClassIdentifier: 
   attachmentName: Bipod
+  description: <color=#FFD76E>Bipod</color><br>Increases spread<br>Added Fire rate<br><color=#8FA3B0>[Underbarrel
+    Slot]</color>
   category: 2
   addedDamage: 0
   addedSpread: -80
@@ -37,3 +39,4 @@ MonoBehaviour:
   changesColor: 0
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 3
+  sprite: {fileID: 21300000, guid: a72a678d4ad2094488e8479fce960d58, type: 3}
