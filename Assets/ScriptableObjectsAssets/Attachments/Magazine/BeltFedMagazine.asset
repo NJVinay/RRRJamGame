@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BeltFedMagazine
   m_EditorClassIdentifier: 
   attachmentName: BeltFedMagazine
-  description: <color=#FFD76E>Belt Fed Magazine</color><br>Added reload time<br>Added
-    Magazine Size<br><color=#8FA3B0>[Magazine Slot]</color>
+  description: <color=#FFD76E>Belt Fed Magazine</color><br>Greatly increased magazine
+    size and reload time<br><color=#8FA3B0>[Magazine Slot]</color>
   category: 3
   addedDamage: 0
   addedSpread: 0
@@ -40,3 +40,8 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 0
   sprite: {fileID: 21300000, guid: 1863f3374a27b3a41a50b9eb5922e2a4, type: 3}
+  barrelLocation: {fileID: 0}
+  sightLocation: {fileID: 0}
+  underbarrelLocation: {fileID: 0}
+  magazineLocation: {fileID: 0}
+  miscLocation: {fileID: 0}

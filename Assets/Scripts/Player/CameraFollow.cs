@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class CameraFollow : MonoBehaviour
     public PlayerController PC;
 
     private float currentPlayerFocus;
+    private Vector3 originalPosition; // Store the original position of the camera.
+    private Vector3 shakeOffset; // Offset for the camera shake.
 
     private void LateUpdate()
     {
@@ -25,6 +28,32 @@ public class CameraFollow : MonoBehaviour
         targetPosition.z = transform.position.z; // Maintain camera's z position
 
         // Smoothly interpolate the camera's position to the target position
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smoothSpeed);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smoothSpeed) + shakeOffset;
+    }
+
+    // Method to shake the camera.
+    public void ShakeCamera(float duration, float magnitude)
+    {
+        StopAllCoroutines(); // Stop any ongoing shake.
+        StartCoroutine(Shake(duration, magnitude));
+    }
+
+    private IEnumerator Shake(float duration, float magnitude)
+    {
+        float elapsed = 0.0f;
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            shakeOffset = new Vector3(x, y, 0);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        shakeOffset = Vector3.zero;
     }
 }

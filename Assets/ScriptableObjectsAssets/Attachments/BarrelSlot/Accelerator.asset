@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Accelerator
   m_EditorClassIdentifier: 
   attachmentName: Accelerator
-  description: <color=#FFD76E>Accelerator</color><br>Increases bullet speed<br><color=#8FA3B0>[Receiver
+  description: <color=#FFD76E>Accelerator</color><br>Increases bullet speed<br><color=#8FA3B0>[Barrel
     Slot]</color>
   category: 0
   addedDamage: 0
@@ -40,3 +40,8 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 4
   sprite: {fileID: 21300000, guid: a197962cabba0724fb1ec0932de9b179, type: 3}
+  barrelLocation: {fileID: 0}
+  sightLocation: {fileID: 0}
+  underbarrelLocation: {fileID: 0}
+  magazineLocation: {fileID: 0}
+  miscLocation: {fileID: 0}

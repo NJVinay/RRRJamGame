@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MuzzleBrake
   m_EditorClassIdentifier: 
   attachmentName: MuzzleBrake
-  description: <color=#FFD76E>Muzzle Brake</color><br>Reduces bullet spread<br><color=#8FA3B0>[Receiver
+  description: <color=#FFD76E>Muzzle Brake</color><br>Reduces bullet spread<br><color=#8FA3B0>[Barrel
     Slot]</color>
   category: 0
   addedDamage: 0
@@ -40,3 +40,8 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 3
   sprite: {fileID: 21300000, guid: 57077c55f5f32e640b470cbd7909f570, type: 3}
+  barrelLocation: {fileID: 0}
+  sightLocation: {fileID: 0}
+  underbarrelLocation: {fileID: 0}
+  magazineLocation: {fileID: 0}
+  miscLocation: {fileID: 0}

@@ -46,6 +46,10 @@ public class WeaponsManager : MonoBehaviour
     [SerializeField] GameObject projectilePrefab; // Prefab for the projectile to be fired.
     [SerializeField] Transform firePoint; // The point from which projectiles are fired.
     [SerializeField] private GameObject barrelLocation; // Reference to the BarrelLocation object.
+    [SerializeField] private GameObject sightLocation; // Reference to the SightLocation object.
+    [SerializeField] private GameObject underbarrelLocation; // Reference to the UnderbarrelLocation object.
+    [SerializeField] private GameObject magazineLocation; // Reference to the MagazineLocation object.
+    [SerializeField] private GameObject miscLocation; // Reference to the MiscLocation object.
     private float lastFireTime; // Tracks the last time a shot was fired.
     private float lastAudioPlayTime; // Tracks the last time an audio clip was played.
 
@@ -53,6 +57,10 @@ public class WeaponsManager : MonoBehaviour
     private ReloadManager reloadManager;
 
     private Color currentBulletColor = Color.white; // Default bullet color.
+    private Camera mainCamera; // Reference to the main camera.
+    private CameraFollow cameraFollow; // Reference to the CameraFollow script.
+    private float shakeDuration = 0.03f; // Duration of the camera shake.
+    private float shakeMagnitude = 0.06f; // Magnitude of the camera shake.
 
     private void Awake()
     {
@@ -61,9 +69,10 @@ public class WeaponsManager : MonoBehaviour
         audioManager = FindFirstObjectByType<AudioManager>(); // Fetch AudioManager
         currentAmmo = currentMagazineSize; // Initialize current ammo.
         lastAudioPlayTime = -0.1f; // Initialize last audio play time.
+        mainCamera = Camera.main; // Fetch the main camera.
+        cameraFollow = mainCamera.GetComponent<CameraFollow>(); // Fetch the CameraFollow script.
     }
 
-    // Method to check and log the current weapon and its attachments.
     // Method to check and log the current weapon and its attachments.
     public void WeaponCheck()
     {
@@ -227,21 +236,61 @@ public class WeaponsManager : MonoBehaviour
                 previousAttachment = currentAttachments[3];
                 currentAttachments[3] = attachment;
                 Debug.Log("Magazine");
+
+                // Update the sprite of the MagazineLocation object
+                if (magazineLocation != null)
+                {
+                    SpriteRenderer magazineSpriteRenderer = magazineLocation.GetComponent<SpriteRenderer>();
+                    if (magazineSpriteRenderer != null)
+                    {
+                        magazineSpriteRenderer.sprite = attachment.Sprite;
+                    }
+                }
                 break;
             case AttachmentCategory.Sight:
                 previousAttachment = currentAttachments[1];
                 currentAttachments[1] = attachment;
                 Debug.Log("Sight");
+
+                // Update the sprite of the SightLocation object
+                if (sightLocation != null)
+                {
+                    SpriteRenderer sightSpriteRenderer = sightLocation.GetComponent<SpriteRenderer>();
+                    if (sightSpriteRenderer != null)
+                    {
+                        sightSpriteRenderer.sprite = attachment.Sprite;
+                    }
+                }
                 break;
             case AttachmentCategory.Underbarrel:
                 previousAttachment = currentAttachments[2];
                 currentAttachments[2] = attachment;
                 Debug.Log("Underbarrel");
+
+                // Update the sprite of the UnderbarrelLocation object
+                if (underbarrelLocation != null)
+                {
+                    SpriteRenderer underbarrelSpriteRenderer = underbarrelLocation.GetComponent<SpriteRenderer>();
+                    if (underbarrelSpriteRenderer != null)
+                    {
+                        underbarrelSpriteRenderer.sprite = attachment.Sprite;
+                    }
+                }
                 break;
             case AttachmentCategory.Misc:
                 previousAttachment = currentAttachments[4];
                 currentAttachments[4] = attachment;
                 Debug.Log("Misc");
+
+                // Update the sprite of the MiscLocation object
+                if (miscLocation != null)
+                {
+                    SpriteRenderer miscSpriteRenderer = miscLocation.GetComponent<SpriteRenderer>();
+                    if (miscSpriteRenderer != null)
+                    {
+                        miscSpriteRenderer.sprite = attachment.Sprite;
+                    }
+                }
                 break;
             default:
                 Debug.LogWarning("Unknown attachment type.");
@@ -281,6 +330,7 @@ public class WeaponsManager : MonoBehaviour
                 {
                     lastFireTime = Time.time; // Update the last fire time.
                     FireProjectiles(); // Fire the projectiles.
+                    cameraFollow.ShakeCamera(shakeDuration, shakeMagnitude); // Shake the camera.
                     semiShotFired = true; // Set semi-shot fired flag if in semi mode.
 
                     // Play the weapon's firing sound

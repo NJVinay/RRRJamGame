@@ -86,6 +86,19 @@ public class AttachmentsScrObj : ScriptableObject
     [Tooltip("The sprite for the attachment")]
     [SerializeField] private Sprite sprite;
 
+    [Space(20)]
+    [Header("Attachment Locations")]
+    [Tooltip("Location for the barrel attachment")]
+    [SerializeField] private GameObject barrelLocation;
+    [Tooltip("Location for the sight attachment")]
+    [SerializeField] private GameObject sightLocation;
+    [Tooltip("Location for the underbarrel attachment")]
+    [SerializeField] private GameObject underbarrelLocation;
+    [Tooltip("Location for the magazine attachment")]
+    [SerializeField] private GameObject magazineLocation;
+    [Tooltip("Location for the misc attachment")]
+    [SerializeField] private GameObject miscLocation;
+
     public AttachmentCategory Category => category;
     public float AddedDamage => addedDamage;
     public float AddedSpread => addedSpread;

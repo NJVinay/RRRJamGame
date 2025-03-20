@@ -22,8 +22,13 @@ MonoBehaviour:
   bulletCount: 1
   bulletSpeed: 20
   audioClip: {fileID: 6418180475301049370, guid: 2e146eccb2210fa4c9499adeba0c2521, type: 2}
-  emptyClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
-  reloadClip: {fileID: 8300000, guid: 40a6825c0a1ff6a41a4003031447637a, type: 3}
-  reloadFinishClip: {fileID: 6418180475301049370, guid: 6bc880fed859664429800da4553c8ca3, type: 2}
-  sprite: {fileID: 0}
+  emptyClip: {fileID: 8300000, guid: 04df8862a3453514a950d947656c31c8, type: 3}
+  reloadClip: {fileID: 8300000, guid: 7678d0444904a164cb408fc0cd906a80, type: 3}
+  reloadFinishClip: {fileID: 8300000, guid: 813e33a932592774ca5fc5f911a6d054, type: 3}
+  prefab: {fileID: 0}
   index: 4
+  barrel: {fileID: 0}
+  sight: {fileID: 0}
+  underbarrel: {fileID: 0}
+  magazine: {fileID: 0}
+  misc: {fileID: 0}

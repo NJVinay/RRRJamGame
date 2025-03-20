@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: QuickPullMagazine
   m_EditorClassIdentifier: 
   attachmentName: QuickPullMagazine
-  description: <color=#FFD76E>Quick Pull Magazine</color><br>Reduces reload time<br>Reduces
-    Magazine Size<br><color=#8FA3B0>[Magazine Slot]</color>
+  description: <color=#FFD76E>Quick Pull Magazine</color><br>Reduced reload time
+    and magazine size<br><color=#8FA3B0>[Magazine Slot]</color>
   category: 3
   addedDamage: 0
   addedSpread: 0
@@ -40,3 +40,8 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 2
   sprite: {fileID: 21300000, guid: 0c9190997de8a9d41a892101f6346a43, type: 3}
+  barrelLocation: {fileID: 0}
+  sightLocation: {fileID: 0}
+  underbarrelLocation: {fileID: 0}
+  magazineLocation: {fileID: 0}
+  miscLocation: {fileID: 0}
