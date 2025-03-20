@@ -295,12 +295,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85b3235ca02d01d4e814227628a1f695, type: 2}
   - {fileID: 11400000, guid: b9ca40d71427d724abb796849c41d43a, type: 2}
   - {fileID: 11400000, guid: f6e8c7ce49ec8ce439d1e8280d5985ee, type: 2}
-  mainRooms: 5
-  sizeMain: 10
+  mainRooms: 4
+  sizeMain: 14
   sizeVariationMain: 10
-  middleRooms: 70
-  sizeMiddle: 6
-  sizeVariationMiddle: 5
+  middleRooms: 0
+  sizeMiddle: 10
+  sizeVariationMiddle: 4
   rectanglePrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
 --- !u!4 &157718126
 Transform:
@@ -801,6 +801,10 @@ PrefabInstance:
     - target: {fileID: 7204701880074353525, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204701880074353525, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
       propertyPath: m_LocalPosition.x

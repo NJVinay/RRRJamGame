@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: e1b861ed482c2774aae7a0b12a6af7e9
+guid: fc555a7cb84fc3a43bb297e699a3f397
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2389927339896880804
-    second: Suitcase_0
-  - first:
-      213: 8261210138903342645
-    second: Suitcase_1
-  - first:
-      213: 6073036543820477271
-    second: Suitcase_2
-  - first:
-      213: 2941527930072801167
-    second: Suitcase_3
+      213: -2408530018317867212
+    second: Shotgun_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Suitcase_0
+      name: Shotgun_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 0
-        width: 13
-        height: 14
+        x: 0
+        y: 9
+        width: 32
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c51c37a2fb545ded0800000000000000
-      internalID: -2389927339896880804
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Suitcase_1
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 0
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 53e60300ad6b5a270800000000000000
-      internalID: 8261210138903342645
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Suitcase_2
-      rect:
-        serializedVersion: 2
-        x: 74
-        y: 0
-        width: 13
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 753b26e6f82c74450800000000000000
-      internalID: 6073036543820477271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Suitcase_3
-      rect:
-        serializedVersion: 2
-        x: 107
-        y: 0
-        width: 11
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f8f11e8411862d820800000000000000
-      internalID: 2941527930072801167
+      spriteID: 4376c4395be239ed0800000000000000
+      internalID: -2408530018317867212
       vertices: []
       indices: 
       edges: []
@@ -222,11 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Suitcase_0: -2389927339896880804
-      Suitcase_1: 8261210138903342645
-      Suitcase_2: 6073036543820477271
-      Suitcase_3: 2941527930072801167
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
