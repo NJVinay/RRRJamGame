@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: AssaultRifle
   m_EditorClassIdentifier: 
   weaponName: AssaultRifle
+  description: <color=#FFD76E>Assault Rifle</color><br>Full-Auto Rifle<br>Rapid fire.
+    Average reload, spread and fire rate.
   fireMode: 0
+  defaultWeaponProjectile: 0
   damage: 10
   fireRate: 10
   reloadTime: 2
@@ -25,7 +28,8 @@ MonoBehaviour:
   emptyClip: {fileID: 8300000, guid: 04df8862a3453514a950d947656c31c8, type: 3}
   reloadClip: {fileID: 8300000, guid: b3bfa239f1905ff44af9fa9df05500e1, type: 3}
   reloadFinishClip: {fileID: 8300000, guid: 6c13aa9f0c444cb46a2babbc2d1548b1, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 1430762112212679103, guid: 75d6281d0e2552c40904293f12b4712b, type: 3}
+  sprite: {fileID: 21300000, guid: 90653d902549ab54d97b9231a247db90, type: 3}
   index: 0
   barrel: {fileID: 0}
   sight: {fileID: 0}

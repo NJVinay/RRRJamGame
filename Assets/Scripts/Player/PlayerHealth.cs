@@ -10,13 +10,17 @@ public class PlayerHealth : MonoBehaviour
 
     private Vector3 startPosition;
     private WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling damage reduction
+    [SerializeField] AudioClip damageSound; // Sound effect for taking damage.
+    [SerializeField] AudioClip deathSound; // Sound effect for taking damage.
+    AudioSource audioSource; // Reference to the AudioSource component.
 
-    private void Start()
+    private void Awake()
     {
         currentHealth = maxHealth; // Set current health to maximum at start
-        UpdateHealthBar();          // Initialize health bar
+        UpdateHealthBar(); // Initialize health bar
         startPosition = transform.position; // Store the initial position of the player
         weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Initialize the WeaponsManager reference
+        audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
     }
 
     private void Update()
@@ -43,7 +47,12 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            audioSource.PlayOneShot(deathSound); // Play the damage sound effect.
             Die(); // Call die function if player is dead
+        }
+        else 
+        {
+            audioSource.PlayOneShot(damageSound); // Play the damage sound effect.
         }
     }
 

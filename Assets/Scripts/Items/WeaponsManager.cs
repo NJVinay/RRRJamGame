@@ -74,6 +74,20 @@ public class WeaponsManager : MonoBehaviour
         lastAudioPlayTime = -0.1f; // Initialize last audio play time.
         mainCamera = Camera.main; // Fetch the main camera.
         cameraFollow = mainCamera.GetComponent<CameraFollow>(); // Fetch the CameraFollow script.
+        Initialize(); // Call the new Initialize method
+    }
+
+    // Method to initialize the WeaponsManager
+    public void Initialize()
+    {
+        playerController.FetchManagers();
+        audioManager.FetchManagers();
+    }
+
+    public void Start()
+    {
+        WeaponCheck(); // Log the current weapon and its attachments.
+        RefreshAttachments(); // Refresh all stats based on attachments
     }
 
     // Method to check and log the current weapon and its attachments.
@@ -424,7 +438,7 @@ public class WeaponsManager : MonoBehaviour
             {
                 projectileScript.damage = currentDamage;
                 projectileScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
-                if(penetratesEnemies)
+                if (penetratesEnemies)
                 {
                     projectileScript.penetratesEnemies = true;
                 }
@@ -437,7 +451,7 @@ public class WeaponsManager : MonoBehaviour
                 explosiveScript.damage = currentDamage;
                 explosiveScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
                 explosiveScript.explosiveRound = explosiveRounds;
-                if(penetratesEnemies)
+                if (penetratesEnemies)
                 {
                     explosiveScript.penetratesEnemies = true;
                 }

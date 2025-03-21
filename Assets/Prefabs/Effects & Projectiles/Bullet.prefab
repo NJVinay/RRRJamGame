@@ -108,6 +108,7 @@ MonoBehaviour:
   lifetime: 10
   impactSound: {fileID: 8300000, guid: 07750f35e7831324282a8bae4f175d2a, type: 3}
   enemyImpactSound: {fileID: 8300000, guid: f5e4f64bab0c4a4479697803e0fa5027, type: 3}
+  penetratesEnemies: 0
 --- !u!50 &2243629985324628676
 Rigidbody2D:
   serializedVersion: 5
@@ -218,7 +219,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.1
-  m_PreviewTimeScale: 0.1
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

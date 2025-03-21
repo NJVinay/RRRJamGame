@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: RPG
   m_EditorClassIdentifier: 
   weaponName: RPG
+  description: <color=#FFD76E>RPG</color><br>Rocket Propelled Grenade<br>Large explosive
+    damage, but slow reload speed.
   fireMode: 0
   defaultWeaponProjectile: 1
   damage: 400
@@ -26,7 +28,8 @@ MonoBehaviour:
   emptyClip: {fileID: 8300000, guid: 04df8862a3453514a950d947656c31c8, type: 3}
   reloadClip: {fileID: 8300000, guid: 7678d0444904a164cb408fc0cd906a80, type: 3}
   reloadFinishClip: {fileID: 8300000, guid: 813e33a932592774ca5fc5f911a6d054, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 2477265548914267325, guid: 409c9fd8bc2038442b6efa79d99783da, type: 3}
+  sprite: {fileID: 21300000, guid: 58537131a30cc51459547bf810ad1883, type: 3}
   index: 4
   barrel: {fileID: 0}
   sight: {fileID: 0}

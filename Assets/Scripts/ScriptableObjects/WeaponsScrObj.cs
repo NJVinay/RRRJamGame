@@ -18,6 +18,9 @@ public class WeaponsScrObj : ScriptableObject
     [Header("Weapon info")]
     [Tooltip("Literally how the weapon is called ahah")]
     [SerializeField] private string weaponName;
+    [Tooltip("A description of the weapon")]
+    [TextArea(3, 10)]
+    [SerializeField] public string description;
     [Tooltip("The firemode of the weapon")]
     [SerializeField] private FireMode fireMode;
     [Tooltip("The default projectile of the weapon")]
@@ -50,8 +53,12 @@ public class WeaponsScrObj : ScriptableObject
     [SerializeField] private AudioResource reloadClip;
     [Tooltip("The clip for finishing a reload of the weapon.")]
     [SerializeField] private AudioResource reloadFinishClip;
+    [Space(20)]
     [Tooltip("The prefab for the weapon")]
     [SerializeField] private GameObject prefab;
+    [Header("Weapon Sprite")]
+    [Tooltip("The sprite for the Weapon")]
+    [SerializeField] private Sprite sprite;
 
     [Space(20)]
     [Header("Index for AudioManager")]
@@ -78,4 +85,5 @@ public class WeaponsScrObj : ScriptableObject
     public AttachmentsScrObj underbarrel;
     public AttachmentsScrObj magazine;
     public AttachmentsScrObj misc;
+    public Sprite Sprite => sprite;
 }

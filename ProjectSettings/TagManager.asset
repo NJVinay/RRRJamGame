@@ -11,6 +11,7 @@ TagManager:
   - Crosshair
   - SniperCrosshair
   - ProgressBar
+  - WeaponLocation
   layers:
   - Default
   - TransparentFX

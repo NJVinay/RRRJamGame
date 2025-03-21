@@ -192,12 +192,8 @@ public class AudioManager : MonoBehaviour
         FetchManagers();
     }
 
-    private void FetchManagers()
+    public void FetchManagers()
     {
-        weaponsManager = FindFirstObjectByType<WeaponsManager>();
-        if (weaponsManager == null)
-        {
-            Debug.LogError("WeaponsManager not found!");
-        }
+        weaponsManager = GameObject.FindWithTag("PlayerWeapon").GetComponent<WeaponsManager>();
     }
 }
