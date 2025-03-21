@@ -23,8 +23,9 @@ public class PlayerController : MonoBehaviour
     [Header("Shooting Settings")]
     public bool isAiming = false; // Indicates if the player is currently aiming.
     public bool isHoldingFire = false; // Indicates if the fire button is being held down.
-    public WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
+    private WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
     public Transform WeaponPosition; // Reference to the WeaponPosition transform.
+    private Underbarrel underbarrel;
 
     [Header("Interaction Settings")]
     [SerializeField] float interactionRadius = 2f; // Radius within which the player can interact with objects.
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour
         crosshairObject = GameObject.FindWithTag("Crosshair").transform;
         sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
         sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
+        
+        underbarrel = weaponObject.GetComponentInChildren<Underbarrel>(); // Find the Underbarrel component in the child object of the player.
     }
 
     // At the moment for debug purposes only
@@ -95,6 +98,14 @@ public class PlayerController : MonoBehaviour
     {
         isHoldingFire = cc.Get<float>() > 0; // Update firing status based on input.
         weaponsManager.Fire(isHoldingFire); // Trigger the firing mechanism in the WeaponsManager.
+    }
+
+    public void OnUnderbarrel(InputValue cc)
+    {
+        if (underbarrel != null)
+        {
+            underbarrel.Fire();
+        }
     }
 
     // Called when the player provides reload input.

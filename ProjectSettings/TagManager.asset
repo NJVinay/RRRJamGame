@@ -10,6 +10,7 @@ TagManager:
   - ReloadWheel
   - Crosshair
   - SniperCrosshair
+  - ProgressBar
   layers:
   - Default
   - TransparentFX
