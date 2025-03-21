@@ -223,7 +223,7 @@ public class MapGenerationScript : MonoBehaviour
 
             AddRectangle(new Vector2(x_pos, y_pos), 
             sizeTransitionRooms +Random.Range(0, variationTranstitionRooms), 
-            sizeTransitionRooms +Random.Range(0, variationTranstitionRooms), Color.grey);
+            sizeTransitionRooms +Random.Range(0, variationTranstitionRooms), RoomType.Passageway);
         }
     }
 
@@ -334,10 +334,26 @@ public class MapGenerationScript : MonoBehaviour
             break;
         }
 
+        
+        RoomType roomtype = RoomType.Passageway;
+
+        if (index < 2)
+        {
+            roomtype = RoomType.Boss;
+        }
+        else if (index >= 2 && index < 12)
+        {
+            roomtype = RoomType.Enemy;
+        }
+        else if (index >= 12)
+        {
+            roomtype = RoomType.Item;
+        }
+
         float x_pos = Mathf.Cos(direction) *distance;
         float y_pos = Mathf.Sin(direction) *distance;
 
-        AddRectangle(new Vector2(x_pos, y_pos), width, height, Color.red);
+        AddRectangle(new Vector2(x_pos, y_pos), width, height, roomtype);
         importantNodes.Add(rectangles.Count -1);
     }
 
@@ -372,6 +388,7 @@ public class MapGenerationScript : MonoBehaviour
             rectangles[i].transform.position +offsetBank[prefabRoomIndexes[i]], 
             Quaternion.identity);
             tempRoom.transform.parent = transform;
+            rectangles[i].roomPrefab = tempRoom;
             Tilemap sourceTilemap = tempRoom.GetComponentInChildren<Tilemap>();
 
             // Get the bounds of the source tilemap
@@ -650,13 +667,14 @@ public class MapGenerationScript : MonoBehaviour
         markersPlaced.Add(marker);
     }
 
-    void AddRectangle(Vector2 position, int width, int height, Color color)
+    void AddRectangle(Vector2 position, int width, int height, RoomType roomType)
     {
         // Instantiate a new rectangle and set its properties
         RoomManager RoomManager = Instantiate(baseRoomPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity).GetComponent<RoomManager>();
         RoomManager.transform.parent = transform;
         RoomManager.width = width;
         RoomManager.height = height;
+        RoomManager.roomType = roomType;
         RoomManager.GetComponent<BoxCollider2D>().size = new Vector2(width, height);
         rectangles.Add(RoomManager);        
     }
