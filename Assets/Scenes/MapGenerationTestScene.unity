@@ -327,7 +327,7 @@ MonoBehaviour:
   transitionRooms: 20
   sizeTransitionRooms: 8
   variationTranstitionRooms: 10
-  rectanglePrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
+  baseRoomPrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
 --- !u!4 &157718126
 Transform:
   m_ObjectHideFlags: 0

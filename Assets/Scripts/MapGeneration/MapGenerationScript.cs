@@ -51,8 +51,8 @@ public class MapGenerationScript : MonoBehaviour
 
     [Space(10)]
     [SerializeField]
-    GameObject rectanglePrefab;
-    List<MG_Rectangle> rectangles = new List<MG_Rectangle>();
+    GameObject baseRoomPrefab;
+    List<RoomManager> rectangles = new List<RoomManager>();
     Dictionary<int, List<int>> dungeonGraph = new Dictionary<int, List<int>>();
     List<int> importantNodes = new List<int>();
     bool tryAgain = true;
@@ -414,13 +414,16 @@ public class MapGenerationScript : MonoBehaviour
             }
             else if (prefabRoomIndexes[i] >= 12)
             {
-                markerToPlace = roomMarkers[1];
+                //markerToPlace = roomMarkers[1];
             }
 
-            GameObject marker = Instantiate(markerToPlace, 
-            rectangles[i].transform.position, 
-            Quaternion.identity);
-            markersPlaced.Add(marker);
+            if (markerToPlace != null)
+            {
+                GameObject marker = Instantiate(markerToPlace, 
+                rectangles[i].transform.position, 
+                Quaternion.identity);
+                markersPlaced.Add(marker);
+            }
         }
     }
 
@@ -524,7 +527,7 @@ public class MapGenerationScript : MonoBehaviour
         PlaceRoofBackgroundTiles(allRoomPositions);
     }
 
-    void CreateHallwayBetween(MG_Rectangle rect1, MG_Rectangle rect2)
+    void CreateHallwayBetween(RoomManager rect1, RoomManager rect2)
     {
         float x1 = rect1.transform.position.x;
         float y1 = rect1.transform.position.y;
@@ -624,7 +627,7 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlacePlayerSpawnPoint()
     {
-        MG_Rectangle closestRect = null;
+        RoomManager closestRect = null;
         float closestDistance = float.MaxValue;
 
         foreach (var rect in rectangles)
@@ -650,15 +653,15 @@ public class MapGenerationScript : MonoBehaviour
     void AddRectangle(Vector2 position, int width, int height, Color color)
     {
         // Instantiate a new rectangle and set its properties
-        MG_Rectangle temp_mG_Rectangle = Instantiate(rectanglePrefab, new Vector3(position.x, position.y, 0), Quaternion.identity).GetComponent<MG_Rectangle>();
-        temp_mG_Rectangle.transform.parent = transform;
-        temp_mG_Rectangle.width = width;
-        temp_mG_Rectangle.height = height;
-        temp_mG_Rectangle.color = color;
-        rectangles.Add(temp_mG_Rectangle);        
+        RoomManager RoomManager = Instantiate(baseRoomPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity).GetComponent<RoomManager>();
+        RoomManager.transform.parent = transform;
+        RoomManager.width = width;
+        RoomManager.height = height;
+        RoomManager.GetComponent<BoxCollider2D>().size = new Vector2(width, height);
+        rectangles.Add(RoomManager);        
     }
 
-    void SeparateRectangles(MG_Rectangle rectangle1, MG_Rectangle rectangle2)
+    void SeparateRectangles(RoomManager rectangle1, RoomManager rectangle2)
     {
         // Calculate the direction to separate the rectangles
         Vector2 direction = new Vector2(
@@ -701,7 +704,7 @@ public class MapGenerationScript : MonoBehaviour
         }
     }
 
-    bool AreAdjacent(MG_Rectangle rectangle1, MG_Rectangle rectangle2)
+    bool AreAdjacent(RoomManager rectangle1, RoomManager rectangle2)
     {
         float deltaX = Mathf.Abs(rectangle1.transform.position.x - rectangle2.transform.position.x);
         float deltaY = Mathf.Abs(rectangle1.transform.position.y - rectangle2.transform.position.y);
@@ -763,10 +766,6 @@ public class MapGenerationScript : MonoBehaviour
             {
                 Destroy(rectangles[i].gameObject);
                 rectangles.RemoveAt(i);
-            }
-            else
-            {
-                rectangles[i].color = Color.yellow;
             }
         }
     }
