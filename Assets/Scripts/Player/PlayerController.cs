@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     private Transform crosshairObject; // Reference to the crosshair object
     [SerializeField] private GameObject sniperCrosshairObject; // Reference to the sniper crosshair object
 
+    public LoadMainMenu loadMainMenu;
+
     // Called when the script instance is being loaded.
     private void Awake()
     {
@@ -275,6 +277,12 @@ public class PlayerController : MonoBehaviour
         }
 
         weaponObject.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        // Example: Call LoadMainMenuScene when the player presses the 'M' key
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            loadMainMenu.LoadMainMenuScene();
+        }
     }
 
     // Coroutine to handle the dash mechanic.
