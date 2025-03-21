@@ -295,12 +295,38 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85b3235ca02d01d4e814227628a1f695, type: 2}
   - {fileID: 11400000, guid: b9ca40d71427d724abb796849c41d43a, type: 2}
   - {fileID: 11400000, guid: f6e8c7ce49ec8ce439d1e8280d5985ee, type: 2}
-  mainRooms: 4
-  sizeMain: 14
-  sizeVariationMain: 10
-  middleRooms: 0
-  sizeMiddle: 10
-  sizeVariationMiddle: 4
+  roomMarkers:
+  - {fileID: 3847124934729737597, guid: 573e77a83357b7746b8696ba879a0c37, type: 3}
+  - {fileID: 3847124934729737597, guid: 0f0ebdd53dd0bf64c8a524c1c64bc906, type: 3}
+  - {fileID: 3847124934729737597, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
+  - {fileID: 3847124934729737597, guid: 7a5b4ba68ed80af41b2f36c4b16d7259, type: 3}
+  hotelRooms:
+  - {fileID: 9004926249166135519, guid: 8794aa9f2eec142efb6064fecda40480, type: 3}
+  - {fileID: 9004926249166135519, guid: 1c23d4137dc2643d896e427d148c0645, type: 3}
+  - {fileID: 9004926249166135519, guid: 49a3480ffdb96463b9494fa55602cb49, type: 3}
+  - {fileID: 9004926249166135519, guid: daa1e0c6cab264949acbe46aec3fdadf, type: 3}
+  - {fileID: 9004926249166135519, guid: 79cd5c6d13c1a48f1b97fb952994c61f, type: 3}
+  - {fileID: 9004926249166135519, guid: 551d2dd8f18dc4e5fa4a0982740deccf, type: 3}
+  - {fileID: 9004926249166135519, guid: 9d555df1637394333a51a3df4a2670f7, type: 3}
+  - {fileID: 9004926249166135519, guid: 46b83b719fcef423a93ecfd3e3b69a9a, type: 3}
+  - {fileID: 9004926249166135519, guid: 1cc64a3016e404b549336ed644998aa0, type: 3}
+  - {fileID: 9004926249166135519, guid: aa4d3f2b027cd44a981e4d45a91c9aba, type: 3}
+  - {fileID: 9004926249166135519, guid: aa6b15c1fa5d14734aafd3ccd6cf1a22, type: 3}
+  - {fileID: 9004926249166135519, guid: fb740109f0efd407388667cafeedcd9e, type: 3}
+  - {fileID: 9004926249166135519, guid: 38438c4bbf0cf41c08522fd7953b0095, type: 3}
+  - {fileID: 9004926249166135519, guid: de6c827b5c47a4d768a3fafadf94c8d5, type: 3}
+  - {fileID: 9004926249166135519, guid: 00a3e0ccab1714898ba05b5e9f63ff55, type: 3}
+  - {fileID: 9004926249166135519, guid: 196993a94b1594768b481a138938dfd8, type: 3}
+  subwayBossRooms: []
+  subwayEnemyRooms: []
+  subwayItemRooms: []
+  hospitalBossRooms: []
+  subwayhospitalEnemyRooms: []
+  hospitalItemRooms: []
+  enemyRooms: 5
+  transitionRooms: 20
+  sizeTransitionRooms: 8
+  variationTranstitionRooms: 10
   rectanglePrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
 --- !u!4 &157718126
 Transform:
@@ -774,83 +800,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1001 &1670299461
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 196921030477838453, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2784778297312287123, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3000759511013879986, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5323004389462910440, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7204701880074353525, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7204701880074353525, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9194745764871106571, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2ba5519a906b4804584a0d0cdb329436, type: 3}
 --- !u!1 &2056541999
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,4 +929,3 @@ SceneRoots:
   m_Roots:
   - {fileID: 83299537}
   - {fileID: 157718126}
-  - {fileID: 1670299461}
