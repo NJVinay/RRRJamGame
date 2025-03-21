@@ -11,11 +11,14 @@ public class Explosive : MonoBehaviour
     public float explosionLifetime; // Add a reference to the explosion lifetime
     public GameObject explosionLocation; // Add a reference to the explosion location object
     public bool explosiveRound; // Adds a boolean to check if the round is from Explosive Rounds instead of a normal explosive 
+    public bool penetratesEnemies; // Add a boolean to check if the projectile penetrates enemies
+    private TrailRenderer trailRenderer; // Add a reference to the TrailRenderer component
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>(); // Initialize the Rigidbody2D component
+        trailRenderer = GetComponent<TrailRenderer>(); // Initialize the TrailRenderer component
     }
 
     private void Start()
@@ -25,7 +28,7 @@ public class Explosive : MonoBehaviour
 
         if (explosiveRound)
         {
-            explosionRadius =  0.5f;
+            explosionRadius =  1.5f;
             explosionLifetime = 0.5f;
             transform.localScale *= 0.5f; // Halve the scale if explosiveRound is true
         }
@@ -45,6 +48,11 @@ public class Explosive : MonoBehaviour
             Destroy(explosion, explosionLifetime);
         }
 
+        if (penetratesEnemies && collision.gameObject.CompareTag("Enemy"))
+        {
+            return;
+        }
+
         // Disable the sprite and stop any movement
         spriteRenderer.enabled = false;
         if (rb != null)
@@ -61,6 +69,10 @@ public class Explosive : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.color = color;
+        }
+        if (trailRenderer != null)
+        {
+            trailRenderer.startColor = color;
         }
     }
 }

@@ -9,12 +9,15 @@ public class Projectile : MonoBehaviour
     public AudioClip impactSound; // Add a reference to the impact sound
     public AudioClip enemyImpactSound; // Add a reference to the impact sound
     private AudioSource audioSource; // Add a reference to the AudioSource component
+    public bool penetratesEnemies; // Add a boolean to check if the projectile penetrates enemies
+    private TrailRenderer trailRenderer; // Add a reference to the TrailRenderer component
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>(); // Initialize the Rigidbody2D component
         audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component
+        trailRenderer = GetComponent<TrailRenderer>(); // Initialize the TrailRenderer component
     }
 
     private void Start()
@@ -48,6 +51,11 @@ public class Projectile : MonoBehaviour
             audioSource.PlayOneShot(impactSound);
         }
 
+        if (penetratesEnemies && collision.gameObject.CompareTag("Enemy"))
+        {
+            return;
+        }
+
         // Disable the sprite and stop any movement
         spriteRenderer.enabled = false;
         if (rb != null)
@@ -65,6 +73,10 @@ public class Projectile : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.color = color;
+        }
+        if (trailRenderer != null)
+        {
+            trailRenderer.startColor = color;
         }
     }
 }

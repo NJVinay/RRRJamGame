@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 8xScope
   m_EditorClassIdentifier: 
   attachmentName: 8xScope
-  description: <color=#FFD76E>8x Scope</color><br>Adds zoom to aaim<br><color=#8FA3B0>[Sight
+  description: <color=#FFD76E>8x Scope</color><br>Adds zoom to aim<br><color=#8FA3B0>[Sight
     Slot]</color>
   category: 1
   addedDamage: 0

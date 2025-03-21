@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
     public Transform WeaponPosition; // Reference to the WeaponPosition transform.
     private Underbarrel underbarrel;
+    bool bipodActive = false;
 
     [Header("Interaction Settings")]
     [SerializeField] float interactionRadius = 2f; // Radius within which the player can interact with objects.
@@ -91,6 +92,27 @@ public class PlayerController : MonoBehaviour
         {
             sniperCrosshairObject.SetActive(isAiming); // Enable/disable the sniper crosshair based on aiming status.
         }
+        if(weaponsManager.bipodBehaviour)
+        {
+            if(isAiming)
+            {
+                if(!bipodActive)
+                {
+                    weaponsManager.currentSpread *= 0.2f; // Reduce spread by 80%
+                    weaponsManager.currentFireRate *= 1.5f; // Increase fire rate by 50%
+                    bipodActive = true;
+                }
+            }
+            else
+            {
+                if(bipodActive)
+                {
+                    weaponsManager.currentSpread /= 0.2f; // Reset spread to original value
+                    weaponsManager.currentFireRate /= 1.5f; // Reset fire rate to original value
+                    bipodActive = false;
+                }
+            }
+        }
     }
 
     // Called when the player provides fire input.
@@ -131,7 +153,14 @@ public class PlayerController : MonoBehaviour
         // If not dashing, update the player's velocity based on movement input and aiming status.
         if (!isDashing)
         {
-            rb.linearVelocity = moveInput * (isAiming ? moveSpeed * aimMoveSpeedMultiplier : moveSpeed);
+            if (isAiming && weaponsManager.bipodBehaviour)
+            {
+                rb.linearVelocity = Vector2.zero; // Set movement speed to 0 when aiming with bipod
+            }
+            else
+            {
+                rb.linearVelocity = moveInput * (isAiming ? moveSpeed * aimMoveSpeedMultiplier : moveSpeed);
+            }
         }
     }
 
@@ -258,12 +287,9 @@ public class PlayerController : MonoBehaviour
         isDashing = false; // Reset dashing status.
     }
 
-    private void UpdateWeaponsAndPlayerStats()
+    public void UpdateWeaponsAndPlayerStats()
     {
         moveSpeed = originalMoveSpeed;
-
-        // Get the player's current weapon and update the player's stats based on the weapon's attachments.
-        weaponsManager.WeaponCheck();
         moveSpeed += originalMoveSpeed * weaponsManager.addedPlayerSpeed / 100;
     }
 }

@@ -20,10 +20,10 @@ public class WeaponsManager : MonoBehaviour
     // Variables to store the current weapon's properties.
     public FireMode currentFireMode { get; private set; }
     public float currentDamage { get; private set; }
-    public float currentFireRate { get; private set; }
+    public float currentFireRate { get; set; }
     public float currentReloadTime { get; private set; }
     public int currentMagazineSize { get; private set; }
-    public float currentSpread { get; private set; }
+    public float currentSpread { get; set; }
     public int currentProjectileCount { get; private set; }
     public float currentSpeed { get; private set; }
     public int currentAmmo { get; private set; } // Current ammo in the magazine.
@@ -56,8 +56,9 @@ public class WeaponsManager : MonoBehaviour
 
     private AudioSource audioSource;
     private ReloadManager reloadManager;
+    private PlayerController playerController;
 
-    private Color currentBulletColor = Color.white; // Default bullet color.
+    private Color currentBulletColor = Color.yellow; // Default bullet color.
     private Camera mainCamera; // Reference to the main camera.
     private CameraFollow cameraFollow; // Reference to the CameraFollow script.
     private float shakeDuration = 0.03f; // Duration of the camera shake.
@@ -65,6 +66,7 @@ public class WeaponsManager : MonoBehaviour
 
     private void Awake()
     {
+        playerController = FindFirstObjectByType<PlayerController>();
         audioSource = GetComponent<AudioSource>();
         reloadManager = GetComponent<ReloadManager>();
         audioManager = FindFirstObjectByType<AudioManager>(); // Fetch AudioManager
@@ -117,7 +119,7 @@ public class WeaponsManager : MonoBehaviour
 
 
     // Method to refresh and update weapon stats based on current attachments.
-    void RefreshAttachments()
+    public void RefreshAttachments()
     {
         // Initialize weapon stats from the base weapon.
         currentDamage = currentWeapon.Damage;
@@ -196,7 +198,9 @@ public class WeaponsManager : MonoBehaviour
             cameraFollow.UpdatePlayerFocus(enablesCrosshairZoom ? 0.28f : 0.2f);
         }
 
+        UpdateEnemyMaterial();
         audioManager.UpdateDynamicMusic();
+        playerController.UpdateWeaponsAndPlayerStats();
     }
 
     // Method to replace the picked-up object with the attachment.
@@ -342,7 +346,7 @@ public class WeaponsManager : MonoBehaviour
                     semiShotFired = true; // Set semi-shot fired flag if in semi mode.
 
                     // Play the weapon's firing sound
-                    if (currentWeapon.AudioClip != null && Time.time >= lastAudioPlayTime + 0.08f)
+                    if (currentWeapon.AudioClip != null && Time.time >= lastAudioPlayTime + 0.06f)
                     {
                         audioSource.Stop(); // Stop any currently playing audio clip.
                         audioSource.resource = currentWeapon.AudioClip;
@@ -420,6 +424,10 @@ public class WeaponsManager : MonoBehaviour
             {
                 projectileScript.damage = currentDamage;
                 projectileScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
+                if(penetratesEnemies)
+                {
+                    projectileScript.penetratesEnemies = true;
+                }
             }
 
             // Set the damage and color for the projectile if it has a Projectile script.
@@ -429,7 +437,19 @@ public class WeaponsManager : MonoBehaviour
                 explosiveScript.damage = currentDamage;
                 explosiveScript.SetColor(currentBulletColor); // Assuming Projectile has a SetColor method.
                 explosiveScript.explosiveRound = explosiveRounds;
+                if(penetratesEnemies)
+                {
+                    explosiveScript.penetratesEnemies = true;
+                }
             }
+        }
+    }
+
+    public void UpdateEnemyMaterial()
+    {
+        foreach (Enemy enemy in FindObjectsByType<Enemy>(FindObjectsSortMode.None))
+        {
+            enemy.UpdateMaterial();
         }
     }
 }

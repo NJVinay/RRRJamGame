@@ -112,6 +112,7 @@ MonoBehaviour:
   explosionLifetime: 1
   explosionLocation: {fileID: 8325134129083690821}
   explosiveRound: 0
+  penetratesEnemies: 0
 --- !u!50 &2243629985324628676
 Rigidbody2D:
   serializedVersion: 5
@@ -221,7 +222,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.05
+  m_Time: 0.12
   m_PreviewTimeScale: 0.1
   m_Parameters:
     serializedVersion: 3

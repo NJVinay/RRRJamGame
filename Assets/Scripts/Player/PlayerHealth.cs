@@ -9,12 +9,14 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;  // Current health of the player
 
     private Vector3 startPosition;
+    private WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling damage reduction
 
     private void Start()
     {
         currentHealth = maxHealth; // Set current health to maximum at start
         UpdateHealthBar();          // Initialize health bar
         startPosition = transform.position; // Store the initial position of the player
+        weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Initialize the WeaponsManager reference
     }
 
     private void Update()
@@ -32,7 +34,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        currentHealth -= damageAmount; // Decrease current health
+        float damageReduction = weaponsManager.subtractedBlockedDamage / 100.0f; // Calculate damage reduction percentage
+        float reducedDamage = damageAmount * (1 - damageReduction); // Apply damage reduction
+
+        currentHealth -= reducedDamage; // Decrease current health
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't drop below 0
         UpdateHealthBar(); // Update health bar UI
 
@@ -59,16 +64,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        //Debug.Log("Player has died!"); // Handle player death (e.g., restart level or show game over screen)
-        // Add further logic here, such as disabling player controls, showing a game over screen, etc.
-
-
-        //RESTART SCENE
-        // Debug.Log("Player has died! Restarting level...");
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-
-
-        //Respawn at starting position
         Debug.Log("Player has died! Resetting position...");
         transform.position = startPosition;     // Reset the player's position to the starting position
         currentHealth = maxHealth;               // Restore health

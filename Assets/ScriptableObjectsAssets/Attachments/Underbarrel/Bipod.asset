@@ -13,20 +13,18 @@ MonoBehaviour:
   m_Name: Bipod
   m_EditorClassIdentifier: 
   attachmentName: Bipod
-  description: <color=#FFD76E>Bipod</color><br>Increases spread<br>Added Fire rate<br><color=#8FA3B0>[Underbarrel
-    Slot]</color>
+  description: <color=#FFD76E>Bipod</color><br>Suppressive fire when aiming, but
+    no movement<br><color=#8FA3B0>[Underbarrel Slot]</color>
   category: 2
   addedDamage: 0
-  addedSpread: -80
+  addedSpread: 0
   addedSpeed: 0
   addedReloadTime: 0
-  addedFireRate: 50
+  addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 1
   addedPlayerSpeed: 0
   subtractedBlockedDamage: 0
   damagesEnemiesByCollision: 0
-  removesCrosshair: 0
   enablesCrosshairZoom: 0
   highlightsEnemies: 0
   enablesGrenades: 0
@@ -40,3 +38,5 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 3
   sprite: {fileID: 21300000, guid: a72a678d4ad2094488e8479fce960d58, type: 3}
+  changesProjectileCount: 0
+  bulletCountMultiplier: 1

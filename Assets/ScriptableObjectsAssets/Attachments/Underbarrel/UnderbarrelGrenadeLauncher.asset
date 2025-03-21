@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506519411e681fa4eb3b710ebf882aa4, type: 3}
   m_Name: UnderbarrelGrenadeLauncher
   m_EditorClassIdentifier: 
-  attachmentName: UnderbarrelGrenadeLauncher
-  description: <color=#FFD76E>Underbarrel Granade Launcher</color><br>Press "Q" to
-    shoot a grenade <br><color=#8FA3B0>[Underbarrel Slot]</color>
+  attachmentName: Underbarrel Launcher
+  description: <color=#FFD76E>Underbarrel Launcher</color><br>Press "Q" to shoot
+    a grenade!<br><color=#8FA3B0>[Underbarrel Slot]</color>
   category: 2
   addedDamage: 0
   addedSpread: 0
@@ -22,11 +22,9 @@ MonoBehaviour:
   addedReloadTime: 0
   addedFireRate: 0
   addedMagazineSize: 0
-  bulletCountMultiplier: 1
   addedPlayerSpeed: 0
   subtractedBlockedDamage: 0
   damagesEnemiesByCollision: 0
-  removesCrosshair: 0
   enablesCrosshairZoom: 0
   highlightsEnemies: 0
   enablesGrenades: 1
@@ -40,3 +38,5 @@ MonoBehaviour:
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   index: 0
   sprite: {fileID: 21300000, guid: e1834e2c140f9c940a992c921be36a56, type: 3}
+  changesProjectileCount: 0
+  bulletCountMultiplier: 1
