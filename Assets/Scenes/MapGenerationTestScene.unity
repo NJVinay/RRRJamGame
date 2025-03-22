@@ -290,11 +290,6 @@ MonoBehaviour:
   - {fileID: 372354252}
   - {fileID: 2056542002}
   - {fileID: 1552415407}
-  roomTiles:
-  - {fileID: 11400000, guid: 659b934b6f91b6e45bba473422176a43, type: 2}
-  - {fileID: 11400000, guid: 85b3235ca02d01d4e814227628a1f695, type: 2}
-  - {fileID: 11400000, guid: b9ca40d71427d724abb796849c41d43a, type: 2}
-  - {fileID: 11400000, guid: f6e8c7ce49ec8ce439d1e8280d5985ee, type: 2}
   roomMarkers:
   - {fileID: 3847124934729737597, guid: 573e77a83357b7746b8696ba879a0c37, type: 3}
   - {fileID: 3847124934729737597, guid: 0f0ebdd53dd0bf64c8a524c1c64bc906, type: 3}
@@ -317,12 +312,47 @@ MonoBehaviour:
   - {fileID: 9004926249166135519, guid: de6c827b5c47a4d768a3fafadf94c8d5, type: 3}
   - {fileID: 9004926249166135519, guid: 00a3e0ccab1714898ba05b5e9f63ff55, type: 3}
   - {fileID: 9004926249166135519, guid: 196993a94b1594768b481a138938dfd8, type: 3}
-  subwayBossRooms: []
-  subwayEnemyRooms: []
-  subwayItemRooms: []
-  hospitalBossRooms: []
-  subwayhospitalEnemyRooms: []
-  hospitalItemRooms: []
+  hotelV1Tiles: []
+  subwayRooms:
+  - {fileID: 9004926249166135519, guid: 86801430deb664f0f85a051568d9d751, type: 3}
+  - {fileID: 9004926249166135519, guid: 73abfb7b084a64bac8b3e9f927b4a358, type: 3}
+  - {fileID: 9004926249166135519, guid: 2dc35af86a0af4b8f9e913c7cf2671d4, type: 3}
+  - {fileID: 9004926249166135519, guid: 5a3370dbba644402d8c687c1457f529d, type: 3}
+  - {fileID: 9004926249166135519, guid: 4baf308d58f8c4b6dacc7553ec7394f8, type: 3}
+  - {fileID: 9004926249166135519, guid: 61ad2ad44b804475aa71087cac53c55f, type: 3}
+  - {fileID: 9004926249166135519, guid: 72aa7c9e3059e4a8f8f842f71ceffdb7, type: 3}
+  - {fileID: 9004926249166135519, guid: 337f1193711194b3f801506dc15d3426, type: 3}
+  - {fileID: 9004926249166135519, guid: 95413d23b1bbd44f5bd4ccafdb82499a, type: 3}
+  - {fileID: 9004926249166135519, guid: 7a3a6762eb24a432e877a150c0bb0323, type: 3}
+  - {fileID: 9004926249166135519, guid: e05c347c6796c45a8b0f2eb7dba7d44d, type: 3}
+  - {fileID: 9004926249166135519, guid: 5b47e4681e02245529835570cdb342f8, type: 3}
+  - {fileID: 9004926249166135519, guid: 7d5e0cb070d114ad6bcd12650a0b3157, type: 3}
+  - {fileID: 9004926249166135519, guid: bf8f38558e73145c49eee2923fa774fd, type: 3}
+  - {fileID: 9004926249166135519, guid: 0c83c6544f3c543fa9e336ff4ff71946, type: 3}
+  - {fileID: 9004926249166135519, guid: 71b52926182164347a275940934d5133, type: 3}
+  subwayV1Tiles:
+  - {fileID: 11400000, guid: 659b934b6f91b6e45bba473422176a43, type: 2}
+  - {fileID: 11400000, guid: 85b3235ca02d01d4e814227628a1f695, type: 2}
+  - {fileID: 11400000, guid: b9ca40d71427d724abb796849c41d43a, type: 2}
+  - {fileID: 11400000, guid: f6e8c7ce49ec8ce439d1e8280d5985ee, type: 2}
+  subwayV2Tiles:
+  - {fileID: 11400000, guid: 4af85c681ab220d4fbe2ef89b4a40baa, type: 2}
+  - {fileID: 11400000, guid: ad3e41d607e3d1f4583ba01cdcaaafb8, type: 2}
+  - {fileID: 11400000, guid: 19144efb4bbd2fa428df6477828add9c, type: 2}
+  - {fileID: 11400000, guid: ba921b0e59a486e41b5e92c39299cce2, type: 2}
+  subwayV3Tiles:
+  - {fileID: 11400000, guid: 6bcb8e469779c7342b2e3f1a83a17b83, type: 2}
+  - {fileID: 11400000, guid: f16c3f39970d77a409963bddf3cfeacd, type: 2}
+  - {fileID: 11400000, guid: 05e1d7a17588dee408ede4d9d8e19ec4, type: 2}
+  - {fileID: 11400000, guid: 1f9f4ca630810af4ab5d7adad6fef168, type: 2}
+  hospitalRooms: []
+  hospitalV1Tiles:
+  - {fileID: 11400000, guid: f10ac031639ea3647adc844ec26206fd, type: 2}
+  - {fileID: 11400000, guid: 1b9e7698d2c7f47468b31d1a8e836d32, type: 2}
+  - {fileID: 11400000, guid: 8923d92e105acd44fa3f2e7e426ede01, type: 2}
+  - {fileID: 11400000, guid: b6220e6bb3055164985514a549fbd561, type: 2}
+  currentLevel: 1
+  currentVariant: 0
   enemyRooms: 5
   transitionRooms: 20
   sizeTransitionRooms: 8
