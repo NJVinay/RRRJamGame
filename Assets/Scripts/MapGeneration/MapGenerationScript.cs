@@ -1,7 +1,23 @@
+
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
+public enum CurrentLevel
+{
+    Hotel,      // index 0
+    Subway,     // index 1
+    Hospital    // index 2
+}
+
+public enum CurrentVariant
+{
+    V1,         // index 0
+    V2,         // index 1
+    V3          // index 2
+}
 
 public class MapGenerationScript : MonoBehaviour
 {
@@ -15,22 +31,169 @@ public class MapGenerationScript : MonoBehaviour
     // i.e a more hard encounter might only spawn 2 but harder enemies, and it'll spawn them as far away from the player upon room entry
 
     public List<Tilemap> dungeonTilemap = new List<Tilemap>();
-    public List<TileBase> roomTiles = new List<TileBase>();
     public List<GameObject> roomMarkers = new List<GameObject>();
     List<GameObject> markersPlaced = new List<GameObject>();
+    List<GameObject> prefabRoomsPlaced = new List<GameObject>();
 
-    // Hotel rooms
+    List<List<List<TileBase>>> roomTiles = new List<List<List<TileBase>>>();
+
     public List<GameObject> hotelRooms = new List<GameObject>();
+    List<List<TileBase>> hotelTiles = new List<List<TileBase>>();
+    public List<TileBase> hotelV1Tiles = new List<TileBase>();
 
-    // Subway rooms
-    public List<GameObject> subwayBossRooms = new List<GameObject>();
-    public List<GameObject> subwayEnemyRooms = new List<GameObject>();
-    public List<GameObject> subwayItemRooms = new List<GameObject>();
+    public List<GameObject> subwayRooms = new List<GameObject>();
+    List<List<TileBase>> subwayTiles = new List<List<TileBase>>();
+    public List<TileBase> subwayV1Tiles = new List<TileBase>();
+    public List<TileBase> subwayV2Tiles = new List<TileBase>();
+    public List<TileBase> subwayV3Tiles = new List<TileBase>();
 
-    // Hospital rooms
-    public List<GameObject> hospitalBossRooms = new List<GameObject>();
-    public List<GameObject> subwayhospitalEnemyRooms = new List<GameObject>();
-    public List<GameObject> hospitalItemRooms = new List<GameObject>();
+    public List<GameObject> hospitalRooms = new List<GameObject>();
+    List<List<TileBase>> hospitalTiles = new List<List<TileBase>>();
+    public List<TileBase> hospitalV1Tiles = new List<TileBase>();
+
+    public CurrentLevel currentLevel = CurrentLevel.Hotel;
+    public CurrentVariant currentVariant = CurrentVariant.V1;
+    List<TileBase> currentTiles = new List<TileBase>();
+    List<GameObject> currentLevelRooms = new List<GameObject>();
+
+    List<Vector2Int[]> sizeBank = new List<Vector2Int[]>();
+
+    // Room sizes
+    Vector2Int[] hotelSizeBank = new Vector2Int[16] // --------------- HOTEL
+    {
+        new Vector2Int(24, 22), // BossRoom1 
+        new Vector2Int(30, 22), // 2
+
+        new Vector2Int(20, 20), // EnemyRoom1
+        new Vector2Int(22, 18), // 2
+        new Vector2Int(28, 22), // 3
+        new Vector2Int(54, 20), // 4
+        new Vector2Int(40, 38), // 5
+        new Vector2Int(54, 30), // 6
+        new Vector2Int(22, 15), // 7
+        new Vector2Int(28, 16), // 8
+        new Vector2Int(34, 22), // 9
+        new Vector2Int(20, 14), // 10
+
+        new Vector2Int(18, 14), // ItemRoom1
+        new Vector2Int(18, 10), // 2
+        new Vector2Int(18, 14), // 3
+        new Vector2Int(18, 10)  // 4
+    };
+
+    Vector2Int[] subwaySizeBank = new Vector2Int[16] // --------------- SUBWAY
+    {
+        new Vector2Int(0, 0), // BossRoom1 
+        new Vector2Int(0, 0), // 2
+
+        new Vector2Int(0, 0), // EnemyRoom1
+        new Vector2Int(0, 0), // 2
+        new Vector2Int(0, 0), // 3
+        new Vector2Int(0, 0), // 4
+        new Vector2Int(0, 0), // 5
+        new Vector2Int(0, 0), // 6
+        new Vector2Int(0, 0), // 7
+        new Vector2Int(0, 0), // 8
+        new Vector2Int(0, 0), // 9
+        new Vector2Int(0, 0), // 10
+
+        new Vector2Int(0, 0), // ItemRoom1
+        new Vector2Int(0, 0), // 2
+        new Vector2Int(0, 0), // 3
+        new Vector2Int(0, 0)  // 4
+    };
+
+    Vector2Int[] hospitalSizeBank = new Vector2Int[16] // --------------- HOSPITAL
+    {
+        new Vector2Int(0, 0), // BossRoom1 
+        new Vector2Int(0, 0), // 2
+
+        new Vector2Int(0, 0), // EnemyRoom1
+        new Vector2Int(0, 0), // 2
+        new Vector2Int(0, 0), // 3
+        new Vector2Int(0, 0), // 4
+        new Vector2Int(0, 0), // 5
+        new Vector2Int(0, 0), // 6
+        new Vector2Int(0, 0), // 7
+        new Vector2Int(0, 0), // 8
+        new Vector2Int(0, 0), // 9
+        new Vector2Int(0, 0), // 10
+
+        new Vector2Int(0, 0), // ItemRoom1
+        new Vector2Int(0, 0), // 2
+        new Vector2Int(0, 0), // 3
+        new Vector2Int(0, 0)  // 4
+    };
+
+
+    List<Vector3Int[]> offsetbank = new List<Vector3Int[]>();
+
+    // Offset banks
+    Vector3Int[] hotelOffsetBank = new Vector3Int[16] // --------------- HOTEL
+    {
+        new Vector3Int(31, -37, 0), // BossRoom1 
+        new Vector3Int(28, -35, 0), // 2
+
+        new Vector3Int(5, -5, 0),   // EnemyRoom1
+        new Vector3Int(5, -9, 0),   // 2
+        new Vector3Int(10, -10, 0), // 3
+        new Vector3Int(22, -34, 0), // 4
+        new Vector3Int(25, -20, 0), // 5
+        new Vector3Int(23, -33, 0), // 6
+        new Vector3Int(33, -32, 0), // 7
+        new Vector3Int(30, -31, 0), // 8
+        new Vector3Int(29, -33, 0), // 9
+        new Vector3Int(33, -43, 0), // 10
+
+        new Vector3Int(33, -41, 0), // ItemRoom1
+        new Vector3Int(35, -45, 0), // 2
+        new Vector3Int(35, -39, 0), // 3
+        new Vector3Int(33, -35, 0)  // 4
+    };
+
+    Vector3Int[] subwayOffsetBank = new Vector3Int[16] // --------------- SUBWAY
+    {
+        new Vector3Int(0, 0, 0), // BossRoom1 
+        new Vector3Int(0, 0, 0), // 2
+
+        new Vector3Int(0, 0, 0),   // EnemyRoom1
+        new Vector3Int(0, 0, 0),   // 2
+        new Vector3Int(0, 0, 0), // 3
+        new Vector3Int(0, 0, 0), // 4
+        new Vector3Int(0, 0, 0), // 5
+        new Vector3Int(0, 0, 0), // 6
+        new Vector3Int(0, 0, 0), // 7
+        new Vector3Int(0, 0, 0), // 8
+        new Vector3Int(0, 0, 0), // 9
+        new Vector3Int(0, 0, 0), // 10
+
+        new Vector3Int(0, 0, 0), // ItemRoom1
+        new Vector3Int(0, 0, 0), // 2
+        new Vector3Int(0, 0, 0), // 3
+        new Vector3Int(0, 0, 0)  // 4
+    };
+
+    Vector3Int[] hospitalOffsetBank = new Vector3Int[16] // --------------- HOSPITAL
+    {
+        new Vector3Int(0, 0, 0), // BossRoom1 
+        new Vector3Int(0, 0, 0), // 2
+
+        new Vector3Int(0, 0, 0),   // EnemyRoom1
+        new Vector3Int(0, 0, 0),   // 2
+        new Vector3Int(0, 0, 0), // 3
+        new Vector3Int(0, 0, 0), // 4
+        new Vector3Int(0, 0, 0), // 5
+        new Vector3Int(0, 0, 0), // 6
+        new Vector3Int(0, 0, 0), // 7
+        new Vector3Int(0, 0, 0), // 8
+        new Vector3Int(0, 0, 0), // 9
+        new Vector3Int(0, 0, 0), // 10
+
+        new Vector3Int(0, 0, 0), // ItemRoom1
+        new Vector3Int(0, 0, 0), // 2
+        new Vector3Int(0, 0, 0), // 3
+        new Vector3Int(0, 0, 0)  // 4
+    };
 
     // Quick customization from the Inspector
     [Header("Map Generation Settings")]
@@ -63,6 +226,29 @@ public class MapGenerationScript : MonoBehaviour
 
     void Start()
     {
+        // Initialize the tilemaps
+        hotelTiles.Add(hotelV1Tiles);
+
+        subwayTiles.Add(subwayV1Tiles);
+        subwayTiles.Add(subwayV2Tiles);
+        subwayTiles.Add(subwayV3Tiles);
+
+        hospitalTiles.Add(hospitalV1Tiles);
+
+        roomTiles.Add(hotelTiles);
+        roomTiles.Add(subwayTiles);
+        roomTiles.Add(hospitalTiles);
+
+        // Initialize the offset banks
+        offsetbank.Add(hotelOffsetBank);
+        offsetbank.Add(subwayOffsetBank);
+        offsetbank.Add(hospitalOffsetBank);
+
+        // Initialize the size banks
+        sizeBank.Add(hotelSizeBank);
+        sizeBank.Add(subwaySizeBank);
+        sizeBank.Add(hospitalSizeBank);
+
         // Generate the map when the game starts
         GenerateMap();
     }
@@ -100,6 +286,11 @@ public class MapGenerationScript : MonoBehaviour
             dungeonTilemap[i].ClearAllTiles();
         }
 
+        for (int i = 0; i < prefabRoomsPlaced.Count; i++)
+        {
+            Destroy(prefabRoomsPlaced[i]);
+        }
+
         for (int i = 0; i < markersPlaced.Count; i++)
         {
             Destroy(markersPlaced[i]);
@@ -110,6 +301,23 @@ public class MapGenerationScript : MonoBehaviour
 
     void GenerateMap()
     {
+        currentTiles = roomTiles[(int)currentLevel][(int)currentVariant];
+
+        switch (currentLevel)
+        {
+            case CurrentLevel.Hotel:
+                currentLevelRooms = hotelRooms;
+                break;
+
+            case CurrentLevel.Subway:
+                currentLevelRooms = subwayRooms;
+                break;
+
+            case CurrentLevel.Hospital:
+                currentLevelRooms = hospitalRooms;
+                break;
+        }
+
         while (tryAgain)
         {
             PlaceRooms();
@@ -222,8 +430,10 @@ public class MapGenerationScript : MonoBehaviour
             float y_pos = Mathf.Sin(direction) *distance;
 
             AddRectangle(new Vector2(x_pos, y_pos), 
-            sizeTransitionRooms +Random.Range(0, variationTranstitionRooms), 
-            sizeTransitionRooms +Random.Range(0, variationTranstitionRooms), RoomType.Passageway);
+            new Vector2Int(
+                sizeTransitionRooms +Random.Range(0, variationTranstitionRooms),
+                sizeTransitionRooms +Random.Range(0, variationTranstitionRooms)), 
+            RoomType.Passageway);
         }
     }
 
@@ -237,100 +447,37 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlacePrefabRectangle(int index)
     {
-        float direction = Random.Range(0, Mathf.PI * 2);
+        float direction;
         float distance = 30;
-
-        // Rectangle dimensions are hardcoded by looking at the prefab individually
-
-        int width = 0;
-        int height = 0;
 
         switch (index)
         { //----------------------------------- HOTEL
             case 0: // BossRoom1
-            width = 24;
-            height = 22;
             direction = Mathf.PI / 2;
             break;
 
-            case 1: // BossRoom2
-            width = 30;
-            height = 22;
+            case 1: // 2
             direction = Mathf.PI / 2;            
             break;
 
-            case 2: // EnemyRoom 1
-            width = 20;
-            height = 20;
-            break;
-
-            case 3: // 2
-            width = 22;
-            height = 18;
-            break;
-
-            case 4: // 3
-            width = 28;
-            height = 22;
-            break;
-
-            case 5: // 4
-            width = 54;
-            height = 20;
-            break;
-
-            case 6: // 5
-            width = 40;
-            height = 38;
-            break;
-
-            case 7: // 6
-            width = 54;
-            height = 30;
-            break;
-
-            case 8: // 7
-            width = 22;
-            height = 15;
-            break;
-
-            case 9: // 8
-            width = 28;
-            height = 16;
-            break;
-
-            case 10: // 9
-            width = 34;
-            height = 22;
-            break;
-
-            case 11: // 10
-            width = 20;
-            height = 14;
-            break;
-
             case 12: // ItemRoom1
-            width = 18;
-            height = 14;
             direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
             break;
 
             case 13: // 2
-            width = 18;
-            height = 10;
             direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
             break;
 
             case 14: // 3
-            width = 18;
-            height = 14;
             direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
             break;
 
             case 15: // 4
-            width = 18;
-            height = 10;
             direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
+            break;
+
+            default:
+            direction = Random.Range(0, Mathf.PI * 2);
             break;
         }
 
@@ -353,42 +500,20 @@ public class MapGenerationScript : MonoBehaviour
         float x_pos = Mathf.Cos(direction) *distance;
         float y_pos = Mathf.Sin(direction) *distance;
 
-        AddRectangle(new Vector2(x_pos, y_pos), width, height, roomtype);
+        AddRectangle(new Vector2(x_pos, y_pos), sizeBank[(int)currentLevel][index], roomtype);
         importantNodes.Add(rectangles.Count -1);
     }
 
     void PlaceRoomPrefabs()
     {
-        Vector3Int[] offsetBank = new Vector3Int[16];
-
-        //This offset values must be entered manually after trial and error
-        //--------------------------------------------------------- HOTEL
-        offsetBank[0] = new Vector3Int(31, -37, 0); // BossRoom1
-        offsetBank[1] = new Vector3Int(28, -35, 0); // 2
-
-        offsetBank[2] = new Vector3Int(5, -5, 0); // EnemyRoom1
-        offsetBank[3] = new Vector3Int(5, -9, 0); // 2
-        offsetBank[4] = new Vector3Int(10, -10, 0); // 3
-        offsetBank[5] = new Vector3Int(22, -34, 0); // 4
-        offsetBank[6] = new Vector3Int(25, -20, 0); // 5
-        offsetBank[7] = new Vector3Int(23, -33, 0); // 6
-        offsetBank[8] = new Vector3Int(33, -32, 0); // 7
-        offsetBank[9] = new Vector3Int(30, -31, 0); // 8
-        offsetBank[10] = new Vector3Int(29, -33, 0); // 9
-        offsetBank[11] = new Vector3Int(33, -43, 0); // 10
-
-        offsetBank[12] = new Vector3Int(33, -41, 0); // ItemRoom1
-        offsetBank[13] = new Vector3Int(35, -45, 0); // 2
-        offsetBank[14] = new Vector3Int(35, -39, 0); // 3
-        offsetBank[15] = new Vector3Int(33, -35, 0); // 4
-
         for (int i = 0; i < prefabRoomIndexes.Count; i++)
         {
-            GameObject tempRoom = Instantiate(hotelRooms[prefabRoomIndexes[i]], 
-            rectangles[i].transform.position +offsetBank[prefabRoomIndexes[i]], 
+            GameObject tempRoom = Instantiate(currentLevelRooms[prefabRoomIndexes[i]], 
+            rectangles[i].transform.position +offsetbank[(int)currentLevel][prefabRoomIndexes[i]], 
             Quaternion.identity);
             tempRoom.transform.parent = transform;
             rectangles[i].roomPrefab = tempRoom;
+            prefabRoomsPlaced.Add(tempRoom);
             Tilemap sourceTilemap = tempRoom.GetComponentInChildren<Tilemap>();
 
             // Get the bounds of the source tilemap
@@ -403,12 +528,12 @@ public class MapGenerationScript : MonoBehaviour
                     Vector3Int currentPosition = position +new Vector3Int(
                         (int)rectangles[i].transform.position.x, 
                         (int)rectangles[i].transform.position.y, 
-                        0) +offsetBank[prefabRoomIndexes[i]];
+                        0) +offsetbank[(int)currentLevel][prefabRoomIndexes[i]];
 
                     // Place the tile in the same position in the target tilemap
-                    dungeonTilemap[1].SetTile(currentPosition, roomTiles[1]); // Lower wall
-                    dungeonTilemap[2].SetTile(currentPosition + Vector3Int.up, roomTiles[2]); // Upper wall
-                    dungeonTilemap[3].SetTile(currentPosition + new Vector3Int(0, 2, 0), roomTiles[3]); // Roof
+                    dungeonTilemap[1].SetTile(currentPosition, currentTiles[1]); // Lower wall
+                    dungeonTilemap[2].SetTile(currentPosition + Vector3Int.up, currentTiles[2]); // Upper wall
+                    dungeonTilemap[3].SetTile(currentPosition + new Vector3Int(0, 2, 0), currentTiles[3]); // Roof
                 }
             }
 
@@ -419,7 +544,7 @@ public class MapGenerationScript : MonoBehaviour
             sourceTilemap.ClearAllTiles();
 
             // Debug: placing room markers
-            GameObject markerToPlace = null;
+            /**GameObject markerToPlace = null;
 
             if (prefabRoomIndexes[i] < 2)
             {
@@ -431,7 +556,7 @@ public class MapGenerationScript : MonoBehaviour
             }
             else if (prefabRoomIndexes[i] >= 12)
             {
-                //markerToPlace = roomMarkers[1];
+                markerToPlace = roomMarkers[1];
             }
 
             if (markerToPlace != null)
@@ -440,7 +565,7 @@ public class MapGenerationScript : MonoBehaviour
                 rectangles[i].transform.position, 
                 Quaternion.identity);
                 markersPlaced.Add(marker);
-            }
+            }**/
         }
     }
 
@@ -467,7 +592,7 @@ public class MapGenerationScript : MonoBehaviour
         // Apply floor tiles to the correct layer
         foreach (var pos in floorPositions)
         {
-            dungeonTilemap[0].SetTile(pos, roomTiles[0]); // Floor Layer
+            dungeonTilemap[0].SetTile(pos, currentTiles[0]); // Floor Layer
         }
     }
 
@@ -523,9 +648,9 @@ public class MapGenerationScript : MonoBehaviour
 
             foreach (var pos in innerBorderPositions)
             {
-                dungeonTilemap[1].SetTile(pos, roomTiles[1]); // Lower wall
-                dungeonTilemap[2].SetTile(pos + Vector3Int.up, roomTiles[2]); // Upper wall
-                dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // Roof
+                dungeonTilemap[1].SetTile(pos, currentTiles[1]); // Lower wall
+                dungeonTilemap[2].SetTile(pos + Vector3Int.up, currentTiles[2]); // Upper wall
+                dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), currentTiles[3]); // Roof
             }
         }
 
@@ -541,7 +666,7 @@ public class MapGenerationScript : MonoBehaviour
             }
         }
 
-        PlaceRoofBackgroundTiles(allRoomPositions);
+        //PlaceRoofBackgroundTiles(allRoomPositions);
     }
 
     void CreateHallwayBetween(RoomManager rect1, RoomManager rect2)
@@ -607,7 +732,7 @@ public class MapGenerationScript : MonoBehaviour
         dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), null);
 
         // Optionally: place a floor tile (if you have a floor layer, replace below)
-        dungeonTilemap[0].SetTile(pos, roomTiles[0]);
+        dungeonTilemap[0].SetTile(pos, currentTiles[0]);
     }
 
     void PlaceRoofBackgroundTiles(HashSet<Vector3Int> roomPositions)
@@ -636,7 +761,7 @@ public class MapGenerationScript : MonoBehaviour
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 if (!roomPositions.Contains(pos))
                 {
-                    dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), roomTiles[3]); // place roof/background tile
+                    dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), currentTiles[3]); // place roof/background tile
                 }
             }
         }
@@ -667,15 +792,15 @@ public class MapGenerationScript : MonoBehaviour
         markersPlaced.Add(marker);
     }
 
-    void AddRectangle(Vector2 position, int width, int height, RoomType roomType)
+    void AddRectangle(Vector2 position, Vector2Int sizeVector, RoomType roomType)
     {
         // Instantiate a new rectangle and set its properties
         RoomManager RoomManager = Instantiate(baseRoomPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity).GetComponent<RoomManager>();
         RoomManager.transform.parent = transform;
-        RoomManager.width = width;
-        RoomManager.height = height;
+        RoomManager.width = sizeVector.x;
+        RoomManager.height = sizeVector.y;
         RoomManager.roomType = roomType;
-        RoomManager.GetComponent<BoxCollider2D>().size = new Vector2(width, height);
+        RoomManager.GetComponent<BoxCollider2D>().size = sizeVector;
         rectangles.Add(RoomManager);        
     }
 
