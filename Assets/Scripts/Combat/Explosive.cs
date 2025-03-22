@@ -31,6 +31,8 @@ public class Explosive : MonoBehaviour
             explosionRadius =  1.5f;
             explosionLifetime = 0.5f;
             transform.localScale *= 0.5f; // Halve the scale if explosiveRound is true
+            trailRenderer.startWidth *= 0.5f; // Halve the trail width if explosiveRound is true
+            trailRenderer.endWidth *= 0.5f; // Halve the trail width if explosiveRound is true
         }
     }
 

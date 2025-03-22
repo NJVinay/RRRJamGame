@@ -327,7 +327,7 @@ MonoBehaviour:
   transitionRooms: 20
   sizeTransitionRooms: 8
   variationTranstitionRooms: 10
-  rectanglePrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
+  baseRoomPrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
 --- !u!4 &157718126
 Transform:
   m_ObjectHideFlags: 0
@@ -550,7 +550,7 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.5}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0

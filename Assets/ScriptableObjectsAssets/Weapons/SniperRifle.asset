@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: SniperRifle
   m_EditorClassIdentifier: 
   weaponName: SniperRifle
+  description: <color=#FFD76E>Sniper Rifle</color><br>Semi-Auto Sniper<br>Slow fire
+    rate and reload, but low spread and high damage.
   fireMode: 1
+  defaultWeaponProjectile: 0
   damage: 80
   fireRate: 1
   reloadTime: 3
@@ -25,7 +28,8 @@ MonoBehaviour:
   emptyClip: {fileID: 8300000, guid: 04df8862a3453514a950d947656c31c8, type: 3}
   reloadClip: {fileID: 8300000, guid: 7678d0444904a164cb408fc0cd906a80, type: 3}
   reloadFinishClip: {fileID: 8300000, guid: 813e33a932592774ca5fc5f911a6d054, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 5611568488885294951, guid: 03d60e11795a2d24db684eec2586bd5c, type: 3}
+  sprite: {fileID: 21300000, guid: 769de4b32d48f5546b9548a23e5ca0d4, type: 3}
   index: 1
   barrel: {fileID: 0}
   sight: {fileID: 0}

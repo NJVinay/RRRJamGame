@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [Header("Shooting Settings")]
     public bool isAiming = false; // Indicates if the player is currently aiming.
     public bool isHoldingFire = false; // Indicates if the fire button is being held down.
-    private WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
+    public WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling shooting.
     public Transform WeaponPosition; // Reference to the WeaponPosition transform.
     private Underbarrel underbarrel;
     bool bipodActive = false;
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private GameObject currentInteractable; // Reference to the current interactable object.
     [SerializeField] GameObject descriptionBox; // Reference to the description box GameObject.
     [SerializeField] TMPro.TextMeshProUGUI descriptionText; // Reference to the TextMeshProUGUI component for the description text.
+    public bool hasBossKey = false; // Indicates if the player has the boss key.
+    public int keys = 0; // Number of keys collected by the player.
 
     [Header("Crosshair Settings")]
     private Transform weaponObject;
@@ -42,20 +44,36 @@ public class PlayerController : MonoBehaviour
     private Transform crosshairObject; // Reference to the crosshair object
     [SerializeField] private GameObject sniperCrosshairObject; // Reference to the sniper crosshair object
 
+    [Header("Audio Settings")]
+    [SerializeField] AudioClip dashSound; // Sound effect for dashing.
+    [SerializeField] AudioClip pickupSound; // Sound effect for interacting with a weapon/attachment.
+    private AudioSource audioSource; // Reference to the AudioSource component.
+
     // Called when the script instance is being loaded.
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); // Initialize the Rigidbody2D component.
-        weaponsManager = WeaponPosition.GetComponentInChildren<WeaponsManager>(); // Find the WeaponsManager component in the child object of WeaponPosition.
         descriptionBox.SetActive(false); // Ensure the description box is initially disabled.
-
-        weaponObject = GameObject.FindWithTag("PlayerWeapon").transform;
         playerObject = GameObject.FindWithTag("Player").transform;
         crosshairObject = GameObject.FindWithTag("Crosshair").transform;
         sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
         sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
-        
-        underbarrel = weaponObject.GetComponentInChildren<Underbarrel>(); // Find the Underbarrel component in the child object of the player.
+        audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
+    }
+
+    public void FetchManagers()
+    {
+        weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Find the WeaponsManager component in the scene.
+        if (weaponsManager != null)
+        {
+            weaponObject = weaponsManager?.transform; // Find the WeaponsManager component in the weapon object.
+            underbarrel = weaponObject.GetComponentInChildren<Underbarrel>(); // Find the Underbarrel component in the child object of the player.
+            Debug.Log("Ran fetch managers on player controller");
+        }
+        else
+        {
+            Debug.LogWarning("Weapon object not found. Ensure the weapon has the 'PlayerWeapon' tag.");
+        }
     }
 
     // At the moment for debug purposes only
@@ -66,6 +84,8 @@ public class PlayerController : MonoBehaviour
         // Hides the default cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
+        
+        FetchManagers();
     }
 
     // Called when the player provides movement input.
@@ -88,11 +108,11 @@ public class PlayerController : MonoBehaviour
     public void OnAim(InputValue cc)
     {
         isAiming = cc.Get<float>() > 0; // Update aiming status based on input.
-        if(weaponsManager.enablesCrosshairZoom)
+        if(weaponsManager != null && weaponsManager.enablesCrosshairZoom)
         {
             sniperCrosshairObject.SetActive(isAiming); // Enable/disable the sniper crosshair based on aiming status.
         }
-        if(weaponsManager.bipodBehaviour)
+        if(weaponsManager != null && weaponsManager.bipodBehaviour)
         {
             if(isAiming)
             {
@@ -119,7 +139,10 @@ public class PlayerController : MonoBehaviour
     public void OnFire(InputValue cc)
     {
         isHoldingFire = cc.Get<float>() > 0; // Update firing status based on input.
-        weaponsManager.Fire(isHoldingFire); // Trigger the firing mechanism in the WeaponsManager.
+        if(weaponsManager != null)
+        {
+            weaponsManager.Fire(isHoldingFire); // Trigger the firing mechanism in the WeaponsManager.
+        }
     }
 
     public void OnUnderbarrel(InputValue cc)
@@ -133,7 +156,10 @@ public class PlayerController : MonoBehaviour
     // Called when the player provides reload input.
     public void OnReload(InputValue cc)
     {
-        weaponsManager.Reload();
+        if(weaponsManager != null)
+        {
+            weaponsManager.Reload();
+        }
     }
 
     public void OnInteract (InputValue cc)
@@ -153,7 +179,7 @@ public class PlayerController : MonoBehaviour
         // If not dashing, update the player's velocity based on movement input and aiming status.
         if (!isDashing)
         {
-            if (isAiming && weaponsManager.bipodBehaviour)
+            if (isAiming && weaponsManager != null && weaponsManager.bipodBehaviour)
             {
                 rb.linearVelocity = Vector2.zero; // Set movement speed to 0 when aiming with bipod
             }
@@ -173,7 +199,10 @@ public class PlayerController : MonoBehaviour
             if (hitCollider.CompareTag("Interactable"))
             {
                 hitCollider.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
-                Debug.Log("Interacted with: " + hitCollider.name);
+                if(hitCollider.GetComponent<AttachmentObject>() != null || hitCollider.GetComponent<WeaponObject>() != null)
+                {
+                    audioSource.PlayOneShot(pickupSound); // Play interact sound.
+                }
                 break;
             }
         }
@@ -208,20 +237,31 @@ public class PlayerController : MonoBehaviour
                     }
 
                     // Update and show the description box
-                    AttachmentsScrObj attachment = currentInteractable.GetComponent<AttachmentObject>().attachmentData;
-                    if (attachment != null)
+                    AttachmentObject attachmentObject = currentInteractable.GetComponent<AttachmentObject>();
+                    WeaponObject weaponObject = currentInteractable.GetComponent<WeaponObject>();
+                    if (attachmentObject != null)
                     {
-                        descriptionText.text = attachment.description;
+                        descriptionText.text = attachmentObject.attachmentData.description;
+                        descriptionBox.SetActive(true);
+                    }
+                    else if (weaponObject != null)
+                    {
+                        descriptionText.text = weaponObject.weaponData.description;
                         descriptionBox.SetActive(true);
                     }
                 }
                 else
                 {
                     // Update the description box if the same interactable object is still in range
-                    AttachmentsScrObj attachment = currentInteractable.GetComponent<AttachmentObject>().attachmentData;
-                    if (attachment != null)
+                    AttachmentObject attachmentObject = currentInteractable.GetComponent<AttachmentObject>();
+                    WeaponObject weaponObject = currentInteractable.GetComponent<WeaponObject>();
+                    if (attachmentObject != null)
                     {
-                        descriptionText.text = attachment.description;
+                        descriptionText.text = attachmentObject.attachmentData.description;
+                    }
+                    else if (weaponObject != null)
+                    {
+                        descriptionText.text = weaponObject.weaponData.description;
                     }
                 }
                 return;
@@ -245,7 +285,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // If the fire button is being held, continue firing.
-        if (isHoldingFire)
+        if (isHoldingFire && weaponsManager != null)
         {
             weaponsManager.Fire(isHoldingFire);
         }
@@ -258,7 +298,8 @@ public class PlayerController : MonoBehaviour
         crosshairObject.position = mousePosition;
 
         // Rotate the weapon to face the crosshair
-        Vector3 direction = mousePosition - weaponObject.position;
+        Vector3 direction = mousePosition;
+        if(weaponObject != null) direction = mousePosition - weaponObject.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // Adjust the angle if the player is facing left
@@ -274,7 +315,7 @@ public class PlayerController : MonoBehaviour
             descriptionBox.transform.localScale = new Vector3(1, 1, 1); // Flip the description box the other way to ensure text is not reversed
         }
 
-        weaponObject.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        if(weaponObject != null) weaponObject.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     // Coroutine to handle the dash mechanic.
@@ -283,6 +324,7 @@ public class PlayerController : MonoBehaviour
         isDashing = true; // Set dashing status to true.
         lastDashTime = Time.time; // Record the time the dash started.
         rb.linearVelocity = moveInput * dashSpeed; // Set the player's velocity to dash speed.
+        audioSource.PlayOneShot(dashSound); // Play dash sound.
         yield return new WaitForSeconds(dashTime); // Wait for the dash duration.
         isDashing = false; // Reset dashing status.
     }
@@ -290,6 +332,9 @@ public class PlayerController : MonoBehaviour
     public void UpdateWeaponsAndPlayerStats()
     {
         moveSpeed = originalMoveSpeed;
-        moveSpeed += originalMoveSpeed * weaponsManager.addedPlayerSpeed / 100;
+        if(weaponsManager != null)
+        {
+            moveSpeed += originalMoveSpeed * weaponsManager.addedPlayerSpeed / 100;
+        }
     }
 }

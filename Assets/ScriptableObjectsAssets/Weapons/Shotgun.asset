@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
+  description: <color=#FFD76E>Shotgun</color><br>Semi-Auto Shotgun<br>Spread-shot.
+    Poor spread, but high damage.
   fireMode: 1
+  defaultWeaponProjectile: 0
   damage: 5
   fireRate: 2
   reloadTime: 2
@@ -25,7 +28,8 @@ MonoBehaviour:
   emptyClip: {fileID: 8300000, guid: 04df8862a3453514a950d947656c31c8, type: 3}
   reloadClip: {fileID: 8300000, guid: e1f36ee04e5b3bc4690a140ab6cb3fe9, type: 3}
   reloadFinishClip: {fileID: 8300000, guid: b52b557d495469a419b77d22e9b03a2e, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 8949239490886058449, guid: 4c1285ed0530146488501e753393235c, type: 3}
+  sprite: {fileID: 21300000, guid: fc555a7cb84fc3a43bb297e699a3f397, type: 3}
   index: 2
   barrel: {fileID: 0}
   sight: {fileID: 0}

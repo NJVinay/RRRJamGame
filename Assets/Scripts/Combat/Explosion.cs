@@ -39,7 +39,7 @@ public class Explosion : MonoBehaviour
         Animator animator = GetComponent<Animator>();
         if (animator != null)
         {
-            animator.Play("Explosion", 0, lifetime);
+            animator.Play("Explosion");
         }
     }
 

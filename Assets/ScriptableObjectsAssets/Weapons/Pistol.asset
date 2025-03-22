@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   weaponName: Pistol
+  description: <color=#FFD76E>Pistol</color><br>Semi-Auto Handgun.<br>Small magazine,
+    but good reload speed and spread.
   fireMode: 1
+  defaultWeaponProjectile: 0
   damage: 16
   fireRate: 8
   reloadTime: 1
@@ -25,7 +28,8 @@ MonoBehaviour:
   emptyClip: {fileID: 8300000, guid: 04df8862a3453514a950d947656c31c8, type: 3}
   reloadClip: {fileID: 8300000, guid: 0c9f60413f0e04b4aba9f40586e8dc4d, type: 3}
   reloadFinishClip: {fileID: 8300000, guid: e6435864bab012f46a2c9721a1dabea5, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 1160768198845976180, guid: f8f51252a22d7874ebf20a8a1da6cf77, type: 3}
+  sprite: {fileID: 21300000, guid: 50b4ca5dac4083545ba7a591b7020d24, type: 3}
   index: 3
   barrel: {fileID: 0}
   sight: {fileID: 0}
