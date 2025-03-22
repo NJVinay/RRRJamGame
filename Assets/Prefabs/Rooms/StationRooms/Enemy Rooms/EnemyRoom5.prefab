@@ -1806,7 +1806,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 10
+      m_TileSpriteIndex: 24
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2447,8 +2447,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: 1838597839, guid: c0146e476cab7e647b0ad5e9d4e2eae1, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 18
@@ -2475,8 +2475,8 @@ Tilemap:
     m_Data: {fileID: -944750069, guid: c0146e476cab7e647b0ad5e9d4e2eae1, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -2654778332994222214, guid: c0146e476cab7e647b0ad5e9d4e2eae1, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 1838597839, guid: c0146e476cab7e647b0ad5e9d4e2eae1, type: 3}
   - m_RefCount: 54
     m_Data: {fileID: -627269659, guid: c0146e476cab7e647b0ad5e9d4e2eae1, type: 3}
   - m_RefCount: 1
@@ -2674,11 +2674,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3747025656918634553, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3747025656918634553, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3747025656918634553, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2736,11 +2736,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3747025656918634553, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.9
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 3747025656918634553, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3747025656918634553, guid: de0995dd261f49e4fa1d90ce59a35c7c, type: 3}
       propertyPath: m_LocalPosition.z
