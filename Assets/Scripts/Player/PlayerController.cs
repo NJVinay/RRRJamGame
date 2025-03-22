@@ -51,11 +51,13 @@ public class PlayerController : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component.
 
     private bool isGamePaused = false; // Indicates if the game is currently paused.
+    private PlayerInput playerInput; // Reference to the PlayerInput component.
 
     // Called when the script instance is being loaded.
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); // Initialize the Rigidbody2D component.
+        playerInput = GetComponent<PlayerInput>(); // Initialize the PlayerInput component.
         descriptionBox.SetActive(false); // Ensure the description box is initially disabled.
         playerObject = GameObject.FindWithTag("Player").transform;
         crosshairObject = GameObject.FindWithTag("Crosshair").transform;
@@ -77,9 +79,18 @@ public class PlayerController : MonoBehaviour
     // Called when a new scene is loaded.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name != "MainMenu" && isGamePaused)
+        if (scene.name != "MainMenu")
         {
-            ResumeGame(); // Resume the game if returning from the main menu.
+            Time.timeScale = 1f; // Ensure the game is running.
+            isGamePaused = false; // Reset the game paused flag.
+            Cursor.visible = false; // Hide the cursor.
+            Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
+            rb.WakeUp(); // Ensure the Rigidbody2D is active.
+            moveInput = Vector2.zero; // Reset movement input to ensure smooth resumption.
+            UpdateWeaponsAndPlayerStats(); // Ensure moveSpeed is updated correctly.
+            FetchManagers(); // Re-fetch managers to ensure all references are up-to-date.
+            rb.linearVelocity = Vector2.zero; // Reset the player's velocity.
+            playerInput.enabled = true; // Re-enable the PlayerInput component.
         }
     }
 
@@ -396,10 +407,6 @@ public class PlayerController : MonoBehaviour
         isGamePaused = false; // Reset the game paused flag.
         Cursor.visible = false; // Hide the cursor.
         Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
-        rb.WakeUp(); // Ensure the Rigidbody2D is active.
-        moveInput = Vector2.zero; // Reset movement input to ensure smooth resumption.
-        UpdateWeaponsAndPlayerStats(); // Ensure moveSpeed is updated correctly.
-        FetchManagers(); // Re-fetch managers to ensure all references are up-to-date.
-        rb.linearVelocity = Vector2.zero; // Reset the player's velocity.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current level.
     }
 }
