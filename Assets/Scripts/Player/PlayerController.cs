@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; // Add this using directive for scene management
 
 // This class controls the player's movement and shooting mechanics.
 public class PlayerController : MonoBehaviour
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip pickupSound; // Sound effect for interacting with a weapon/attachment.
     private AudioSource audioSource; // Reference to the AudioSource component.
 
+    private bool isGamePaused = false; // Indicates if the game is currently paused.
+
     // Called when the script instance is being loaded.
     private void Awake()
     {
@@ -59,6 +62,25 @@ public class PlayerController : MonoBehaviour
         sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
         sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
         audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event.
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe from the sceneLoaded event.
+    }
+
+    // Called when a new scene is loaded.
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainMenu" && isGamePaused)
+        {
+            ResumeGame(); // Resume the game if returning from the main menu.
+        }
     }
 
     public void FetchManagers()
@@ -171,6 +193,12 @@ public class PlayerController : MonoBehaviour
     public void OnDebug01(InputValue cc)
     {
         UpdateWeaponsAndPlayerStats();
+    }
+
+    // Called when the player presses the key to access the main menu.
+    public void OnMainMenu()
+    {
+        ReturnToMainMenu();
     }
 
     // Called at a fixed time interval, used for physics calculations.
@@ -292,6 +320,19 @@ public class PlayerController : MonoBehaviour
 
         DetectInteractableObjects(); // Detect nearby interactable objects
 
+        // Check for the "M" key press to access the main menu
+        if (Keyboard.current.mKey.wasPressedThisFrame)
+        {
+            if (isGamePaused)
+            {
+                ResumeGame(); // Resume the game if it is currently paused.
+            }
+            else
+            {
+                OnMainMenu(); // Access the main menu if the game is not paused.
+            }
+        }
+
         // Update the crosshair position to follow the mouse
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = -9f; // Ensure the crosshair remains on the correct plane
@@ -336,5 +377,29 @@ public class PlayerController : MonoBehaviour
         {
             moveSpeed += originalMoveSpeed * weaponsManager.addedPlayerSpeed / 100;
         }
+    }
+
+    // Called when the player wants to return to the main menu.
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 0f; // Pause the game.
+        isGamePaused = true; // Set the game paused flag.
+        Cursor.visible = true; // Show the cursor.
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor.
+        SceneManager.LoadScene("MainMenu"); // Load the main menu scene.
+    }
+
+    // Called when the player wants to resume the game.
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f; // Resume the game.
+        isGamePaused = false; // Reset the game paused flag.
+        Cursor.visible = false; // Hide the cursor.
+        Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
+        rb.WakeUp(); // Ensure the Rigidbody2D is active.
+        moveInput = Vector2.zero; // Reset movement input to ensure smooth resumption.
+        UpdateWeaponsAndPlayerStats(); // Ensure moveSpeed is updated correctly.
+        FetchManagers(); // Re-fetch managers to ensure all references are up-to-date.
+        rb.linearVelocity = Vector2.zero; // Reset the player's velocity.
     }
 }
