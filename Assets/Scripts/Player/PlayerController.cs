@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed; // Current movement speed of the player.
     private Rigidbody2D rb; // Reference to the player's Rigidbody2D component.
     private bool isDashing = false; // Indicates if the player is currently dashing.
-    public TrailRenderer trailRenderer; // Reference to the TrailRenderer component.
 
     // Header for organizing shooting-related settings in the Unity Inspector.
     [Header("Shooting Settings")]
@@ -65,9 +64,6 @@ public class PlayerController : MonoBehaviour
         sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
         sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
         audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
-
-        trailRenderer = GetComponent<TrailRenderer>(); // Initialize the TrailRenderer component.
-        trailRenderer.emitting = false; // Disable the trail renderer by default.
     }
 
     private void OnEnable()
@@ -327,6 +323,10 @@ public class PlayerController : MonoBehaviour
     // Called once per frame, used for regular updates.
     private void Update()
     {
+         if (Input.GetKeyDown(KeyCode.P))
+        {
+            TogglePause();
+        }
         // If the fire button is being held, continue firing.
         if (isHoldingFire && weaponsManager != null)
         {
@@ -372,19 +372,32 @@ public class PlayerController : MonoBehaviour
         }
 
         if(weaponObject != null) weaponObject.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-    }
+    }    
 
+    // Method to toggle the pause state of the game.
+    private void TogglePause()
+    {
+        if (isGamePaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            Time.timeScale = 0f; // Pause the game.
+            isGamePaused = true; // Set the game paused flag.
+            Cursor.visible = true; // Show the cursor.
+            Cursor.lockState = CursorLockMode.None; // Unlock the cursor.
+        }
+    }
     // Coroutine to handle the dash mechanic.
     IEnumerator Dash()
     {
-        trailRenderer.emitting = true; // Enable the trail renderer.
         isDashing = true; // Set dashing status to true.
         lastDashTime = Time.time; // Record the time the dash started.
         rb.linearVelocity = moveInput * dashSpeed; // Set the player's velocity to dash speed.
         audioSource.PlayOneShot(dashSound); // Play dash sound.
         yield return new WaitForSeconds(dashTime); // Wait for the dash duration.
         isDashing = false; // Reset dashing status.
-        trailRenderer.emitting = false; // Disable the trail renderer.
     }
 
     public void UpdateWeaponsAndPlayerStats()
@@ -414,5 +427,14 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false; // Hide the cursor.
         Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current level.
+    }
+
+    // Called when the player wants to quit the game.
+    public void QuitGame()
+    {
+        Application.Quit(); // Quit the application.
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // Stop playing the game in the editor.
+        #endif
     }
 }
