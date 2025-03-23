@@ -15,6 +15,27 @@ public class CameraFollow : MonoBehaviour
     private Vector3 originalPosition; // Store the original position of the camera.
     private Vector3 shakeOffset; // Offset for the camera shake.
 
+    private void Start()
+    {
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+        }
+
+        if (crosshair == null)
+        {
+            GameObject crosshairObj = GameObject.FindGameObjectWithTag("Crosshair");
+            if (crosshairObj != null)
+            {
+                crosshair = crosshairObj.transform;
+            }
+        }
+    }
+
     private void LateUpdate()
     {
         if (player == null || crosshair == null) return;

@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed; // Current movement speed of the player.
     private Rigidbody2D rb; // Reference to the player's Rigidbody2D component.
     private bool isDashing = false; // Indicates if the player is currently dashing.
+    private TrailRenderer trailRenderer; // Reference to the TrailRenderer component
 
     // Header for organizing shooting-related settings in the Unity Inspector.
     [Header("Shooting Settings")]
@@ -64,6 +65,8 @@ public class PlayerController : MonoBehaviour
         sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
         sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
         audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
+        trailRenderer = GetComponent<TrailRenderer>(); // Initialize the TrailRenderer component.
+        trailRenderer.emitting = false;
     }
 
     private void OnEnable()
@@ -396,8 +399,10 @@ public class PlayerController : MonoBehaviour
         lastDashTime = Time.time; // Record the time the dash started.
         rb.linearVelocity = moveInput * dashSpeed; // Set the player's velocity to dash speed.
         audioSource.PlayOneShot(dashSound); // Play dash sound.
+        trailRenderer.emitting = true; // Enable the TrailRenderer
         yield return new WaitForSeconds(dashTime); // Wait for the dash duration.
         isDashing = false; // Reset dashing status.
+        trailRenderer.emitting = false; // Disable the TrailRenderer
     }
 
     public void UpdateWeaponsAndPlayerStats()

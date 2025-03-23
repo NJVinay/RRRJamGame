@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
 
     public GameObject slashAttackPrefab;
     public GameObject projectilePrefab;
+
+    
     [Header("Melee Settings")]
     public bool meleeEnemy;
     public float meleeRange;
@@ -43,6 +45,8 @@ public class Enemy : MonoBehaviour
     private float lastAttackTime = 0f; // Track the last attack time
     public float fireRate = 1.0f; // Add fireRate variable
     private float lastFireTime = 0f; // Track the last fire time
+    public float attackPause;
+    private bool isAttacking;
 
     public AudioResource rangedAttackSound; // Add rangedAttackSound variable
     private AudioSource audioSource; // Add AudioSource component
@@ -123,6 +127,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private IEnumerator StopMovementForSeconds(float seconds)
+    {
+        isAttacking = true;
+        aiPath.canMove = false;
+        Animator animator = GetComponent<Animator>();
+        if (meleeEnemy && animator != null)
+        {
+            animator.speed = 0;
+        }
+        yield return new WaitForSeconds(seconds);
+        aiPath.canMove = true;
+        if (meleeEnemy && animator != null)
+        {
+            animator.speed = 1;
+        }
+        isAttacking = false;
+    }
+
     private void CheckMeleeRange()
     {
         if (enemyTargetScript.target != null)
@@ -143,11 +165,14 @@ public class Enemy : MonoBehaviour
                     slashAttack.transform.right = directionToTarget;
                     slashAttack.transform.position = transform.position + directionToTarget * Mathf.Min(meleeAttackRange, distanceToTarget);
 
+                    // Stop movement for a brief moment
+                    StartCoroutine(StopMovementForSeconds(attackPause));
+
                     // Update the last attack time
                     lastAttackTime = Time.time;
                 }
             }
-            else
+            else if (!isAttacking)
             {
                 aiPath.destination = enemyTargetScript.target.position; // Ensure the player is the target
                 GetComponent<AIPath>().canMove = true;
@@ -188,6 +213,10 @@ public class Enemy : MonoBehaviour
                 {
                     // Trigger Shoot() in the animator
                     GetComponent<Animator>().SetTrigger("Shoot");
+
+                    // Stop movement for a brief moment
+                    StartCoroutine(StopMovementForSeconds(attackPause));
+
                     lastFireTime = Time.time;
                 }
             }
