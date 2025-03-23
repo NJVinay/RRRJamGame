@@ -146,6 +146,7 @@ public class MapGenerationScript : MonoBehaviour
 
     // Prefab room indexes
     private List<int> prefabRoomIndexes = new List<int>();
+    private HashSet<Vector3Int> floorPositions;
 
     void Awake()
     {
@@ -224,7 +225,7 @@ public class MapGenerationScript : MonoBehaviour
                 PlaceFloorTiles();
                 PlaceWallTiles();
 
-                if (true) //IsWallLoopClosed()
+                if (AreWallsClosed(dungeonTilemap[1], floorPositions))
                 {
                     PlaceRoomPrefabs();
                     PlacePlayerSpawnPoint();
@@ -280,252 +281,219 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlaceRooms()
     {
-        // Placing 1 boss room and 2 items rooms
-        int bossRoomIndex = Random.Range(0, 2);
-        prefabRoomIndexes.Add(bossRoomIndex);
+        // Place boss room
+        prefabRoomIndexes.Add(Random.Range(0, 2));
 
-        // Picking 2 item rooms
-        List<int> possibleindexes = new List<int> { 12, 13, 14, 15 };
-        int firstPick = GetRandomAndRemove(possibleindexes);
-        int secondPick = GetRandomAndRemove(possibleindexes);
-        prefabRoomIndexes.Add(firstPick);
-        prefabRoomIndexes.Add(secondPick);
+        // Place 2 item rooms from fixed pool
+        AddRandomRoomsFromPool(new List<int> { 12, 13, 14, 15 }, 2);
 
-        possibleindexes = new List<int> { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        // Place enemy rooms from larger pool
+        AddRandomRoomsFromPool(new List<int> { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }, enemyRooms);
 
-        // Create enemy rooms
-        for (int i = 0; i < enemyRooms; i++)
+        // Instantiate all chosen room prefabs
+        foreach (int index in prefabRoomIndexes)
         {
-            prefabRoomIndexes.Add(GetRandomAndRemove(possibleindexes));
+            PlacePrefabRectangle(index);
         }
 
-        for (int i = 0; i < prefabRoomIndexes.Count; i++)
-        {
-            PlacePrefabRectangle(prefabRoomIndexes[i]);
-        }
-
-        // Creating player spawn room
+        // Player spawn room in center
         AddRectangle(Vector2.zero, new Vector2Int(14, 14), RoomType.Passageway);
-        importantNodes.Add(rectangles.Count -1);
+        importantNodes.Add(rectangles.Count - 1);
 
-        // Create middle rooms with random positions and sizes
+        // Place transition rooms around center in a spiral-like pattern
         for (int i = 0; i < transitionRooms; i++)
         {
-            float direction = Random.Range(0, Mathf.PI * 2);
-            float distance = i *2;
-            float x_pos = Mathf.Cos(direction) *distance;
-            float y_pos = Mathf.Sin(direction) *distance;
+            float angle = Random.Range(0, Mathf.PI * 2);
+            float radius = i * 2f;
+            Vector2 position = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
 
-            AddRectangle(new Vector2(x_pos, y_pos), 
-            new Vector2Int(
-                sizeTransitionRooms +Random.Range(0, variationTranstitionRooms),
-                sizeTransitionRooms +Random.Range(0, variationTranstitionRooms)), 
-            RoomType.Passageway);
+            var roomSize = new Vector2Int(
+                sizeTransitionRooms + Random.Range(0, variationTranstitionRooms),
+                sizeTransitionRooms + Random.Range(0, variationTranstitionRooms)
+            );
+
+            AddRectangle(position, roomSize, RoomType.Passageway);
         }
     }
 
-    int GetRandomAndRemove(List<int> list)
+    void AddRandomRoomsFromPool(List<int> pool, int count)
     {
-        int index = Random.Range(0, list.Count);
-        int value = list[index];
-        list.RemoveAt(index);
-        return value;
+        for (int i = 0; i < count; i++)
+        {
+            int index = Random.Range(0, pool.Count);
+            prefabRoomIndexes.Add(pool[index]);
+            pool.RemoveAt(index);
+        }
     }
 
     void PlacePrefabRectangle(int index)
     {
-        float direction;
-        float distance = 30;
+        float halfPi = Mathf.PI / 2f;
+        float twoPi = Mathf.PI * 2f;
+        float angleOffset = halfPi + twoPi * rectangles.Count / 3f;
+        float distance = 30f;
 
-        switch (index)
-        { //----------------------------------- HOTEL
-            case 0: // BossRoom1
-            direction = Mathf.PI / 2;
-            break;
-
-            case 1: // 2
-            direction = Mathf.PI / 2;            
-            break;
-
-            case 12: // ItemRoom1
-            direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
-            break;
-
-            case 13: // 2
-            direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
-            break;
-
-            case 14: // 3
-            direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
-            break;
-
-            case 15: // 4
-            direction = Mathf.PI / 2 + Mathf.PI *2 *rectangles.Count /3;            
-            break;
-
-            default:
-            direction = Random.Range(0, Mathf.PI * 2);
-            break;
-        }
-
-        
-        RoomType roomtype = RoomType.Passageway;
-
-        if (index < 2)
+        float direction = index switch
         {
-            roomtype = RoomType.Boss;
-        }
-        else if (index >= 2 && index < 12)
-        {
-            roomtype = RoomType.Enemy;
-        }
-        else if (index >= 12)
-        {
-            roomtype = RoomType.Item;
-        }
+            0 or 1 => halfPi,               // Boss room
+            >= 12 and <= 15 => angleOffset, // Item rooms
+            _ => Random.Range(0f, twoPi)    // Enemy rooms
+        };
 
-        float x_pos = Mathf.Cos(direction) *distance;
-        float y_pos = Mathf.Sin(direction) *distance;
+        RoomType roomType = index switch
+        {
+            < 2 => RoomType.Boss,
+            < 12 => RoomType.Enemy,
+            _ => RoomType.Item
+        };
 
-        AddRectangle(new Vector2(x_pos, y_pos), sizeBank[(int)currentLevel][index], roomtype);
-        importantNodes.Add(rectangles.Count -1);
+        Vector2 position = new Vector2(Mathf.Cos(direction), Mathf.Sin(direction)) * distance;
+
+        AddRectangle(position, sizeBank[(int)currentLevel][index], roomType);
+        importantNodes.Add(rectangles.Count - 1);
     }
 
     void PlaceRoomPrefabs()
     {
-        for (int i = 0; i < prefabRoomIndexes.Count; i++)
+        var levelOffsetBank = offsetbank[(int)currentLevel];
+        int count = prefabRoomIndexes.Count;
+
+        for (int i = 0; i < count; i++)
         {
-            GameObject tempRoom = Instantiate(currentLevelRooms[prefabRoomIndexes[i]], 
-            rectangles[i].transform.position +offsetbank[(int)currentLevel][prefabRoomIndexes[i]], 
-            Quaternion.identity);
-            tempRoom.transform.parent = transform;
-            rectangles[i].roomPrefab = tempRoom;
+            int roomIndex = prefabRoomIndexes[i];
+            var rect = rectangles[i];
+            Vector3 positionOffset = rect.transform.position + levelOffsetBank[roomIndex];
+
+            GameObject tempRoom = Instantiate(currentLevelRooms[roomIndex], positionOffset, Quaternion.identity, transform);
+            rect.roomPrefab = tempRoom;
             prefabRoomsPlaced.Add(tempRoom);
+
             Tilemap sourceTilemap = tempRoom.GetComponentInChildren<Tilemap>();
+            Vector3Int roomOffset = new Vector3Int((int)rect.transform.position.x, (int)rect.transform.position.y, 0) 
+                                    + Vector3Int.FloorToInt(levelOffsetBank[roomIndex]);
 
-            // Get the bounds of the source tilemap
             BoundsInt bounds = sourceTilemap.cellBounds;
+            var lowerWallTilemap = dungeonTilemap[1];
+            var upperWallTilemap = dungeonTilemap[2];
+            var roofTilemap = dungeonTilemap[3];
 
-            // Loop through each cell inside the bounds
             foreach (var position in bounds.allPositionsWithin)
             {
-                // Check if there's a tile at this position in the source tilemap
                 if (sourceTilemap.HasTile(position))
                 {
-                    Vector3Int currentPosition = position +new Vector3Int(
-                        (int)rectangles[i].transform.position.x, 
-                        (int)rectangles[i].transform.position.y, 
-                        0) +offsetbank[(int)currentLevel][prefabRoomIndexes[i]];
-
-                    // Place the tile in the same position in the target tilemap
-                    dungeonTilemap[1].SetTile(currentPosition, currentTiles[1]); // Lower wall
-                    dungeonTilemap[2].SetTile(currentPosition + Vector3Int.up, currentTiles[2]); // Upper wall
-                    dungeonTilemap[3].SetTile(currentPosition + new Vector3Int(0, 2, 0), currentTiles[3]); // Roof
+                    Vector3Int tilePos = position + roomOffset;
+                    lowerWallTilemap.SetTile(tilePos, currentTiles[1]);
+                    upperWallTilemap.SetTile(tilePos + Vector3Int.up, currentTiles[2]);
+                    roofTilemap.SetTile(tilePos + new Vector3Int(0, 2, 0), currentTiles[3]);
                 }
             }
 
-            dungeonTilemap[1].RefreshAllTiles();
-            dungeonTilemap[2].RefreshAllTiles();
-            dungeonTilemap[3].RefreshAllTiles();
-
             sourceTilemap.ClearAllTiles();
         }
+
+        dungeonTilemap[1].RefreshAllTiles();
+        dungeonTilemap[2].RefreshAllTiles();
+        dungeonTilemap[3].RefreshAllTiles();
     }
 
     void PlaceFloorTiles()
     {
-        HashSet<Vector3Int> floorPositions = new HashSet<Vector3Int>();
+        floorPositions = new HashSet<Vector3Int>();
+        Vector3Int tilePosition = new Vector3Int(0, 0, 0);
 
         foreach (var rect in rectangles)
         {
-            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
-            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
-            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
-            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
+            Vector3 rectPos = rect.transform.position;
+            int left = Mathf.FloorToInt(rectPos.x - rect.width * 0.5f);
+            int right = Mathf.FloorToInt(rectPos.x + rect.width * 0.5f) - 1;
+            int bottom = Mathf.FloorToInt(rectPos.y - rect.height * 0.5f);
+            int top = Mathf.FloorToInt(rectPos.y + rect.height * 0.5f) - 1;
 
             for (int x = left; x <= right; x++)
             {
+                tilePosition.x = x;
                 for (int y = bottom; y <= top; y++)
                 {
-                    floorPositions.Add(new Vector3Int(x, y, 0)); // Floor Layer
+                    tilePosition.y = y;
+                    floorPositions.Add(tilePosition);
                 }
             }
         }
 
-        // Apply floor tiles to the correct layer
+        var tilemap = dungeonTilemap[0];
+        var floorTile = currentTiles[0];
+
         foreach (var pos in floorPositions)
         {
-            dungeonTilemap[0].SetTile(pos, currentTiles[0]); // Floor Layer
+            tilemap.SetTile(pos, floorTile);
         }
     }
 
     void PlaceWallTiles()
     {
-        // Store each room's positions separately
-        List<HashSet<Vector3Int>> roomPositionSets = new List<HashSet<Vector3Int>>();
+        HashSet<Vector3Int> allRoomPositions = new HashSet<Vector3Int>();
+        List<HashSet<Vector3Int>> roomPositionSets = new List<HashSet<Vector3Int>>(rectangles.Count);
+
+        // Precompute room positions and add to global set
         foreach (var rect in rectangles)
         {
             HashSet<Vector3Int> currentRoomPositions = new HashSet<Vector3Int>();
-            int left = Mathf.FloorToInt(rect.transform.position.x - rect.width / 2);
-            int right = Mathf.FloorToInt(rect.transform.position.x + rect.width / 2) - 1;
-            int bottom = Mathf.FloorToInt(rect.transform.position.y - rect.height / 2);
-            int top = Mathf.FloorToInt(rect.transform.position.y + rect.height / 2) - 1;
+            Vector3 rectPos = rect.transform.position;
+            int left = Mathf.FloorToInt(rectPos.x - rect.width * 0.5f);
+            int right = Mathf.FloorToInt(rectPos.x + rect.width * 0.5f) - 1;
+            int bottom = Mathf.FloorToInt(rectPos.y - rect.height * 0.5f);
+            int top = Mathf.FloorToInt(rectPos.y + rect.height * 0.5f) - 1;
 
             for (int x = left; x <= right; x++)
             {
                 for (int y = bottom; y <= top; y++)
                 {
-                    currentRoomPositions.Add(new Vector3Int(x, y, 0));
+                    Vector3Int pos = new Vector3Int(x, y, 0);
+                    currentRoomPositions.Add(pos);
+                    allRoomPositions.Add(pos);
                 }
             }
             roomPositionSets.Add(currentRoomPositions);
         }
 
-        // Combine all room positions into one set
-        HashSet<Vector3Int> allRoomPositions = new HashSet<Vector3Int>();
-        foreach (var set in roomPositionSets)
-            foreach (var pos in set)
-                allRoomPositions.Add(pos);
-
         Vector3Int[] directions = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
 
-        // Step 1: Place walls on each room's inner border
+        // Step 1: Place wall and roof tiles along inner borders
         for (int i = 0; i < roomPositionSets.Count; i++)
         {
-            HashSet<Vector3Int> thisRoomPositions = roomPositionSets[i];
-            HashSet<Vector3Int> innerBorderPositions = new HashSet<Vector3Int>();
-
-            foreach (var pos in thisRoomPositions)
+            HashSet<Vector3Int> roomPositions = roomPositionSets[i];
+            foreach (var pos in roomPositions)
             {
                 foreach (var dir in directions)
                 {
                     Vector3Int neighborPos = pos + dir;
-                    if (!allRoomPositions.Contains(neighborPos) ||
-                        (!thisRoomPositions.Contains(neighborPos) && allRoomPositions.Contains(neighborPos)))
+                    if (!roomPositions.Contains(neighborPos)) // Only check local borders
                     {
-                        innerBorderPositions.Add(pos);
+                        dungeonTilemap[1].SetTile(pos, currentTiles[1]); // Wall lower
+                        dungeonTilemap[2].SetTile(pos + Vector3Int.up, currentTiles[2]); // Wall upper
+                        dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), currentTiles[3]); // Roof
                         break;
                     }
                 }
             }
-
-            foreach (var pos in innerBorderPositions)
-            {
-                dungeonTilemap[1].SetTile(pos, currentTiles[1]); // Lower wall
-                dungeonTilemap[2].SetTile(pos + Vector3Int.up, currentTiles[2]); // Upper wall
-                dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), currentTiles[3]); // Roof
-            }
         }
 
         // Step 2: Create hallways between adjacent rooms
-        for (int i = 0; i < rectangles.Count; i++)
+        int rectCount = rectangles.Count;
+        for (int i = 0; i < rectCount; i++)
         {
-            for (int j = i + 1; j < rectangles.Count; j++)
+            var rectA = rectangles[i];
+            for (int j = i + 1; j < rectCount; j++)
             {
-                if (AreAdjacent(rectangles[i], rectangles[j]))
+                var rectB = rectangles[j];
+                if (AreAdjacent(
+                    (int)rectA.transform.position.x, (int)rectA.transform.position.y,
+                    rectA.width / 2, rectA.height / 2, rectA.width, rectA.height,
+                    (int)rectB.transform.position.x, (int)rectB.transform.position.y,
+                    rectB.width / 2, rectB.height / 2, rectB.width, rectB.height))
                 {
-                    CreateHallwayBetween(rectangles[i], rectangles[j],
-                    rectangles[i].roomType != RoomType.Passageway || rectangles[j].roomType != RoomType.Passageway);
+                    CreateHallwayBetween(rectA, rectB,
+                        rectA.roomType != RoomType.Passageway || rectB.roomType != RoomType.Passageway);
                 }
             }
         }
@@ -535,65 +503,59 @@ public class MapGenerationScript : MonoBehaviour
 
     void CreateHallwayBetween(RoomManager rect1, RoomManager rect2, bool placeDoor)
     {
-        float x1 = rect1.transform.position.x;
-        float y1 = rect1.transform.position.y;
-        float x2 = rect2.transform.position.x;
-        float y2 = rect2.transform.position.y;
+        Vector2 pos1 = rect1.transform.position;
+        Vector2 pos2 = rect2.transform.position;
 
-        int left1 = Mathf.FloorToInt(x1 - rect1.width / 2);
-        int right1 = Mathf.FloorToInt(x1 + rect1.width / 2) - 1;
-        int bottom1 = Mathf.FloorToInt(y1 - rect1.height / 2);
-        int top1 = Mathf.FloorToInt(y1 + rect1.height / 2) - 1;
+        int left1 = Mathf.FloorToInt(pos1.x - rect1.width / 2);
+        int right1 = Mathf.FloorToInt(pos1.x + rect1.width / 2) - 1;
+        int bottom1 = Mathf.FloorToInt(pos1.y - rect1.height / 2);
+        int top1 = Mathf.FloorToInt(pos1.y + rect1.height / 2) - 1;
 
-        int left2 = Mathf.FloorToInt(x2 - rect2.width / 2);
-        int right2 = Mathf.FloorToInt(x2 + rect2.width / 2) - 1;
-        int bottom2 = Mathf.FloorToInt(y2 - rect2.height / 2);
-        int top2 = Mathf.FloorToInt(y2 + rect2.height / 2) - 1;
+        int left2 = Mathf.FloorToInt(pos2.x - rect2.width / 2);
+        int right2 = Mathf.FloorToInt(pos2.x + rect2.width / 2) - 1;
+        int bottom2 = Mathf.FloorToInt(pos2.y - rect2.height / 2);
+        int top2 = Mathf.FloorToInt(pos2.y + rect2.height / 2) - 1;
 
         int hallwayWidth = 4;
-
         Vector3 doorPosition = Vector3.zero;
         bool isHorizontal = true;
 
-        if (Mathf.Abs(x1 - x2) > Mathf.Abs(y1 - y2))
+        void ClearHallwayTiles(int fixedCoord, int startCoord, bool horizontal)
         {
-            // Horizontal adjacency
+            for (int offset = 0; offset < hallwayWidth; offset++)
+            {
+                for (int lineOffset = 0; lineOffset < hallwayWidth; lineOffset++)
+                {
+                    Vector3Int tilePos = horizontal
+                        ? new Vector3Int(fixedCoord + lineOffset, startCoord + offset, 0)
+                        : new Vector3Int(startCoord + offset, fixedCoord + lineOffset, 0);
+
+                    ClearTile(tilePos);
+                }
+            }
+        }
+
+        if (Mathf.Abs(pos1.x - pos2.x) > Mathf.Abs(pos1.y - pos2.y))
+        {
+            // Horizontal hallway
             int overlapStart = Mathf.Max(bottom1, bottom2);
             int overlapEnd = Mathf.Min(top1, top2);
             int hallwayStartY = (overlapStart + overlapEnd + 1) / 2 - (hallwayWidth / 2);
+            int wallX = (right1 < left2) ? right1 : right2;
 
-            int wallX = (right1 < left2) ? right1 : right2; // border wall line
-
-            for (int y = hallwayStartY; y < hallwayStartY + hallwayWidth; y++)
-            {
-                ClearTile(new Vector3Int(wallX, y, 0));
-                ClearTile(new Vector3Int(wallX + 1, y, 0));
-                ClearTile(new Vector3Int(wallX + 2, y, 0));
-                ClearTile(new Vector3Int(wallX + 3, y, 0));
-            }
-
-            // Place door marker at center of the carved hallway
-            doorPosition = new Vector3(wallX + 1f, hallwayStartY + (hallwayWidth / 2f), 0f);
+            ClearHallwayTiles(wallX, hallwayStartY, true);
+            doorPosition = new Vector3(wallX + 1f, hallwayStartY + hallwayWidth / 2f, 0f);
         }
         else
         {
-            // Vertical adjacency
+            // Vertical hallway
             int overlapStart = Mathf.Max(left1, left2);
             int overlapEnd = Mathf.Min(right1, right2);
             int hallwayStartX = (overlapStart + overlapEnd + 1) / 2 - (hallwayWidth / 2);
+            int wallY = (top1 < bottom2) ? top1 : top2;
 
-            int wallY = (top1 < bottom2) ? top1 : top2; // border wall line
-
-            for (int x = hallwayStartX; x < hallwayStartX + hallwayWidth; x++)
-            {
-                ClearTile(new Vector3Int(x, wallY, 0));
-                ClearTile(new Vector3Int(x, wallY + 1, 0));
-                ClearTile(new Vector3Int(x, wallY + 2, 0));
-                ClearTile(new Vector3Int(x, wallY + 3, 0));
-            }
-
-            // Place door marker at center of the carved hallway
-            doorPosition = new Vector3(hallwayStartX + (hallwayWidth / 2f), wallY + 1f, 0f);
+            ClearHallwayTiles(wallY, hallwayStartX, false);
+            doorPosition = new Vector3(hallwayStartX + hallwayWidth / 2f, wallY + 1f, 0f);
             isHorizontal = false;
         }
 
@@ -608,20 +570,26 @@ public class MapGenerationScript : MonoBehaviour
         }
     }
 
+    private static readonly Vector3Int OffsetDoubleUp = new Vector3Int(0, 2, 0);
+
     void ClearTile(Vector3Int pos)
     {
-        // Clear existing tiles
-        dungeonTilemap[1].SetTile(pos, null);
-        dungeonTilemap[2].SetTile(pos + Vector3Int.up, null);
-        dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), null);
+        var roofLayer = dungeonTilemap[3];
+        var midRoofLayer = dungeonTilemap[2];
+        var wallLayer = dungeonTilemap[1];
+        var floorLayer = dungeonTilemap[0];
 
-        // Optionally: place a floor tile (if you have a floor layer, replace below)
-        dungeonTilemap[0].SetTile(pos, currentTiles[0]);
+        wallLayer.SetTile(pos, null);
+        midRoofLayer.SetTile(pos + Vector3Int.up, null);
+        roofLayer.SetTile(pos + OffsetDoubleUp, null);
+
+        floorLayer.SetTile(pos, currentTiles[0]);
     }
 
     void PlaceRoofBackgroundTiles(HashSet<Vector3Int> roomPositions)
     {
-        // Calculate map bounds
+        if (roomPositions == null || roomPositions.Count == 0) return;
+
         int minX = int.MaxValue, maxX = int.MinValue;
         int minY = int.MaxValue, maxY = int.MinValue;
 
@@ -633,20 +601,16 @@ public class MapGenerationScript : MonoBehaviour
             if (pos.y > maxY) maxY = pos.y;
         }
 
-        // Add some padding
-        minX -= 15; maxX += 15;
-        minY -= 15; maxY += 15;
+        BoundsInt bounds = new BoundsInt(minX - 15, minY - 15, 0, (maxX - minX) + 31, (maxY - minY) + 31, 1);
+        var roofLayer = dungeonTilemap[3];
+        var roofTile = currentTiles[3];
+        Vector3Int offset = OffsetDoubleUp;
 
-        // Fill outside areas with roof tiles
-        for (int x = minX; x <= maxX; x++)
+        foreach (var pos in bounds.allPositionsWithin)
         {
-            for (int y = minY; y <= maxY; y++)
+            if (!roomPositions.Contains(pos))
             {
-                Vector3Int pos = new Vector3Int(x, y, 0);
-                if (!roomPositions.Contains(pos))
-                {
-                    dungeonTilemap[3].SetTile(pos + new Vector3Int(0, 2, 0), currentTiles[3]); // place roof/background tile
-                }
+                roofLayer.SetTile(pos + offset, roofTile);
             }
         }
     }
@@ -654,70 +618,94 @@ public class MapGenerationScript : MonoBehaviour
     void PlacePlayerSpawnPoint()
     {
         Vector3 centerPosition = rectangles[prefabRoomIndexes.Count].transform.position;
+        Quaternion identity = Quaternion.identity;
 
-        // Place player spawn marker (center offset down)
-        GameObject marker = Instantiate(roomMarkers[0], centerPosition + Vector3.down * 3, Quaternion.identity);
-        markersPlaced.Add(marker);
+        // Player spawn marker (center offset down)
+        markersPlaced.Add(Instantiate(roomMarkers[0], centerPosition + Vector3.down * 3, identity));
 
-        // Place two additional markers around a circle using angles
-        float[] angles = { Mathf.PI / 6, 5 *Mathf.PI / 6};
+        float radius = 3f;
+        float[] angles = { Mathf.PI / 6f, 5f * Mathf.PI / 6f };
 
         foreach (float angle in angles)
         {
-            Vector3 offset = new Vector3(Mathf.Cos(angle) * 3, Mathf.Sin(angle) * 3, 0);
-            marker = Instantiate(roomMarkers[2], centerPosition + offset, Quaternion.identity);
-            markersPlaced.Add(marker);
+            Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0f);
+            markersPlaced.Add(Instantiate(roomMarkers[2], centerPosition + offset, identity));
         }
     }
 
     void AddRectangle(Vector2 position, Vector2Int sizeVector, RoomType roomType)
     {
-        // Instantiate a new rectangle and set its properties
-        RoomManager RoomManager = Instantiate(baseRoomPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity).GetComponent<RoomManager>();
-        RoomManager.transform.parent = transform;
-        RoomManager.width = sizeVector.x;
-        RoomManager.height = sizeVector.y;
-        RoomManager.roomType = roomType;
-        RoomManager.GetComponent<BoxCollider2D>().size = sizeVector;
-        rectangles.Add(RoomManager);        
+        var roomGO = Instantiate(baseRoomPrefab, new Vector3(position.x, position.y, 0f), Quaternion.identity, transform);
+        var roomManager = roomGO.GetComponent<RoomManager>();
+        
+        roomManager.width = sizeVector.x;
+        roomManager.height = sizeVector.y;
+        roomManager.roomType = roomType;
+
+        var collider = roomManager.GetComponent<BoxCollider2D>();
+        if (collider != null)
+        {
+            collider.size = sizeVector;
+        }
+
+        rectangles.Add(roomManager);
     }
 
     void SeparateRectangles(RoomManager rectangle1, RoomManager rectangle2)
     {
-        // Calculate the direction to separate the rectangles
-        Vector2 direction = new Vector2(
-            rectangle1.transform.position.x - rectangle2.transform.position.x,
-            rectangle1.transform.position.y - rectangle2.transform.position.y
-        ).normalized;
+        Vector2 pos1 = rectangle1.transform.position;
+        Vector2 pos2 = rectangle2.transform.position;
+        Vector2 delta = pos1 - pos2;
 
-        // Calculate the overlap in the x and y directions
-        float overlapX = rectangle1.width / 2 + rectangle2.width / 2 - Mathf.Abs(rectangle1.transform.position.x - rectangle2.transform.position.x);
-        float overlapY = rectangle1.height / 2 + rectangle2.height / 2 - Mathf.Abs(rectangle1.transform.position.y - rectangle2.transform.position.y);
+        float overlapX = rectangle1.width / 2f + rectangle2.width / 2f - Mathf.Abs(delta.x);
+        float overlapY = rectangle1.height / 2f + rectangle2.height / 2f - Mathf.Abs(delta.y);
 
-        // Separate the rectangles based on the smaller overlap
+        // Fallback direction if exactly overlapping
+        if (delta == Vector2.zero)
+        {
+            delta = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        }
+
         if (overlapX < overlapY)
         {
-            rectangle1.transform.position += new Vector3(direction.x * overlapX / 2, 0, 0);
-            rectangle2.transform.position -= new Vector3(direction.x * overlapX / 2, 0, 0);
+            float moveX = overlapX / 2f * Mathf.Sign(delta.x);
+            rectangle1.transform.position += new Vector3(moveX, 0f, 0f);
+            rectangle2.transform.position -= new Vector3(moveX, 0f, 0f);
         }
         else
         {
-            rectangle1.transform.position += new Vector3(0, direction.y * overlapY / 2, 0);
-            rectangle2.transform.position -= new Vector3(0, direction.y * overlapY / 2, 0);
+            float moveY = overlapY / 2f * Mathf.Sign(delta.y);
+            rectangle1.transform.position += new Vector3(0f, moveY, 0f);
+            rectangle2.transform.position -= new Vector3(0f, moveY, 0f);
         }
     }
 
     void BuildGraph()
     {
-        // Create a graph connecting all the rectangles if they are touching each other
-        for (int i = 0; i < rectangles.Count; i++)
+        int count = rectangles.Count;
+        for (int i = 0; i < count; i++)
         {
             dungeonGraph[i] = new List<int>();
 
-            for (int j = 0; j < rectangles.Count; j++)
+            var rect1 = rectangles[i];
+            int x1 = (int)rect1.transform.position.x;
+            int y1 = (int)rect1.transform.position.y;
+            int halfWidth1 = rect1.width >> 1;
+            int halfHeight1 = rect1.height >> 1;
+            int height1 = rect1.height;
+            int width1 = rect1.width;
+
+            for (int j = 0; j < count; j++)
             {
-                // Check if the rectangles are touching each other
-                if (i != j && AreAdjacent(rectangles[i], rectangles[j]))
+                if (i == j) continue;
+
+                var rect2 = rectangles[j];
+                int x2 = (int)rect2.transform.position.x;
+                int y2 = (int)rect2.transform.position.y;
+
+                if (AreAdjacent(
+                        x1, y1, halfWidth1, halfHeight1, width1, height1,
+                        x2, y2, rect2.width >> 1, rect2.height >> 1, rect2.width, rect2.height))
                 {
                     dungeonGraph[i].Add(j);
                 }
@@ -725,56 +713,48 @@ public class MapGenerationScript : MonoBehaviour
         }
     }
 
-    bool AreAdjacent(RoomManager rectangle1, RoomManager rectangle2)
+    bool AreAdjacent(int x1, int y1, int halfWidth1, int halfHeight1, int width1, int height1,
+                    int x2, int y2, int halfWidth2, int halfHeight2, int width2, int height2)
     {
-        float deltaX = Mathf.Abs(rectangle1.transform.position.x - rectangle2.transform.position.x);
-        float deltaY = Mathf.Abs(rectangle1.transform.position.y - rectangle2.transform.position.y);
-        
-        float halfWidth1 = rectangle1.width / 2;
-        float halfWidth2 = rectangle2.width / 2;
-        float halfHeight1 = rectangle1.height / 2;
-        float halfHeight2 = rectangle2.height / 2;
+        int deltaX = System.Math.Abs(x1 - x2);
+        int deltaY = System.Math.Abs(y1 - y2);
 
-        // Check if the adjacent segment is at least 6 units long        
-        bool horizontallyAdjacent = deltaX == (halfWidth1 + halfWidth2) &&
-                                    Mathf.Min(rectangle1.height, rectangle2.height) - deltaY >= 6;
-        
-        bool verticallyAdjacent = deltaY == (halfHeight1 + halfHeight2) &&
-                                Mathf.Min(rectangle1.width, rectangle2.width) - deltaX >= 6;
-        
-        return horizontallyAdjacent || verticallyAdjacent;
+        int minHeight = (height1 < height2) ? height1 : height2;
+        int minWidth = (width1 < width2) ? width1 : width2;
+
+        return (deltaX == (halfWidth1 + halfWidth2) && minHeight - deltaY >= 6) ||
+            (deltaY == (halfHeight1 + halfHeight2) && minWidth - deltaX >= 6);
     }
 
     private void ConnectImportantNodes()
     {
-        var connectedPaths = new Dictionary<int, List<int>>();
+        var connectedPaths = new Dictionary<int, HashSet<int>>();
 
         // Connect all important nodes using paths found in the graph
         foreach (int startNode in importantNodes)
         {
             foreach (int endNode in importantNodes)
             {
-                if (startNode != endNode)
+                if (startNode == endNode) continue;
+
+                List<int> path = FindPath(startNode, endNode);
+                if (path == null) continue;
+
+                // Add all-to-all connections within the path
+                int pathCount = path.Count;
+                for (int i = 0; i < pathCount; i++)
                 {
-                    List<int> path = FindPath(startNode, endNode);
-
-                    if (path != null)
+                    int node = path[i];
+                    if (!connectedPaths.TryGetValue(node, out var neighbors))
                     {
-                        foreach (int node in path)
-                        {
-                            if (!connectedPaths.ContainsKey(node))
-                            {
-                                connectedPaths[node] = new List<int>();
-                            }
+                        neighbors = new HashSet<int>();
+                        connectedPaths[node] = neighbors;
+                    }
 
-                            foreach (int neighbor in path)
-                            {
-                                if (node != neighbor && !connectedPaths[node].Contains(neighbor))
-                                {
-                                    connectedPaths[node].Add(neighbor);
-                                }
-                            }
-                        }
+                    for (int j = 0; j < pathCount; j++)
+                    {
+                        if (i != j)
+                            neighbors.Add(path[j]);
                     }
                 }
             }
@@ -794,13 +774,13 @@ public class MapGenerationScript : MonoBehaviour
     private List<int> FindPath(int startNode, int endNode)
     {
         var queue = new Queue<int>();
-        var cameFrom = new Dictionary<int, int>();
+        var cameFrom = new Dictionary<int, int>(dungeonGraph.Count);
         var visited = new HashSet<int>();
 
         queue.Enqueue(startNode);
         visited.Add(startNode);
 
-        // Perform BFS to find the shortest path between startNode and endNode
+        // BFS for shortest path
         while (queue.Count > 0)
         {
             int current = queue.Dequeue();
@@ -812,9 +792,9 @@ public class MapGenerationScript : MonoBehaviour
 
             foreach (int neighbor in dungeonGraph[current])
             {
-                if (!visited.Contains(neighbor))
+                // Add() returns true if added, false if already present — faster check
+                if (visited.Add(neighbor))
                 {
-                    visited.Add(neighbor);
                     queue.Enqueue(neighbor);
                     cameFrom[neighbor] = current;
                 }
@@ -826,10 +806,10 @@ public class MapGenerationScript : MonoBehaviour
 
     private List<int> ReconstructPath(Dictionary<int, int> cameFrom, int startNode, int endNode)
     {
-        var path = new List<int>();
+        var path = new List<int>(cameFrom.Count + 1);
         int current = endNode;
 
-        // Reconstruct the path from endNode to startNode
+        // Reconstruct from endNode to startNode
         while (current != startNode)
         {
             path.Add(current);
@@ -841,94 +821,83 @@ public class MapGenerationScript : MonoBehaviour
         return path;
     }
 
-    bool AreAllImportantNodesConnected()
+    private bool AreAllImportantNodesConnected()
     {
-        if (importantNodes.Count == 0) return true;
+        int count = importantNodes.Count;
+        if (count == 0) return true;
 
-        HashSet<int> visited = new HashSet<int>();
-        Queue<int> queue = new Queue<int>();
+        var visited = new HashSet<int>();
+        var queue = new Queue<int>();
 
-        // Start BFS from the first important node
-        queue.Enqueue(importantNodes[0]);
-        visited.Add(importantNodes[0]);
+        int start = importantNodes[0];
+        queue.Enqueue(start);
+        visited.Add(start);
 
         while (queue.Count > 0)
         {
             int current = queue.Dequeue();
             foreach (int neighbor in dungeonGraph[current])
             {
-                if (!visited.Contains(neighbor))
+                if (visited.Add(neighbor))
                 {
-                    visited.Add(neighbor);
                     queue.Enqueue(neighbor);
                 }
             }
         }
 
-        // Check if all important nodes are visited
-        return importantNodes.All(node => visited.Contains(node));
+        // Check if all important nodes are visited using a simple loop
+        for (int i = 0; i < count; i++)
+        {
+            if (!visited.Contains(importantNodes[i]))
+                return false;
+        }
+
+        return true;
     }
 
-    bool IsWallLoopClosed()
+    bool AreWallsClosed(Tilemap wallTilemap, HashSet<Vector3Int> floorPositions, int searchRadius = 100)
     {
-        HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>();
+        Vector3Int startOutsidePoint = new Vector3Int(wallTilemap.cellBounds.xMin - 10, wallTilemap.cellBounds.yMin - 10, 0);
 
-        // Step 1: Collect all wall tile positions
-        foreach (var pos in dungeonTilemap[1].cellBounds.allPositionsWithin)
-        {
-            if (dungeonTilemap[1].HasTile(pos))
-            {
-                wallPositions.Add(pos);
-            }
-        }
-
-        if (wallPositions.Count == 0)
-        {
-            Debug.LogWarning("No wall tiles found.");
-            return false;
-        }
-
-        // Step 2: Start DFS from any wall tile
-        Stack<Vector3Int> stack = new Stack<Vector3Int>();
+        // We assume startOutsidePoint is a position *outside* your dungeon.  
+        // If unsure, pick something far away like Vector3Int(1000, 1000, 0)
+        
         HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
-        Vector3Int start = wallPositions.First();
-        stack.Push(start);
+        Queue<Vector3Int> toCheck = new Queue<Vector3Int>();
+        toCheck.Enqueue(startOutsidePoint);
 
-        Vector3Int[] directions = new Vector3Int[]
-        {
-            Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
-        };
+        Vector3Int[] directions = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
 
-        while (stack.Count > 0)
+        while (toCheck.Count > 0)
         {
-            Vector3Int current = stack.Pop();
-            if (!visited.Add(current))
+            Vector3Int current = toCheck.Dequeue();
+
+            if (visited.Contains(current))
                 continue;
 
-            // Count how many neighbors are wall tiles
-            int wallNeighborCount = 0;
+            visited.Add(current);
+
+            // If we reached a floor position from the outside, that means walls are broken!
+            if (floorPositions.Contains(current))
+            {
+                Debug.LogWarning("Broken walls detected! Outside flood reached floor tile at: " + current);
+                return false;
+            }
+
+            // Limit search radius for performance
+            if (Vector3Int.Distance(current, startOutsidePoint) > searchRadius)
+                continue;
+
             foreach (var dir in directions)
             {
                 Vector3Int neighbor = current + dir;
-                if (wallPositions.Contains(neighbor))
+
+                // If there's no wall at the neighbor, that means we can move there
+                if (wallTilemap.GetTile(neighbor) == null)
                 {
-                    wallNeighborCount++;
-                    if (!visited.Contains(neighbor))
-                        stack.Push(neighbor);
+                    toCheck.Enqueue(neighbor);
                 }
             }
-
-            // If a wall tile has less than 2 neighbors, it’s likely an opening
-            if (wallNeighborCount < 2)
-            {
-                return false;
-            }
-        }
-
-        // Step 3: Check if all wall positions were visited (no isolated fragments)
-        if (visited.Count != wallPositions.Count)
-        {
-            return false;
         }
 
         return true;
