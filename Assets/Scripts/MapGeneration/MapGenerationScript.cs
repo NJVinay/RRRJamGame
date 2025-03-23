@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,380 +10,272 @@ public enum CurrentLevel
     Hospital    // index 2
 }
 
-public enum CurrentVariant
-{
-    V1,         // index 0
-    V2,         // index 1
-    V3          // index 2
-}
-
 public class MapGenerationScript : MonoBehaviour
 {
     // Erir's recommendations:
-    // Player room in the center with 2 weapon spawn markers
-    // Just one marker per door
-    // Doors for enemies and items rooms OK
+    // - Player room in the center with 2 weapon spawn markers
+    // - Just one marker per door
+    // - Doors for enemies and item rooms OK
 
+    [Header("Tilemaps & Markers")]
     public List<Tilemap> dungeonTilemap = new List<Tilemap>();
-    public List<GameObject> roomMarkers = new List<GameObject>(); // 0 for player marker; 1 for door markers; 2 for item markers
-    List<GameObject> markersPlaced = new List<GameObject>();
-    List<GameObject> prefabRoomsPlaced = new List<GameObject>();
+    public List<GameObject> roomMarkers = new List<GameObject>(); // 0: player, 1: door, 2: item
+    private List<GameObject> markersPlaced = new List<GameObject>();
+    private List<GameObject> prefabRoomsPlaced = new List<GameObject>();
 
-    List<List<List<TileBase>>> roomTiles = new List<List<List<TileBase>>>();
+    [Header("Room Tile Data")]
+    private List<List<TileBase>> roomTiles = new List<List<TileBase>>();
 
+    [Header("Hotel")]
     public List<GameObject> hotelRooms = new List<GameObject>();
-    List<List<TileBase>> hotelTiles = new List<List<TileBase>>();
-    public List<TileBase> hotelV1Tiles = new List<TileBase>();
+    public List<TileBase> hotelTiles = new List<TileBase>();
 
+    [Header("Subway")]
     public List<GameObject> subwayRooms = new List<GameObject>();
-    List<List<TileBase>> subwayTiles = new List<List<TileBase>>();
-    public List<TileBase> subwayV1Tiles = new List<TileBase>();
-    public List<TileBase> subwayV2Tiles = new List<TileBase>();
-    public List<TileBase> subwayV3Tiles = new List<TileBase>();
+    public List<TileBase> subwayTiles = new List<TileBase>();
 
+    [Header("Hospital")]
     public List<GameObject> hospitalRooms = new List<GameObject>();
-    List<List<TileBase>> hospitalTiles = new List<List<TileBase>>();
-    public List<TileBase> hospitalV1Tiles = new List<TileBase>();
+    public List<TileBase> hospitalTiles = new List<TileBase>();
 
+    [Header("Current Level Data")]
     public CurrentLevel currentLevel = CurrentLevel.Hotel;
-    public CurrentVariant currentVariant = CurrentVariant.V1;
-    List<TileBase> currentTiles = new List<TileBase>();
-    List<GameObject> currentLevelRooms = new List<GameObject>();
+    private List<TileBase> currentTiles = new List<TileBase>();
+    private List<GameObject> currentLevelRooms = new List<GameObject>();
 
-    List<Vector2Int[]> sizeBank = new List<Vector2Int[]>();
+    [Header("Size Banks")]
+    private List<Vector2Int[]> sizeBank = new List<Vector2Int[]>();
 
-    // Room sizes
-    Vector2Int[] hotelSizeBank = new Vector2Int[16] // --------------- HOTEL
+    private Vector2Int[] hotelSizeBank = new Vector2Int[]
     {
-        new Vector2Int(24, 22), // BossRoom1 
-        new Vector2Int(30, 22), // 2
-
-        new Vector2Int(20, 20), // EnemyRoom1
-        new Vector2Int(22, 18), // 2
-        new Vector2Int(28, 22), // 3
-        new Vector2Int(54, 20), // 4
-        new Vector2Int(40, 38), // 5
-        new Vector2Int(54, 30), // 6
-        new Vector2Int(22, 15), // 7
-        new Vector2Int(28, 16), // 8
-        new Vector2Int(34, 22), // 9
-        new Vector2Int(20, 14), // 10
-
-        new Vector2Int(18, 14), // ItemRoom1
-        new Vector2Int(18, 10), // 2
-        new Vector2Int(18, 14), // 3
-        new Vector2Int(18, 10)  // 4
+        new Vector2Int(24, 22), new Vector2Int(30, 22),
+        new Vector2Int(20, 20), new Vector2Int(22, 18), 
+        new Vector2Int(28, 22), new Vector2Int(54, 20),
+        new Vector2Int(40, 38), new Vector2Int(54, 30), 
+        new Vector2Int(22, 15), new Vector2Int(28, 16),
+        new Vector2Int(34, 22), new Vector2Int(20, 14),
+        new Vector2Int(18, 14), new Vector2Int(18, 10), 
+        new Vector2Int(18, 14), new Vector2Int(18, 10)
     };
 
-    Vector2Int[] subwaySizeBank = new Vector2Int[16] // --------------- SUBWAY
+    private Vector2Int[] subwaySizeBank = new Vector2Int[]
     {
-        new Vector2Int(46, 72), // BossRoom1 
-        new Vector2Int(58, 62), // 2
-
-        new Vector2Int(40, 20), // EnemyRoom1
-        new Vector2Int(20, 20), // 2
-        new Vector2Int(38, 30), // 3
-        new Vector2Int(38, 50), // 4
-        new Vector2Int(38, 28), // 5
-        new Vector2Int(26, 46), // 6
-        new Vector2Int(38, 28), // 7
-        new Vector2Int(38, 58), // 8
-        new Vector2Int(68, 36), // 9
-        new Vector2Int(30, 36), // 10
-
-        new Vector2Int(30, 32), // ItemRoom1
-        new Vector2Int(32, 56), // 2
-        new Vector2Int(30, 32), // 3
-        new Vector2Int(30, 32)  // 4
+        new Vector2Int(46, 72), new Vector2Int(58, 62),
+        new Vector2Int(40, 20), new Vector2Int(20, 20), 
+        new Vector2Int(38, 30), new Vector2Int(38, 50),
+        new Vector2Int(38, 28), new Vector2Int(26, 46), 
+        new Vector2Int(38, 28), new Vector2Int(38, 58),
+        new Vector2Int(68, 36), new Vector2Int(30, 36),
+        new Vector2Int(30, 32), new Vector2Int(32, 56), 
+        new Vector2Int(30, 32), new Vector2Int(30, 32)
     };
 
-    Vector2Int[] hospitalSizeBank = new Vector2Int[16] // --------------- HOSPITAL
+    private Vector2Int[] hospitalSizeBank = new Vector2Int[16]
     {
-        new Vector2Int(0, 0), // BossRoom1 
-        new Vector2Int(0, 0), // 2
-
-        new Vector2Int(0, 0), // EnemyRoom1
-        new Vector2Int(0, 0), // 2
-        new Vector2Int(0, 0), // 3
-        new Vector2Int(0, 0), // 4
-        new Vector2Int(0, 0), // 5
-        new Vector2Int(0, 0), // 6
-        new Vector2Int(0, 0), // 7
-        new Vector2Int(0, 0), // 8
-        new Vector2Int(0, 0), // 9
-        new Vector2Int(0, 0), // 10
-
-        new Vector2Int(0, 0), // ItemRoom1
-        new Vector2Int(0, 0), // 2
-        new Vector2Int(0, 0), // 3
-        new Vector2Int(0, 0)  // 4
+        new Vector2Int(0, 0), new Vector2Int(0, 0),
+        new Vector2Int(0, 0), new Vector2Int(0, 0), 
+        new Vector2Int(0, 0), new Vector2Int(0, 0),
+        new Vector2Int(0, 0), new Vector2Int(0, 0), 
+        new Vector2Int(0, 0), new Vector2Int(0, 0),
+        new Vector2Int(0, 0), new Vector2Int(0, 0),
+        new Vector2Int(0, 0), new Vector2Int(0, 0), 
+        new Vector2Int(0, 0), new Vector2Int(0, 0)
     };
 
+    [Header("Offset Banks")]
+    private List<Vector3Int[]> offsetbank = new List<Vector3Int[]>();
 
-    List<Vector3Int[]> offsetbank = new List<Vector3Int[]>();
-
-    // Offset banks
-    Vector3Int[] hotelOffsetBank = new Vector3Int[16] // --------------- HOTEL
+    private Vector3Int[] hotelOffsetBank = new Vector3Int[]
     {
-        new Vector3Int(31, -37, 0), // BossRoom1 
-        new Vector3Int(28, -35, 0), // 2
-
-        new Vector3Int(5, -5, 0),   // EnemyRoom1
-        new Vector3Int(5, -9, 0),   // 2
-        new Vector3Int(13, -10, 0), // 3
-        new Vector3Int(21, -34, 0), // 4
-        new Vector3Int(25, -20, 0), // 5
-        new Vector3Int(23, -33, 0), // 6
-        new Vector3Int(33, -32, 0), // 7
-        new Vector3Int(30, -31, 0), // 8
-        new Vector3Int(27, -33, 0), // 9
-        new Vector3Int(-20, -45, 0), // 10
-
-        new Vector3Int(33, -41, 0), // ItemRoom1
-        new Vector3Int(35, -45, 0), // 2
-        new Vector3Int(35, -39, 0), // 3
-        new Vector3Int(33, -35, 0)  // 4
+        new Vector3Int(31, -37, 0), new Vector3Int(28, -35, 0),
+        new Vector3Int(5, -5, 0), new Vector3Int(5, -9, 0), 
+        new Vector3Int(10, -10, 0), new Vector3Int(21, -34, 0),
+        new Vector3Int(25, -20, 0), new Vector3Int(23, -33, 0), 
+        new Vector3Int(33, -32, 0), new Vector3Int(30, -31, 0),
+        new Vector3Int(27, -33, 0), new Vector3Int(33, -43, 0),
+        new Vector3Int(33, -41, 0), new Vector3Int(35, -45, 0), 
+        new Vector3Int(35, -39, 0), new Vector3Int(33, -35, 0)
     };
 
-    Vector3Int[] subwayOffsetBank = new Vector3Int[16] // --------------- SUBWAY
+    private Vector3Int[] subwayOffsetBank = new Vector3Int[]
     {
-        new Vector3Int(28, -30, 0), // BossRoom1 
-        new Vector3Int(38, -33, 0), // 2
-
-        new Vector3Int(3, -5, 0),   // EnemyRoom1
-        new Vector3Int(8, -9, 0),   // 2
-        new Vector3Int(2, -9, 0), // 3
-        new Vector3Int(2, -10, 0), // 4
-        new Vector3Int(2, -9, 0), // 5
-        new Vector3Int(-7, -10, 0), // 6
-        new Vector3Int(2, -9, 0), // 7
-        new Vector3Int(2, -24, 0), // 8
-        new Vector3Int(17, -12, 0), // 9
-        new Vector3Int(35, -12, 0), // 10
-
-        new Vector3Int(35, -14, 0), // ItemRoom1
-        new Vector3Int(35, -25, 0), // 2
-        new Vector3Int(35, -14, 0), // 3
-        new Vector3Int(35, -14, 0)  // 4
+        new Vector3Int(28, -30, 0), new Vector3Int(38, -33, 0),
+        new Vector3Int(3, -5, 0), new Vector3Int(8, -9, 0), 
+        new Vector3Int(2, -9, 0), new Vector3Int(2, -10, 0),
+        new Vector3Int(2, -9, 0), new Vector3Int(-7, -10, 0), 
+        new Vector3Int(2, -9, 0), new Vector3Int(2, -24, 0),
+        new Vector3Int(17, -12, 0), new Vector3Int(35, -12, 0),
+        new Vector3Int(35, -14, 0), new Vector3Int(35, -25, 0), 
+        new Vector3Int(35, -14, 0), new Vector3Int(35, -14, 0)
     };
 
-    Vector3Int[] hospitalOffsetBank = new Vector3Int[16] // --------------- HOSPITAL
+    private Vector3Int[] hospitalOffsetBank = new Vector3Int[16]
     {
-        new Vector3Int(0, 0, 0), // BossRoom1 
-        new Vector3Int(0, 0, 0), // 2
-
-        new Vector3Int(0, 0, 0),   // EnemyRoom1
-        new Vector3Int(0, 0, 0),   // 2
-        new Vector3Int(0, 0, 0), // 3
-        new Vector3Int(0, 0, 0), // 4
-        new Vector3Int(0, 0, 0), // 5
-        new Vector3Int(0, 0, 0), // 6
-        new Vector3Int(0, 0, 0), // 7
-        new Vector3Int(0, 0, 0), // 8
-        new Vector3Int(0, 0, 0), // 9
-        new Vector3Int(0, 0, 0), // 10
-
-        new Vector3Int(0, 0, 0), // ItemRoom1
-        new Vector3Int(0, 0, 0), // 2
-        new Vector3Int(0, 0, 0), // 3
-        new Vector3Int(0, 0, 0)  // 4
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0),
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0),
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0),
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0),
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0), 
+        new Vector3Int(0, 0, 0)
     };
 
-    // Quick customization from the Inspector
     [Header("Map Generation Settings")]
-    [Space(10)]
-    [SerializeField]
-    [Range(0, 10)]
-    int enemyRooms = 5;
-    [Space(10)]
-    [SerializeField]
-    [Range(0, 70)]
-    int transitionRooms = 5;
-    [SerializeField]
-    [Range(5, 50)]
-    int sizeTransitionRooms = 30;
-    [SerializeField]
-    [Range(0, 20)]
-    int variationTranstitionRooms = 5;
+    [Range(0, 10)] public int enemyRooms = 5;
+    [Range(0, 70)] public int transitionRooms = 5;
+    [Range(5, 50)] public int sizeTransitionRooms = 30;
+    [Range(0, 20)] public int variationTranstitionRooms = 5;
 
     [Space(10)]
-    [SerializeField]
-    GameObject baseRoomPrefab;
-    List<RoomManager> rectangles = new List<RoomManager>();
-    Dictionary<int, List<int>> dungeonGraph = new Dictionary<int, List<int>>();
-    List<int> importantNodes = new List<int>();
-    bool tryAgain = true;
-    int attemptNumber = 1;
+    [SerializeField] private GameObject baseRoomPrefab;
 
-    // Prefab rooms management
-    List<int> prefabRoomIndexes = new List<int>();
+    // Room generation tracking
+    private List<RoomManager> rectangles = new List<RoomManager>();
+    private Dictionary<int, List<int>> dungeonGraph = new Dictionary<int, List<int>>();
+    private List<int> importantNodes = new List<int>();
+    private int attemptNumber = 1;
+
+    // Prefab room indexes
+    private List<int> prefabRoomIndexes = new List<int>();
 
     void Awake()
     {
-        // Initialize the tilemaps
-        hotelTiles.Add(hotelV1Tiles);
+        roomTiles.AddRange(new List<List<TileBase>> { hotelTiles, subwayTiles, hospitalTiles });
 
-        subwayTiles.Add(subwayV1Tiles);
-        subwayTiles.Add(subwayV2Tiles);
-        subwayTiles.Add(subwayV3Tiles);
-
-        hospitalTiles.Add(hospitalV1Tiles);
-
-        roomTiles.Add(hotelTiles);
-        roomTiles.Add(subwayTiles);
-        roomTiles.Add(hospitalTiles);
-
-        // Initialize the offset banks
-        offsetbank.Add(hotelOffsetBank);
-        offsetbank.Add(subwayOffsetBank);
-        offsetbank.Add(hospitalOffsetBank);
-
-        // Initialize the size banks
-        sizeBank.Add(hotelSizeBank);
-        sizeBank.Add(subwaySizeBank);
-        sizeBank.Add(hospitalSizeBank);
+        offsetbank.AddRange(new[]
+        {
+            hotelOffsetBank,
+            subwayOffsetBank,
+            hospitalOffsetBank
+        });
+        
+        sizeBank.AddRange(new[]
+        {
+            hotelSizeBank,
+            subwaySizeBank,
+            hospitalSizeBank
+        });
     }
 
     void Update()
     {
-        // For test purposes: regenerate the map when the Jump button is pressed
         if (Input.GetButtonDown("Jump"))
         {
             ClearMap();
             Debug.ClearDeveloperConsole();
-
-            // Generate a new map
-            GenerateMap(currentLevel, currentVariant);
+            GenerateMap(currentLevel);
         }
     }
 
     void ClearMap()
     {
-        // Destroy all existing rectangles
-        for (int i = 0; i < rectangles.Count; i++)
-        {
-            Destroy(rectangles[i].gameObject);
-        }
-
-        // Clear the lists and dictionary
+        ClearAndDestroy(rectangles.Select(r => r.gameObject));
         rectangles.Clear();
+
         dungeonGraph.Clear();
         importantNodes.Clear();
         prefabRoomIndexes.Clear();
-        tryAgain = true;
 
-        for (int i = 0; i < dungeonTilemap.Count; i++)
-        {
-            dungeonTilemap[i].ClearAllTiles();
-        }
+        dungeonTilemap.ForEach(tilemap => tilemap.ClearAllTiles());
 
-        for (int i = 0; i < prefabRoomsPlaced.Count; i++)
-        {
-            Destroy(prefabRoomsPlaced[i]);
-        }
-
-        for (int i = 0; i < markersPlaced.Count; i++)
-        {
-            Destroy(markersPlaced[i]);
-        }
-
-        markersPlaced.Clear();
+        ClearAndDestroy(prefabRoomsPlaced);
+        ClearAndDestroy(markersPlaced);
     }
 
-    public void GenerateMap(CurrentLevel currentLevel, CurrentVariant currentVariant)
+    private void ClearAndDestroy(IEnumerable<GameObject> objects)
     {
-        currentTiles = roomTiles[(int)currentLevel][(int)currentVariant];
-
-        switch (currentLevel)
+        foreach (var obj in objects)
         {
-            case CurrentLevel.Hotel:
-                currentLevelRooms = hotelRooms;
-                break;
-
-            case CurrentLevel.Subway:
-                currentLevelRooms = subwayRooms;
-                break;
-
-            case CurrentLevel.Hospital:
-                currentLevelRooms = hospitalRooms;
-                break;
+            Destroy(obj);
         }
+    }
 
-        while (tryAgain)
+    public void GenerateMap(CurrentLevel currentLevel)
+    {
+        currentTiles = roomTiles[(int)currentLevel];
+        currentLevelRooms = currentLevel switch
+        {
+            CurrentLevel.Hotel => hotelRooms,
+            CurrentLevel.Subway => subwayRooms,
+            CurrentLevel.Hospital => hospitalRooms,
+            _ => throw new System.ArgumentOutOfRangeException(nameof(currentLevel), currentLevel, null)
+        };
+
+        for (attemptNumber = 1; attemptNumber <= 100; attemptNumber++)
         {
             PlaceRooms();
+            if (!SeparateOverlappingRooms()) continue;
 
-            // Separate overlapping rooms
-            bool overlapping = true;
-            int overlap_counter = 0;
-
-            while (overlapping)
-            {
-                overlapping = false;
-                overlap_counter += 1;
-
-                // Check for overlapping rectangles and separate them
-                for (int i = 0; i < rectangles.Count; i++)
-                {
-                    for (int j = 0; j < rectangles.Count; j++)
-                    {
-                        if (i != j)
-                        {
-                            if (Mathf.Abs(rectangles[i].transform.position.x - rectangles[j].transform.position.x) < (rectangles[i].width / 2 + rectangles[j].width / 2) &&
-                                Mathf.Abs(rectangles[i].transform.position.y - rectangles[j].transform.position.y) < (rectangles[i].height / 2 + rectangles[j].height / 2))
-                            {
-                                SeparateRectangles(rectangles[i], rectangles[j]);
-                                overlapping = true;
-                            }
-                        }
-                    }
-                }
-
-                // Round the position of the rectangles to avoid floating point errors and make the map look better as a grid-like environment
-                for (int i = 0; i < rectangles.Count; i++)
-                {
-                    rectangles[i].transform.position = new Vector3(Mathf.FloorToInt(rectangles[i].transform.position.x), Mathf.FloorToInt(rectangles[i].transform.position.y), 0);
-                }
-
-                // Safety measure to prevent the game from getting stuck on map generation
-                if (overlap_counter > 1000)
-                {
-                    overlapping = false;
-                }
-            } 
-
-            // Create a graph connecting all the rectangles if they are touching each other
             BuildGraph();
 
             if (AreAllImportantNodesConnected())
             {
-                tryAgain = false;
+                ConnectImportantNodes(); // This is now in the correct place
 
-                // Create a spanning tree from the graph
-                ConnectImportantNodes();
+                PlaceFloorTiles();
+                PlaceWallTiles();
 
-                Debug.Log("Custom rooms : " + prefabRoomIndexes.Count);
-                Debug.LogWarning("Map generated at attempt n. " + attemptNumber);
-                attemptNumber = 1;
-            }
-            else
-            {
-                ClearMap();
-                attemptNumber += 1;
-
-                if (attemptNumber == 100)
+                if (true) //IsWallLoopClosed()
                 {
-                    Debug.Log("Attempt n. 100 reached");
+                    PlaceRoomPrefabs();
+                    PlacePlayerSpawnPoint();
+                    Debug.LogWarning($"Map generated at attempt n. {attemptNumber}");
                     return;
                 }
             }
+
+            ClearMap(); // Moved outside the inner if to ensure clearing even if nodes aren't connected
         }
 
-        // Placing tiles 
-        PlaceFloorTiles();
-        PlaceWallTiles();
-        PlaceRoomPrefabs();
-        PlacePlayerSpawnPoint();
+        Debug.Log("Attempt n. 100 reached");
+    }
+
+    private bool SeparateOverlappingRooms()
+    {
+        for (int overlap_counter = 0; overlap_counter < 1000; overlap_counter++)
+        {
+            bool overlapping = false;
+
+            // Cache rectangle positions and sizes
+            var cachedPositions = rectangles.Select(r => r.transform.position).ToList();
+            var cachedWidths = rectangles.Select(r => r.width / 2).ToList();
+            var cachedHeights = rectangles.Select(r => r.height / 2).ToList();
+
+            for (int i = 0; i < rectangles.Count; i++)
+            {
+                for (int j = i + 1; j < rectangles.Count; j++) // Start j from i + 1 to avoid redundant checks
+                {
+                    if (Mathf.Abs(cachedPositions[i].x - cachedPositions[j].x) < (cachedWidths[i] + cachedWidths[j]) &&
+                        Mathf.Abs(cachedPositions[i].y - cachedPositions[j].y) < (cachedHeights[i] + cachedHeights[j]))
+                    {
+                        SeparateRectangles(rectangles[i], rectangles[j]);
+                        overlapping = true;
+                    }
+                }
+            }
+
+            for (int i = 0; i < rectangles.Count; i++)
+            {
+                rectangles[i].transform.position = new Vector3(
+                    Mathf.FloorToInt(rectangles[i].transform.position.x),
+                    Mathf.FloorToInt(rectangles[i].transform.position.y),
+                    0
+                );
+            }
+
+            if (!overlapping) return true; // No more overlaps
+        }
+
+        return false; // Overlap separation failed after 1000 attempts
     }
 
     void PlaceRooms()
@@ -413,6 +303,10 @@ public class MapGenerationScript : MonoBehaviour
         {
             PlacePrefabRectangle(prefabRoomIndexes[i]);
         }
+
+        // Creating player spawn room
+        AddRectangle(Vector2.zero, new Vector2Int(14, 14), RoomType.Passageway);
+        importantNodes.Add(rectangles.Count -1);
 
         // Create middle rooms with random positions and sizes
         for (int i = 0; i < transitionRooms; i++)
@@ -714,7 +608,6 @@ public class MapGenerationScript : MonoBehaviour
         }
     }
 
-
     void ClearTile(Vector3Int pos)
     {
         // Clear existing tiles
@@ -760,27 +653,21 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlacePlayerSpawnPoint()
     {
-        RoomManager closestRect = null;
-        float closestDistance = float.MaxValue;
+        Vector3 centerPosition = rectangles[prefabRoomIndexes.Count].transform.position;
 
-        foreach (var rect in rectangles)
-        {
-            float distance = Vector2.Distance(rect.transform.position, Vector2.zero);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestRect = rect;
-            }
-        }
-
-        if (closestRect == null)
-        {
-            Debug.LogWarning("Couldn't find a suitable rectangle to place Player Spawn Point.");
-            return;
-        }
-
-        GameObject marker = Instantiate(roomMarkers[0], closestRect.transform.position, Quaternion.identity);
+        // Place player spawn marker (center offset down)
+        GameObject marker = Instantiate(roomMarkers[0], centerPosition + Vector3.down * 3, Quaternion.identity);
         markersPlaced.Add(marker);
+
+        // Place two additional markers around a circle using angles
+        float[] angles = { Mathf.PI / 6, 5 *Mathf.PI / 6};
+
+        foreach (float angle in angles)
+        {
+            Vector3 offset = new Vector3(Mathf.Cos(angle) * 3, Mathf.Sin(angle) * 3, 0);
+            marker = Instantiate(roomMarkers[2], centerPosition + offset, Quaternion.identity);
+            markersPlaced.Add(marker);
+        }
     }
 
     void AddRectangle(Vector2 position, Vector2Int sizeVector, RoomType roomType)
@@ -980,5 +867,70 @@ public class MapGenerationScript : MonoBehaviour
 
         // Check if all important nodes are visited
         return importantNodes.All(node => visited.Contains(node));
+    }
+
+    bool IsWallLoopClosed()
+    {
+        HashSet<Vector3Int> wallPositions = new HashSet<Vector3Int>();
+
+        // Step 1: Collect all wall tile positions
+        foreach (var pos in dungeonTilemap[1].cellBounds.allPositionsWithin)
+        {
+            if (dungeonTilemap[1].HasTile(pos))
+            {
+                wallPositions.Add(pos);
+            }
+        }
+
+        if (wallPositions.Count == 0)
+        {
+            Debug.LogWarning("No wall tiles found.");
+            return false;
+        }
+
+        // Step 2: Start DFS from any wall tile
+        Stack<Vector3Int> stack = new Stack<Vector3Int>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+        Vector3Int start = wallPositions.First();
+        stack.Push(start);
+
+        Vector3Int[] directions = new Vector3Int[]
+        {
+            Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
+        };
+
+        while (stack.Count > 0)
+        {
+            Vector3Int current = stack.Pop();
+            if (!visited.Add(current))
+                continue;
+
+            // Count how many neighbors are wall tiles
+            int wallNeighborCount = 0;
+            foreach (var dir in directions)
+            {
+                Vector3Int neighbor = current + dir;
+                if (wallPositions.Contains(neighbor))
+                {
+                    wallNeighborCount++;
+                    if (!visited.Contains(neighbor))
+                        stack.Push(neighbor);
+                }
+            }
+
+            // If a wall tile has less than 2 neighbors, it’s likely an opening
+            if (wallNeighborCount < 2)
+            {
+                return false;
+            }
+        }
+
+        // Step 3: Check if all wall positions were visited (no isolated fragments)
+        if (visited.Count != wallPositions.Count)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
