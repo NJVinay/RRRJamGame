@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public bool isGamePaused = false;
     public bool isGameOver = false;
 
-    [Header("Player Stats (Optional/Future)")]
+    [Header("Player Stats")]
     [SerializeField] private int playerLives = 3; // Future use if you add lives system
     public int PlayerLives => playerLives;
     private int playerScore = 0;
@@ -52,26 +52,7 @@ public class GameManager : MonoBehaviour
     // ✅ Lives Handling (Optional for future)
     public void PlayerDied()
     {
-        playerLives--;
-        Debug.Log("Player Lives Left: " + playerLives);
-
-        if (playerLives <= 0)
-        {
-            GameOver();
-        }
-        else
-        {
-            // Optional: Respawn player, regenerate map, etc.
-        }
-    }
-
-    // ✅ Game Over Logic
-    public void GameOver()
-    {
-        isGameOver = true;
-        PauseGame(); // Freeze the game
-        Debug.Log("Game Over!");
-        // Future: Trigger Game Over UI
+        RestartGame();
     }
 
     // ✅ Restart the game/map
