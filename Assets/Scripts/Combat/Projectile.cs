@@ -11,6 +11,8 @@ public class Projectile : MonoBehaviour
     private AudioSource audioSource; // Add a reference to the AudioSource component
     public bool penetratesEnemies; // Add a boolean to check if the projectile penetrates enemies
     private TrailRenderer trailRenderer; // Add a reference to the TrailRenderer component
+    public bool enemyProjectile; // Add a boolean to check if the projectile should hit players instead of enemies
+    private bool hasHit = false; // Add a boolean to check if the projectile has hit an enemy
 
     private void Awake()
     {
@@ -28,24 +30,57 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the projectile collided with an enemy
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (enemyProjectile)
         {
-            // Get the Enemy component and apply damage
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
+            // Check if the projectile collided with a player
+            if (collision.gameObject.CompareTag("Player"))
             {
-                enemy.TakeDamage(damage);
-                if(audioSource != null && enemyImpactSound != null)
+                // Get the Player component and apply damage
+                PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+                if (player != null && !hasHit)
                 {
-                    audioSource.volume = 0.3f;
-                    audioSource.PlayOneShot(enemyImpactSound);
+                    player.TakeDamage(damage);
+                    hasHit = true;
+                    if(audioSource != null && enemyImpactSound != null)
+                    {
+                        audioSource.volume = 1.0f;
+                        audioSource.PlayOneShot(enemyImpactSound);
+                    }
                 }
+            }
+            else if (collision.gameObject.CompareTag("Enemy"))
+            {
+                // Ignore collision with enemies
+                return;
+            }
+        }
+        else
+        {
+            // Check if the projectile collided with an enemy
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                // Get the Enemy component and apply damage
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                if (enemy != null && !hasHit)
+                {
+                    enemy.TakeDamage(damage);
+                    hasHit = true;
+                    if(audioSource != null && enemyImpactSound != null)
+                    {
+                        audioSource.volume = 0.6f;
+                        audioSource.PlayOneShot(enemyImpactSound);
+                    }
+                }
+            }
+            else if (collision.gameObject.CompareTag("Player"))
+            {
+                // Ignore collision with players
+                return;
             }
         }
 
         // Play the impact sound
-        if (audioSource != null && impactSound != null && !collision.gameObject.CompareTag("Enemy"))
+        if (audioSource != null && impactSound != null && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("Player"))
         {
             audioSource.volume = 0.1f;
             audioSource.PlayOneShot(impactSound);
@@ -65,7 +100,7 @@ public class Projectile : MonoBehaviour
         }
 
         // Destroy the object after 5 seconds
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 0.3f);
     }
 
     public void SetColor(Color color)

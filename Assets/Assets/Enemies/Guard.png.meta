@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: 464b821eedba7734f98686d291b1f04c
+guid: 0476a01255c8a934cbf110f84e6b8993
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5986030973748356752
-    second: Explosion_0
+      213: -7809785511404226330
+    second: Guard_0
   - first:
-      213: -5600206312213581617
-    second: Explosion_1
+      213: 7517161418421729254
+    second: Guard_1
   - first:
-      213: 3815954189206336483
-    second: Explosion_2
+      213: 170288124656062214
+    second: Guard_2
   - first:
-      213: -3690502768834906923
-    second: Explosion_3
+      213: -6889201110466385560
+    second: Guard_3
+  - first:
+      213: -5596783081012337526
+    second: Guard_4
+  - first:
+      213: -4167788796274468605
+    second: Guard_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Explosion_0
+      name: GuardWalk1
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,42 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 096a1cc8477a21350800000000000000
-      internalID: 5986030973748356752
+      spriteID: 6e832c494711e9390800000000000000
+      internalID: -7809785511404226330
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fc0fb9bb7021842b0800000000000000
-      internalID: -5600206312213581617
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Explosion_2
+      name: GuardWalk2
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e3bec60e1ef4f430800000000000000
-      internalID: 3815954189206336483
+      spriteID: 6e77c408b72525860800000000000000
+      internalID: 7517161418421729254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion_3
+      name: GuardWalk3
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +187,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d4fffce843b8ccc0800000000000000
-      internalID: -3690502768834906923
+      spriteID: 60f879ba52cfc5200800000000000000
+      internalID: 170288124656062214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GuardFire1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 869ac603714a460a0800000000000000
+      internalID: -6889201110466385560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GuardFire2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a84e75bd07b3452b0800000000000000
+      internalID: -5596783081012337526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GuardFire3
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3091533fb2a0926c0800000000000000
+      internalID: -4167788796274468605
       vertices: []
       indices: 
       edges: []
@@ -213,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 077d0b9540baa3c46bbd2ee189ae8389
+    spriteID: fede207cac1621640afa521b06da1765
     internalID: 0
     vertices: []
     indices: 
@@ -223,10 +273,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Explosion_0: 5986030973748356752
-      Explosion_1: -5600206312213581617
-      Explosion_2: 3815954189206336483
-      Explosion_3: -3690502768834906923
+      GuardFire1: -6889201110466385560
+      GuardFire2: -5596783081012337526
+      GuardFire3: -4167788796274468605
+      GuardWalk1: -7809785511404226330
+      GuardWalk2: 7517161418421729254
+      GuardWalk3: 170288124656062214
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

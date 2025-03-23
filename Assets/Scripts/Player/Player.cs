@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
             Debug.Log("M key pressed by player");
             if (mainMenu != null)
             {
-                mainMenu.LoadMainMenuScene();
+                //mainMenu.LoadMainMenuScene();
             }
             else
             {

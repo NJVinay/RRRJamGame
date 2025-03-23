@@ -22,7 +22,7 @@ public class BayonetCollision : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(40);
+                enemy.TakeDamage(100);
                 
                 lastCollisionDamageTime = Time.time; // Update the last collision damage time.
                 
