@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviour
     // Called once per frame, used for regular updates.
     private void Update()
     {
-         if (Input.GetKeyDown(KeyCode.P))
+         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }

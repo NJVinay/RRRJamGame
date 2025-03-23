@@ -5,7 +5,7 @@ public class SettingsManager : MonoBehaviour
 {
     public Slider volumeSlider;
     public Slider brightnessSlider;
-    
+
     void Start()
     {
         // Load saved settings
@@ -29,10 +29,8 @@ public class SettingsManager : MonoBehaviour
 
     public void SetBrightness(float brightness)
     {
-        // Adjust brightness (may vary based on your implementation)
-        // This example assumes you are adjusting a material or UI color.
-        Color color = new Color(brightness, brightness, brightness, 1); // Assuming brightness adjusts RGB values
-        Camera.main.backgroundColor = color; // Example of applying brightness to camera background
+        // Adjust brightness using ambient light
+        RenderSettings.ambientLight = Color.white * brightness;
         PlayerPrefs.SetFloat("BrightnessLevel", brightness); // Save brightness level
     }
 
