@@ -22,16 +22,12 @@ public enum CurrentVariant
 public class MapGenerationScript : MonoBehaviour
 {
     // Erir's recommendations:
-    // - same room count each time
-    // i.e 2 item rooms, 1 boss room, 1 spawn room, 10 enemy rooms
-    // also, make sure that item rooms and boss rooms are on the edges.
-    // spawn room can be anywhere really
-    // in terms of rooms, I think we already figured that much out - 2 item rooms, 1 boss room, 1 spawn room and 10 enemy rooms
-    // enemies, I was thinking we have 6 spawn points per room, and there are scriptable objects that determine what enemies spawn
-    // i.e a more hard encounter might only spawn 2 but harder enemies, and it'll spawn them as far away from the player upon room entry
+    // Player room in the center with 2 weapon spawn markers
+    // Just one marker per door
+    // Doors for enemies and items rooms OK
 
     public List<Tilemap> dungeonTilemap = new List<Tilemap>();
-    public List<GameObject> roomMarkers = new List<GameObject>();
+    public List<GameObject> roomMarkers = new List<GameObject>(); // 0 for player marker; 1 for door markers; 2 for item markers
     List<GameObject> markersPlaced = new List<GameObject>();
     List<GameObject> prefabRoomsPlaced = new List<GameObject>();
 
@@ -539,30 +535,6 @@ public class MapGenerationScript : MonoBehaviour
             dungeonTilemap[3].RefreshAllTiles();
 
             sourceTilemap.ClearAllTiles();
-
-            // Debug: placing room markers
-            /**GameObject markerToPlace = null;
-
-            if (prefabRoomIndexes[i] < 2)
-            {
-                markerToPlace = roomMarkers[0];
-            }
-            else if (prefabRoomIndexes[i] >= 2 && prefabRoomIndexes[i] < 12)
-            {
-                markerToPlace = roomMarkers[2];
-            }
-            else if (prefabRoomIndexes[i] >= 12)
-            {
-                markerToPlace = roomMarkers[1];
-            }
-
-            if (markerToPlace != null)
-            {
-                GameObject marker = Instantiate(markerToPlace, 
-                rectangles[i].transform.position, 
-                Quaternion.identity);
-                markersPlaced.Add(marker);
-            }**/
         }
     }
 
@@ -658,7 +630,8 @@ public class MapGenerationScript : MonoBehaviour
             {
                 if (AreAdjacent(rectangles[i], rectangles[j]))
                 {
-                    CreateHallwayBetween(rectangles[i], rectangles[j]);
+                    CreateHallwayBetween(rectangles[i], rectangles[j],
+                    rectangles[i].roomType != RoomType.Passageway || rectangles[j].roomType != RoomType.Passageway);
                 }
             }
         }
@@ -666,7 +639,7 @@ public class MapGenerationScript : MonoBehaviour
         //PlaceRoofBackgroundTiles(allRoomPositions);
     }
 
-    void CreateHallwayBetween(RoomManager rect1, RoomManager rect2)
+    void CreateHallwayBetween(RoomManager rect1, RoomManager rect2, bool placeDoor)
     {
         float x1 = rect1.transform.position.x;
         float y1 = rect1.transform.position.y;
@@ -685,6 +658,9 @@ public class MapGenerationScript : MonoBehaviour
 
         int hallwayWidth = 4;
 
+        Vector3 doorPosition = Vector3.zero;
+        bool isHorizontal = true;
+
         if (Mathf.Abs(x1 - x2) > Mathf.Abs(y1 - y2))
         {
             // Horizontal adjacency
@@ -696,11 +672,14 @@ public class MapGenerationScript : MonoBehaviour
 
             for (int y = hallwayStartY; y < hallwayStartY + hallwayWidth; y++)
             {
-                ClearTile(new Vector3Int(wallX, y, 0));     
-                ClearTile(new Vector3Int(wallX + 1, y, 0)); 
-                ClearTile(new Vector3Int(wallX + 2, y, 0)); 
-                ClearTile(new Vector3Int(wallX + 3, y, 0)); 
+                ClearTile(new Vector3Int(wallX, y, 0));
+                ClearTile(new Vector3Int(wallX + 1, y, 0));
+                ClearTile(new Vector3Int(wallX + 2, y, 0));
+                ClearTile(new Vector3Int(wallX + 3, y, 0));
             }
+
+            // Place door marker at center of the carved hallway
+            doorPosition = new Vector3(wallX + 1f, hallwayStartY + (hallwayWidth / 2f), 0f);
         }
         else
         {
@@ -713,13 +692,28 @@ public class MapGenerationScript : MonoBehaviour
 
             for (int x = hallwayStartX; x < hallwayStartX + hallwayWidth; x++)
             {
-                ClearTile(new Vector3Int(x, wallY, 0));     
-                ClearTile(new Vector3Int(x, wallY + 1, 0)); 
-                ClearTile(new Vector3Int(x, wallY + 2, 0)); 
-                ClearTile(new Vector3Int(x, wallY + 3, 0)); 
+                ClearTile(new Vector3Int(x, wallY, 0));
+                ClearTile(new Vector3Int(x, wallY + 1, 0));
+                ClearTile(new Vector3Int(x, wallY + 2, 0));
+                ClearTile(new Vector3Int(x, wallY + 3, 0));
             }
+
+            // Place door marker at center of the carved hallway
+            doorPosition = new Vector3(hallwayStartX + (hallwayWidth / 2f), wallY + 1f, 0f);
+            isHorizontal = false;
+        }
+
+        if (doorPosition != Vector3.zero && placeDoor)
+        {
+            GameObject marker = Instantiate(roomMarkers[1], doorPosition, Quaternion.identity);
+            DoorManager doorManager = marker.GetComponent<DoorManager>();
+            doorManager.neighbouringRooms.Add(rect1);
+            doorManager.neighbouringRooms.Add(rect2);
+            doorManager.isHorizontal = isHorizontal;
+            markersPlaced.Add(marker);
         }
     }
+
 
     void ClearTile(Vector3Int pos)
     {
@@ -785,7 +779,7 @@ public class MapGenerationScript : MonoBehaviour
             return;
         }
 
-        GameObject marker = Instantiate(roomMarkers[3], closestRect.transform.position, Quaternion.identity);
+        GameObject marker = Instantiate(roomMarkers[0], closestRect.transform.position, Quaternion.identity);
         markersPlaced.Add(marker);
     }
 

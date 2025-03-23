@@ -268,6 +268,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapGeneration
       objectReference: {fileID: 0}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: enemyRooms
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: currentVariant
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: transitionRooms
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: roomMarkers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: 'roomMarkers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3847124934729737597, guid: 7a5b4ba68ed80af41b2f36c4b16d7259, type: 3}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: 'roomMarkers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3847124934729737597, guid: f75c6e790b7a9344d9a005b1fd33ce25, type: 3}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: 'roomMarkers.Array.data[2]'
+      value: 
+      objectReference: {fileID: 3847124934729737597, guid: 0f0ebdd53dd0bf64c8a524c1c64bc906, type: 3}
+    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: 'roomMarkers.Array.data[3]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901457150586395688, guid: 395a838d89c2acd4b806394661308793, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8884630472612039798, guid: 395a838d89c2acd4b806394661308793, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

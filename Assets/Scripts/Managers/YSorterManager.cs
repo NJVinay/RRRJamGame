@@ -42,7 +42,7 @@ public class YSorterManager : MonoBehaviour
         foreach (var renderer in renderers)
         {
             float relativeY = Mathf.InverseLerp(camTopY, camBottomY, renderer.transform.position.y);
-            int sortingOrder = Mathf.RoundToInt(Mathf.Lerp(2, 99, relativeY));
+            int sortingOrder = Mathf.RoundToInt(Mathf.Lerp(3, 99, relativeY));
             renderer.sortingOrder = sortingOrder;
         }
     }
