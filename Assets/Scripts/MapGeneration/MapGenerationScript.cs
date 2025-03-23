@@ -211,7 +211,7 @@ public class MapGenerationScript : MonoBehaviour
             _ => throw new System.ArgumentOutOfRangeException(nameof(currentLevel), currentLevel, null)
         };
 
-        for (attemptNumber = 1; attemptNumber <= 100; attemptNumber++)
+        for (attemptNumber = 1; attemptNumber <= 200; attemptNumber++)
         {
             PlaceRooms();
             if (!SeparateOverlappingRooms()) continue;
@@ -221,23 +221,25 @@ public class MapGenerationScript : MonoBehaviour
             if (AreAllImportantNodesConnected())
             {
                 ConnectImportantNodes(); // This is now in the correct place
-
                 PlaceFloorTiles();
                 PlaceWallTiles();
 
-                if (AreWallsClosed(dungeonTilemap[1], floorPositions))
+                if (rectangles[0].accessDoors == 1) 
                 {
-                    PlaceRoomPrefabs();
-                    PlacePlayerSpawnPoint();
-                    Debug.LogWarning($"Map generated at attempt n. {attemptNumber}");
-                    return;
+                    if (AreWallsClosed(dungeonTilemap[1], floorPositions))
+                    {
+                        PlaceRoomPrefabs();
+                        PlacePlayerSpawnPoint();
+                        Debug.LogWarning($"Map generated at attempt n. {attemptNumber}");
+                        return;
+                    }
                 }
             }
 
             ClearMap(); // Moved outside the inner if to ensure clearing even if nodes aren't connected
         }
 
-        Debug.Log("Attempt n. 100 reached");
+        Debug.Log("Attempt n. 200 reached");
     }
 
     private bool SeparateOverlappingRooms()
@@ -297,14 +299,14 @@ public class MapGenerationScript : MonoBehaviour
         }
 
         // Player spawn room in center
-        AddRectangle(Vector2.zero, new Vector2Int(14, 14), RoomType.Passageway);
+        AddRectangle(Vector2.down *10, new Vector2Int(14, 14), RoomType.Passageway);
         importantNodes.Add(rectangles.Count - 1);
 
         // Place transition rooms around center in a spiral-like pattern
         for (int i = 0; i < transitionRooms; i++)
         {
-            float angle = Random.Range(0, Mathf.PI * 2);
-            float radius = i * 2f;
+            float angle = i *Mathf.PI /8;
+            float radius = i * 3f;
             Vector2 position = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
 
             var roomSize = new Vector2Int(
@@ -561,12 +563,23 @@ public class MapGenerationScript : MonoBehaviour
 
         if (doorPosition != Vector3.zero && placeDoor)
         {
+            // Placing door marker
             GameObject marker = Instantiate(roomMarkers[1], doorPosition, Quaternion.identity);
             DoorManager doorManager = marker.GetComponent<DoorManager>();
             doorManager.neighbouringRooms.Add(rect1);
             doorManager.neighbouringRooms.Add(rect2);
             doorManager.isHorizontal = isHorizontal;
             markersPlaced.Add(marker);
+
+            if (rect1.roomType == RoomType.Boss)
+            {
+                rect1.accessDoors++;
+            }
+
+            if (rect2.roomType == RoomType.Boss)
+            {
+                rect2.accessDoors++;
+            }
         }
     }
 
