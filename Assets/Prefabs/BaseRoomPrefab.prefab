@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53b941af1b24b845b9ebcad6f0a3ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomType: 0
   width: 5
   height: 3
+  roomPrefab: {fileID: 0}
 --- !u!61 &4739763961255687518
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -81,7 +83,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

@@ -636,7 +636,7 @@ public class MapGenerationScript : MonoBehaviour
             }
         }
 
-        //PlaceRoofBackgroundTiles(allRoomPositions);
+        PlaceRoofBackgroundTiles(allRoomPositions);
     }
 
     void CreateHallwayBetween(RoomManager rect1, RoomManager rect2, bool placeDoor)
