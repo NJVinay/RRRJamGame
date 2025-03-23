@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -306,6 +304,10 @@ public class MapGenerationScript : MonoBehaviour
             PlacePrefabRectangle(prefabRoomIndexes[i]);
         }
 
+        // Creating player spawn room
+        AddRectangle(Vector2.zero, new Vector2Int(14, 14), RoomType.Passageway);
+        importantNodes.Add(rectangles.Count -1);
+
         // Create middle rooms with random positions and sizes
         for (int i = 0; i < transitionRooms; i++)
         {
@@ -606,7 +608,6 @@ public class MapGenerationScript : MonoBehaviour
         }
     }
 
-
     void ClearTile(Vector3Int pos)
     {
         // Clear existing tiles
@@ -652,27 +653,21 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlacePlayerSpawnPoint()
     {
-        RoomManager closestRect = null;
-        float closestDistance = float.MaxValue;
+        Vector3 centerPosition = rectangles[prefabRoomIndexes.Count].transform.position;
 
-        foreach (var rect in rectangles)
-        {
-            float distance = Vector2.Distance(rect.transform.position, Vector2.zero);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestRect = rect;
-            }
-        }
-
-        if (closestRect == null)
-        {
-            Debug.LogWarning("Couldn't find a suitable rectangle to place Player Spawn Point.");
-            return;
-        }
-
-        GameObject marker = Instantiate(roomMarkers[0], closestRect.transform.position, Quaternion.identity);
+        // Place player spawn marker (center offset down)
+        GameObject marker = Instantiate(roomMarkers[0], centerPosition + Vector3.down * 3, Quaternion.identity);
         markersPlaced.Add(marker);
+
+        // Place two additional markers around a circle using angles
+        float[] angles = { Mathf.PI / 6, 5 *Mathf.PI / 6};
+
+        foreach (float angle in angles)
+        {
+            Vector3 offset = new Vector3(Mathf.Cos(angle) * 3, Mathf.Sin(angle) * 3, 0);
+            marker = Instantiate(roomMarkers[2], centerPosition + offset, Quaternion.identity);
+            markersPlaced.Add(marker);
+        }
     }
 
     void AddRectangle(Vector2 position, Vector2Int sizeVector, RoomType roomType)
