@@ -38,10 +38,14 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        float damageReduction = weaponsManager.subtractedBlockedDamage / 100.0f; // Calculate damage reduction percentage
-        float reducedDamage = damageAmount * (1 - damageReduction); // Apply damage reduction
+        float finalDamage = damageAmount; // Initialize reduced damage variable
+        if (weaponsManager != null)
+        {
+            float damageReduction = weaponsManager.subtractedBlockedDamage / 100.0f; // Calculate damage reduction percentage
+            finalDamage = damageAmount * (1 - damageReduction);
+        }
 
-        currentHealth -= reducedDamage; // Decrease current health
+        currentHealth -= finalDamage; // Decrease current health
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't drop below 0
         UpdateHealthBar(); // Update health bar UI
 
@@ -50,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
             audioSource.PlayOneShot(deathSound); // Play the damage sound effect.
             Die(); // Call die function if player is dead
         }
-        else 
+        else
         {
             audioSource.PlayOneShot(damageSound); // Play the damage sound effect.
         }

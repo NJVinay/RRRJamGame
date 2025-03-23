@@ -17,7 +17,7 @@ MonoBehaviour:
     rate and reload, but low spread and high damage.
   fireMode: 1
   defaultWeaponProjectile: 0
-  damage: 80
+  damage: 50
   fireRate: 1
   reloadTime: 3
   magazineSize: 10
