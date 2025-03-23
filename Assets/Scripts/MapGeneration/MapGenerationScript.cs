@@ -83,24 +83,24 @@ public class MapGenerationScript : MonoBehaviour
 
     Vector2Int[] subwaySizeBank = new Vector2Int[16] // --------------- SUBWAY
     {
-        new Vector2Int(0, 0), // BossRoom1 
-        new Vector2Int(0, 0), // 2
+        new Vector2Int(46, 72), // BossRoom1 
+        new Vector2Int(58, 62), // 2
 
-        new Vector2Int(0, 0), // EnemyRoom1
-        new Vector2Int(0, 0), // 2
-        new Vector2Int(0, 0), // 3
-        new Vector2Int(0, 0), // 4
-        new Vector2Int(0, 0), // 5
-        new Vector2Int(0, 0), // 6
-        new Vector2Int(0, 0), // 7
-        new Vector2Int(0, 0), // 8
-        new Vector2Int(0, 0), // 9
-        new Vector2Int(0, 0), // 10
+        new Vector2Int(40, 20), // EnemyRoom1
+        new Vector2Int(20, 20), // 2
+        new Vector2Int(38, 30), // 3
+        new Vector2Int(38, 50), // 4
+        new Vector2Int(38, 28), // 5
+        new Vector2Int(26, 46), // 6
+        new Vector2Int(38, 28), // 7
+        new Vector2Int(38, 58), // 8
+        new Vector2Int(68, 36), // 9
+        new Vector2Int(30, 36), // 10
 
-        new Vector2Int(0, 0), // ItemRoom1
-        new Vector2Int(0, 0), // 2
-        new Vector2Int(0, 0), // 3
-        new Vector2Int(0, 0)  // 4
+        new Vector2Int(30, 32), // ItemRoom1
+        new Vector2Int(32, 56), // 2
+        new Vector2Int(30, 32), // 3
+        new Vector2Int(30, 32)  // 4
     };
 
     Vector2Int[] hospitalSizeBank = new Vector2Int[16] // --------------- HOSPITAL
@@ -136,14 +136,14 @@ public class MapGenerationScript : MonoBehaviour
 
         new Vector3Int(5, -5, 0),   // EnemyRoom1
         new Vector3Int(5, -9, 0),   // 2
-        new Vector3Int(10, -10, 0), // 3
-        new Vector3Int(22, -34, 0), // 4
+        new Vector3Int(13, -10, 0), // 3
+        new Vector3Int(21, -34, 0), // 4
         new Vector3Int(25, -20, 0), // 5
         new Vector3Int(23, -33, 0), // 6
         new Vector3Int(33, -32, 0), // 7
         new Vector3Int(30, -31, 0), // 8
-        new Vector3Int(29, -33, 0), // 9
-        new Vector3Int(33, -43, 0), // 10
+        new Vector3Int(27, -33, 0), // 9
+        new Vector3Int(-20, -45, 0), // 10
 
         new Vector3Int(33, -41, 0), // ItemRoom1
         new Vector3Int(35, -45, 0), // 2
@@ -153,24 +153,24 @@ public class MapGenerationScript : MonoBehaviour
 
     Vector3Int[] subwayOffsetBank = new Vector3Int[16] // --------------- SUBWAY
     {
-        new Vector3Int(0, 0, 0), // BossRoom1 
-        new Vector3Int(0, 0, 0), // 2
+        new Vector3Int(28, -30, 0), // BossRoom1 
+        new Vector3Int(38, -33, 0), // 2
 
-        new Vector3Int(0, 0, 0),   // EnemyRoom1
-        new Vector3Int(0, 0, 0),   // 2
-        new Vector3Int(0, 0, 0), // 3
-        new Vector3Int(0, 0, 0), // 4
-        new Vector3Int(0, 0, 0), // 5
-        new Vector3Int(0, 0, 0), // 6
-        new Vector3Int(0, 0, 0), // 7
-        new Vector3Int(0, 0, 0), // 8
-        new Vector3Int(0, 0, 0), // 9
-        new Vector3Int(0, 0, 0), // 10
+        new Vector3Int(3, -5, 0),   // EnemyRoom1
+        new Vector3Int(8, -9, 0),   // 2
+        new Vector3Int(2, -9, 0), // 3
+        new Vector3Int(2, -10, 0), // 4
+        new Vector3Int(2, -9, 0), // 5
+        new Vector3Int(-7, -10, 0), // 6
+        new Vector3Int(2, -9, 0), // 7
+        new Vector3Int(2, -24, 0), // 8
+        new Vector3Int(17, -12, 0), // 9
+        new Vector3Int(35, -12, 0), // 10
 
-        new Vector3Int(0, 0, 0), // ItemRoom1
-        new Vector3Int(0, 0, 0), // 2
-        new Vector3Int(0, 0, 0), // 3
-        new Vector3Int(0, 0, 0)  // 4
+        new Vector3Int(35, -14, 0), // ItemRoom1
+        new Vector3Int(35, -25, 0), // 2
+        new Vector3Int(35, -14, 0), // 3
+        new Vector3Int(35, -14, 0)  // 4
     };
 
     Vector3Int[] hospitalOffsetBank = new Vector3Int[16] // --------------- HOSPITAL
@@ -224,7 +224,7 @@ public class MapGenerationScript : MonoBehaviour
     // Prefab rooms management
     List<int> prefabRoomIndexes = new List<int>();
 
-    void Start()
+    void Awake()
     {
         // Initialize the tilemaps
         hotelTiles.Add(hotelV1Tiles);
@@ -248,9 +248,6 @@ public class MapGenerationScript : MonoBehaviour
         sizeBank.Add(hotelSizeBank);
         sizeBank.Add(subwaySizeBank);
         sizeBank.Add(hospitalSizeBank);
-
-        // Generate the map when the game starts
-        GenerateMap();
     }
 
     void Update()
@@ -262,7 +259,7 @@ public class MapGenerationScript : MonoBehaviour
             Debug.ClearDeveloperConsole();
 
             // Generate a new map
-            GenerateMap();
+            GenerateMap(currentLevel, currentVariant);
         }
     }
 
@@ -299,7 +296,7 @@ public class MapGenerationScript : MonoBehaviour
         markersPlaced.Clear();
     }
 
-    void GenerateMap()
+    public void GenerateMap(CurrentLevel currentLevel, CurrentVariant currentVariant)
     {
         currentTiles = roomTiles[(int)currentLevel][(int)currentVariant];
 
