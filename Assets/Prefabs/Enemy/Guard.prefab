@@ -180,7 +180,10 @@ MonoBehaviour:
   rangedPlayerDistance: 2
   attackCooldown: 2
   fireRate: 3
+  attackPause: 0
   rangedAttackSound: {fileID: 6418180475301049370, guid: 8406ac845e7ec8645a21812b7ef84711, type: 2}
+  painSound: {fileID: 6418180475301049370, guid: 4a8ca8ee537ff5641af62650fbfd276b, type: 2}
+  speed: 5
 --- !u!114 &1209690527826814595
 MonoBehaviour:
   m_ObjectHideFlags: 0

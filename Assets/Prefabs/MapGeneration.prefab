@@ -177,6 +177,7 @@ MonoBehaviour:
   - {fileID: 3847124934729737597, guid: 7a5b4ba68ed80af41b2f36c4b16d7259, type: 3}
   - {fileID: 3847124934729737597, guid: f75c6e790b7a9344d9a005b1fd33ce25, type: 3}
   - {fileID: 3847124934729737597, guid: 0f0ebdd53dd0bf64c8a524c1c64bc906, type: 3}
+  - {fileID: 3847124934729737597, guid: 47e31bfb4c11a93498567fdc9c544125, type: 3}
   hotelRooms:
   - {fileID: 9004926249166135519, guid: 8794aa9f2eec142efb6064fecda40480, type: 3}
   - {fileID: 9004926249166135519, guid: 1c23d4137dc2643d896e427d148c0645, type: 3}
@@ -221,18 +222,34 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85b3235ca02d01d4e814227628a1f695, type: 2}
   - {fileID: 11400000, guid: b9ca40d71427d724abb796849c41d43a, type: 2}
   - {fileID: 11400000, guid: f6e8c7ce49ec8ce439d1e8280d5985ee, type: 2}
-  hospitalRooms: []
+  hospitalRooms:
+  - {fileID: 9004926249166135519, guid: 8a702c2c7bfe04e19be5841a69dbc5d9, type: 3}
+  - {fileID: 9004926249166135519, guid: 16652fa0382284028be75319764a4315, type: 3}
+  - {fileID: 9004926249166135519, guid: 6981573cfcd724c699d065954bb1df59, type: 3}
+  - {fileID: 9004926249166135519, guid: df76fa23f9bc04f5783e20e99244b054, type: 3}
+  - {fileID: 9004926249166135519, guid: 76b7797ae342f4c0b801ac6936483e23, type: 3}
+  - {fileID: 9004926249166135519, guid: ed0bd90cd97994a7ba26775895d33d86, type: 3}
+  - {fileID: 9004926249166135519, guid: 12838257739d24962b22164376c4e78f, type: 3}
+  - {fileID: 9004926249166135519, guid: 6791a5de90d034b7897a2eff35bcb7f1, type: 3}
+  - {fileID: 9004926249166135519, guid: bada4615aa35f4765bb43c0193aa52a0, type: 3}
+  - {fileID: 9004926249166135519, guid: 174c139298cef4b01b80f960573d2af5, type: 3}
+  - {fileID: 9004926249166135519, guid: 2343a802362b641d688a1aa99b9f28e7, type: 3}
+  - {fileID: 9004926249166135519, guid: 8a936b1f833c74c6187e5086ecf3f002, type: 3}
+  - {fileID: 9004926249166135519, guid: dc63b8b6b08c547589189d0edd279551, type: 3}
+  - {fileID: 9004926249166135519, guid: 40e943de18e244e6abf5eb4f38bb355f, type: 3}
+  - {fileID: 9004926249166135519, guid: 73b5568cc1ec5460ca5fbf35d74588bb, type: 3}
+  - {fileID: 9004926249166135519, guid: a031d8146df6641e6818e1f59385b3dc, type: 3}
   hospitalTiles:
   - {fileID: 11400000, guid: f10ac031639ea3647adc844ec26206fd, type: 2}
   - {fileID: 11400000, guid: 1b9e7698d2c7f47468b31d1a8e836d32, type: 2}
   - {fileID: 11400000, guid: 8923d92e105acd44fa3f2e7e426ede01, type: 2}
   - {fileID: 11400000, guid: b6220e6bb3055164985514a549fbd561, type: 2}
-  currentLevel: 0
   enemyRooms: 7
   transitionRooms: 20
   sizeTransitionRooms: 8
   variationTranstitionRooms: 10
   baseRoomPrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
+  playerInstance: {fileID: 0}
 --- !u!1 &3157979076740582655
 GameObject:
   m_ObjectHideFlags: 0

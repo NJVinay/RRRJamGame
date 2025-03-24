@@ -15,6 +15,7 @@ public class RoomManager : MonoBehaviour
     public int height;
     BoxCollider2D boxCollider;
     public GameObject roomPrefab;
+    internal int accessDoors = 0;
 
     void Awake()
     {

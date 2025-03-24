@@ -12,6 +12,8 @@ TagManager:
   - SniperCrosshair
   - ProgressBar
   - WeaponLocation
+  - MothBoss
+  - HealthBar
   layers:
   - Default
   - TransparentFX

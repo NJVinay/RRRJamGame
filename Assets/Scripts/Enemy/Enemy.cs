@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
 
     public GameObject slashAttackPrefab;
     public GameObject projectilePrefab;
+
+    
     [Header("Melee Settings")]
     public bool meleeEnemy;
     public float meleeRange;
@@ -43,9 +45,16 @@ public class Enemy : MonoBehaviour
     private float lastAttackTime = 0f; // Track the last attack time
     public float fireRate = 1.0f; // Add fireRate variable
     private float lastFireTime = 0f; // Track the last fire time
+    public float attackPause;
+    private bool isAttacking;
 
     public AudioResource rangedAttackSound; // Add rangedAttackSound variable
+    public AudioResource painSound; // Add painSound variable
+    private float lastPainSoundTime = 0f; // Track the last pain sound time
     private AudioSource audioSource; // Add AudioSource component
+    private Rigidbody2D rb;
+
+    public float speed; // Add speed variable
 
     private void Awake()
     {
@@ -57,11 +66,14 @@ public class Enemy : MonoBehaviour
         aiPath = GetComponent<AIPath>();
         seeker = GetComponent<Seeker>();
         audioSource = GetComponent<AudioSource>(); // Initialize AudioSource
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
         UpdateMaterial();
+        speed += Random.Range(-0.5f, 0.5f); // Randomize speed based on itself by 0.5f
+        aiPath.maxSpeed = speed; // Set AIPath max speed to the randomized speed
     }
 
     private void Update()
@@ -90,8 +102,23 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            PlayPainSound(); // Play pain sound when taking damage
+        }
     }
 
+    private void PlayPainSound()
+    {
+        if (audioSource != null && painSound != null && Time.time >= lastPainSoundTime + 0.25f)
+        {
+            audioSource.Stop(); // Stop any currently playing audio
+            audioSource.resource = painSound;
+            audioSource.Play();
+            lastPainSoundTime = Time.time; // Update the last pain sound time
+        }
+    }
+ 
     private void FlipSprite()
     {
         if (meleeEnemy)
@@ -123,6 +150,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private IEnumerator StopMovementForSeconds(float seconds)
+    {
+        isAttacking = true;
+        aiPath.canMove = false;
+        rb.linearVelocity = Vector2.zero;
+        Animator animator = GetComponent<Animator>();
+        if (meleeEnemy && animator != null)
+        {
+            animator.speed = 0;
+        }
+        yield return new WaitForSeconds(seconds);
+        rb.linearVelocity = Vector2.zero;
+        if (meleeEnemy && animator != null)
+        {
+            animator.speed = 1;
+        }
+        isAttacking = false;
+        aiPath.canMove = true;
+    }
+
     private void CheckMeleeRange()
     {
         if (enemyTargetScript.target != null)
@@ -143,11 +190,14 @@ public class Enemy : MonoBehaviour
                     slashAttack.transform.right = directionToTarget;
                     slashAttack.transform.position = transform.position + directionToTarget * Mathf.Min(meleeAttackRange, distanceToTarget);
 
+                    // Stop movement for a brief moment
+                    StartCoroutine(StopMovementForSeconds(attackPause));
+
                     // Update the last attack time
                     lastAttackTime = Time.time;
                 }
             }
-            else
+            else if (!isAttacking)
             {
                 aiPath.destination = enemyTargetScript.target.position; // Ensure the player is the target
                 GetComponent<AIPath>().canMove = true;
@@ -188,6 +238,10 @@ public class Enemy : MonoBehaviour
                 {
                     // Trigger Shoot() in the animator
                     GetComponent<Animator>().SetTrigger("Shoot");
+
+                    // Stop movement for a brief moment
+                    StartCoroutine(StopMovementForSeconds(attackPause));
+
                     lastFireTime = Time.time;
                 }
             }

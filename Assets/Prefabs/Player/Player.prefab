@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1719095538419840634}
   - component: {fileID: 6153246501584600703}
   - component: {fileID: 5361574701336172057}
+  - component: {fileID: 3070102790569456732}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -231,7 +232,6 @@ MonoBehaviour:
   dashSpeed: 25
   dashTime: 0.1
   dashCooldown: 1
-  trailRenderer: {fileID: 0}
   isAiming: 0
   isHoldingFire: 0
   weaponsManager: {fileID: 0}
@@ -474,6 +474,18 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &3070102790569456732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272687173755717026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8de5d684012b241b8f8f6420d5791e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1656285487554009575
 GameObject:
   m_ObjectHideFlags: 0

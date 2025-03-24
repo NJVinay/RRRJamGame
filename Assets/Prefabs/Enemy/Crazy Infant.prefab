@@ -236,11 +236,19 @@ MonoBehaviour:
   meleeAttackRange: 1.8
   meleeAttackDamage: 5
   rangedEnemy: 0
+  rangedDamage: 0
+  rangedBulletCount: 0
+  rangedBulletSpeed: 0
+  rangedBulletSpread: 0
   engagementDistance: 10
   wanderDistance: 5
   rangedPlayerDistance: 2
   attackCooldown: 2
   fireRate: 1
+  attackPause: 1
+  rangedAttackSound: {fileID: 0}
+  painSound: {fileID: 6418180475301049370, guid: 801ea00d522427f458a12d758ca8b500, type: 2}
+  speed: 5
 --- !u!70 &7682441248101121543
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

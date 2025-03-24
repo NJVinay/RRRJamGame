@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -64,6 +65,21 @@ public class Projectile : MonoBehaviour
                 if (enemy != null && !hasHit)
                 {
                     enemy.TakeDamage(damage);
+                    hasHit = true;
+                    if(audioSource != null && enemyImpactSound != null)
+                    {
+                        audioSource.volume = 0.6f;
+                        audioSource.PlayOneShot(enemyImpactSound);
+                    }
+                }
+            }
+            if (collision.gameObject.CompareTag("MothBoss"))
+            {
+                // Get the MothBoss component and apply damage
+                MothBoss mothBoss = collision.gameObject.GetComponent<MothBoss>();
+                if (mothBoss != null && !hasHit)
+                {
+                    mothBoss.TakeDamage(damage);
                     hasHit = true;
                     if(audioSource != null && enemyImpactSound != null)
                     {

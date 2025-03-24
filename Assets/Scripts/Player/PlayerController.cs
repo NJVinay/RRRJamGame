@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed; // Current movement speed of the player.
     private Rigidbody2D rb; // Reference to the player's Rigidbody2D component.
     private bool isDashing = false; // Indicates if the player is currently dashing.
+    private TrailRenderer trailRenderer; // Reference to the TrailRenderer component
 
     // Header for organizing shooting-related settings in the Unity Inspector.
     [Header("Shooting Settings")]
@@ -62,35 +63,37 @@ public class PlayerController : MonoBehaviour
         sniperCrosshairObject = GameObject.FindWithTag("SniperCrosshair");
         sniperCrosshairObject.SetActive(false); // Ensure the sniper crosshair is initially disabled.
         audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
+        trailRenderer = GetComponent<TrailRenderer>(); // Initialize the TrailRenderer component.
+        trailRenderer.emitting = false;
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event.
-    }
+    // private void OnEnable()
+    // {
+    //     SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event.
+    // }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe from the sceneLoaded event.
-    }
+    // private void OnDisable()
+    // {
+    //     SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe from the sceneLoaded event.
+    // }
 
     // Called when a new scene is loaded.
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name != "MainMenu")
-        {
-            Time.timeScale = 1f; // Ensure the game is running.
-            isGamePaused = false; // Reset the game paused flag.
-            Cursor.visible = false; // Hide the cursor.
-            Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
-            rb.WakeUp(); // Ensure the Rigidbody2D is active.
-            moveInput = Vector2.zero; // Reset movement input to ensure smooth resumption.
-            UpdateWeaponsAndPlayerStats(); // Ensure moveSpeed is updated correctly.
-            FetchManagers(); // Re-fetch managers to ensure all references are up-to-date.
-            rb.linearVelocity = Vector2.zero; // Reset the player's velocity.
-            playerInput.enabled = true; // Re-enable the PlayerInput component.
-        }
-    }
+    // private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    // {
+    //     if (scene.name != "MainMenu")
+    //     {
+    //         Time.timeScale = 1f; // Ensure the game is running.
+    //         isGamePaused = false; // Reset the game paused flag.
+    //         Cursor.visible = false; // Hide the cursor.
+    //         Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
+    //         rb.WakeUp(); // Ensure the Rigidbody2D is active.
+    //         moveInput = Vector2.zero; // Reset movement input to ensure smooth resumption.
+    //         UpdateWeaponsAndPlayerStats(); // Ensure moveSpeed is updated correctly.
+    //         FetchManagers(); // Re-fetch managers to ensure all references are up-to-date.
+    //         rb.linearVelocity = Vector2.zero; // Reset the player's velocity.
+    //         playerInput.enabled = true; // Re-enable the PlayerInput component.
+    //     }
+    // }
 
     public void FetchManagers()
     {
@@ -198,17 +201,17 @@ public class PlayerController : MonoBehaviour
         InteractWithObject();
     }
 
-    // Debug function to check the weapon status.
-    public void OnDebug01(InputValue cc)
-    {
-        UpdateWeaponsAndPlayerStats();
-    }
+    // // Debug function to check the weapon status.
+    // public void OnDebug01(InputValue cc)
+    // {
+    //     UpdateWeaponsAndPlayerStats();
+    // }
 
-    // Called when the player presses the key to access the main menu.
-    public void OnMainMenu()
-    {
-        ReturnToMainMenu();
-    }
+    // // Called when the player presses the key to access the main menu.
+    // public void OnMainMenu()
+    // {
+    //     ReturnToMainMenu();
+    // }
 
     // Called at a fixed time interval, used for physics calculations.
     private void FixedUpdate()
@@ -321,10 +324,10 @@ public class PlayerController : MonoBehaviour
     // Called once per frame, used for regular updates.
     private void Update()
     {
-         if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
+        //  if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     TogglePause();
+        // }
         // If the fire button is being held, continue firing.
         if (isHoldingFire && weaponsManager != null)
         {
@@ -334,17 +337,17 @@ public class PlayerController : MonoBehaviour
         DetectInteractableObjects(); // Detect nearby interactable objects
 
         // Check for the "M" key press to access the main menu
-        if (Keyboard.current.mKey.wasPressedThisFrame)
-        {
-            if (isGamePaused)
-            {
-                ResumeGame(); // Resume the game if it is currently paused.
-            }
-            else
-            {
-                OnMainMenu(); // Access the main menu if the game is not paused.
-            }
-        }
+        // if (Keyboard.current.mKey.wasPressedThisFrame)
+        // {
+        //     if (isGamePaused)
+        //     {
+        //         ResumeGame(); // Resume the game if it is currently paused.
+        //     }
+        //     else
+        //     {
+        //         OnMainMenu(); // Access the main menu if the game is not paused.
+        //     }
+        // }
 
         // Update the crosshair position to follow the mouse
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -373,20 +376,21 @@ public class PlayerController : MonoBehaviour
     }    
 
     // Method to toggle the pause state of the game.
-    private void TogglePause()
-    {
-        if (isGamePaused)
-        {
-            ResumeGame();
-        }
-        else
-        {
-            Time.timeScale = 0f; // Pause the game.
-            isGamePaused = true; // Set the game paused flag.
-            Cursor.visible = true; // Show the cursor.
-            Cursor.lockState = CursorLockMode.None; // Unlock the cursor.
-        }
-    }
+    // private void TogglePause()
+    // {
+    //     if (isGamePaused)
+    //     {
+    //         ResumeGame();
+    //     }
+    //     else
+    //     {
+    //         Time.timeScale = 0f; // Pause the game.
+    //         isGamePaused = true; // Set the game paused flag.
+    //         Cursor.visible = true; // Show the cursor.
+    //         Cursor.lockState = CursorLockMode.None; // Unlock the cursor.
+    //     }
+    // }
+    
     // Coroutine to handle the dash mechanic.
     IEnumerator Dash()
     {
@@ -394,8 +398,10 @@ public class PlayerController : MonoBehaviour
         lastDashTime = Time.time; // Record the time the dash started.
         rb.linearVelocity = moveInput * dashSpeed; // Set the player's velocity to dash speed.
         audioSource.PlayOneShot(dashSound); // Play dash sound.
+        trailRenderer.emitting = true; // Enable the TrailRenderer
         yield return new WaitForSeconds(dashTime); // Wait for the dash duration.
         isDashing = false; // Reset dashing status.
+        trailRenderer.emitting = false; // Disable the TrailRenderer
     }
 
     public void UpdateWeaponsAndPlayerStats()
@@ -407,32 +413,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Called when the player wants to return to the main menu.
-    public void ReturnToMainMenu()
-    {
-        Time.timeScale = 0f; // Pause the game.
-        isGamePaused = true; // Set the game paused flag.
-        Cursor.visible = true; // Show the cursor.
-        Cursor.lockState = CursorLockMode.None; // Unlock the cursor.
-        SceneManager.LoadScene("MainMenu"); // Load the main menu scene.
-    }
+    // // Called when the player wants to return to the main menu.
+    // public void ReturnToMainMenu()
+    // {
+    //     Time.timeScale = 0f; // Pause the game.
+    //     isGamePaused = true; // Set the game paused flag.
+    //     Cursor.visible = true; // Show the cursor.
+    //     Cursor.lockState = CursorLockMode.None; // Unlock the cursor.
+    //     SceneManager.LoadScene("MainMenu"); // Load the main menu scene.
+    // }
 
-    // Called when the player wants to resume the game.
-    public void ResumeGame()
-    {
-        Time.timeScale = 1f; // Resume the game.
-        isGamePaused = false; // Reset the game paused flag.
-        Cursor.visible = false; // Hide the cursor.
-        Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current level.
-    }
+    // // Called when the player wants to resume the game.
+    // public void ResumeGame()
+    // {
+    //     Time.timeScale = 1f; // Resume the game.
+    //     isGamePaused = false; // Reset the game paused flag.
+    //     Cursor.visible = false; // Hide the cursor.
+    //     Cursor.lockState = CursorLockMode.Confined; // Confine the cursor.
+    //     SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current level.
+    // }
 
-    // Called when the player wants to quit the game.
-    public void QuitGame()
-    {
-        Application.Quit(); // Quit the application.
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // Stop playing the game in the editor.
-        #endif
-    }
+    // // Called when the player wants to quit the game.
+    // public void QuitGame()
+    // {
+    //     Application.Quit(); // Quit the application.
+    //     #if UNITY_EDITOR
+    //     UnityEditor.EditorApplication.isPlaying = false; // Stop playing the game in the editor.
+    //     #endif
+    // }
 }

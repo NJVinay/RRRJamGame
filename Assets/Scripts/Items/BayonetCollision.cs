@@ -32,6 +32,21 @@ public class BayonetCollision : MonoBehaviour
                     audioSource.PlayOneShot(impactSound);
                 }
             }
+
+            // Check if the collided object has a MothBoss component.
+            MothBoss mothBoss = collision.gameObject.GetComponent<MothBoss>();
+            if (mothBoss != null)
+            {
+                mothBoss.TakeDamage(100);
+                
+                lastCollisionDamageTime = Time.time; // Update the last collision damage time.
+                
+                // Play the impact sound.
+                if (impactSound != null && audioSource != null)
+                {
+                    audioSource.PlayOneShot(impactSound);
+                }
+            }
         }
     }
 }
