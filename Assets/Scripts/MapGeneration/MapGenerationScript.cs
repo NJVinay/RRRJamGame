@@ -39,7 +39,6 @@ public class MapGenerationScript : MonoBehaviour
     public List<TileBase> hospitalTiles = new List<TileBase>();
 
     [Header("Current Level Data")]
-    public CurrentLevel currentLevel = CurrentLevel.Hotel;
     private List<TileBase> currentTiles = new List<TileBase>();
     private List<GameObject> currentLevelRooms = new List<GameObject>();
 
@@ -156,6 +155,9 @@ public class MapGenerationScript : MonoBehaviour
     private List<int> prefabRoomIndexes = new List<int>();
     private HashSet<Vector3Int> floorPositions;
 
+    // Player
+    public GameObject playerInstance;
+
     void Awake()
     {
         roomTiles.AddRange(new List<List<TileBase>> { hotelTiles, subwayTiles, hospitalTiles });
@@ -175,7 +177,7 @@ public class MapGenerationScript : MonoBehaviour
         });
     }
 
-    void Update()
+    /**void Update()
     {
         if (Input.GetButtonDown("Jump"))
         {
@@ -183,7 +185,7 @@ public class MapGenerationScript : MonoBehaviour
             Debug.ClearDeveloperConsole();
             GenerateMap(currentLevel);
         }
-    }
+    }**/
 
     void ClearMap()
     {
@@ -221,7 +223,7 @@ public class MapGenerationScript : MonoBehaviour
 
         for (attemptNumber = 1; attemptNumber <= 200; attemptNumber++)
         {
-            PlaceRooms();
+            PlaceRooms(currentLevel);
             if (!SeparateOverlappingRooms()) continue;
 
             BuildGraph();
@@ -236,7 +238,7 @@ public class MapGenerationScript : MonoBehaviour
                 {
                     if (AreWallsClosed(dungeonTilemap[1], floorPositions))
                     {
-                        PlaceRoomPrefabs();
+                        PlaceRoomPrefabs(currentLevel);
                         PlacePlayerSpawnPoint();
                         Debug.LogWarning($"Map generated at attempt n. {attemptNumber}");
                         return;
@@ -289,7 +291,7 @@ public class MapGenerationScript : MonoBehaviour
         return false; // Overlap separation failed after 1000 attempts
     }
 
-    void PlaceRooms()
+    void PlaceRooms(CurrentLevel currentLevel)
     {
         // Place boss room
         prefabRoomIndexes.Add(Random.Range(0, 2));
@@ -303,7 +305,7 @@ public class MapGenerationScript : MonoBehaviour
         // Instantiate all chosen room prefabs
         foreach (int index in prefabRoomIndexes)
         {
-            PlacePrefabRectangle(index);
+            PlacePrefabRectangle(index, currentLevel);
         }
 
         // Player spawn room in center
@@ -336,7 +338,7 @@ public class MapGenerationScript : MonoBehaviour
         }
     }
 
-    void PlacePrefabRectangle(int index)
+    void PlacePrefabRectangle(int index, CurrentLevel currentLevel)
     {
         float halfPi = Mathf.PI / 2f;
         float twoPi = Mathf.PI * 2f;
@@ -363,7 +365,7 @@ public class MapGenerationScript : MonoBehaviour
         importantNodes.Add(rectangles.Count - 1);
     }
 
-    void PlaceRoomPrefabs()
+    void PlaceRoomPrefabs(CurrentLevel currentLevel)
     {
         var levelOffsetBank = offsetbank[(int)currentLevel];
         int count = prefabRoomIndexes.Count;
@@ -652,6 +654,8 @@ public class MapGenerationScript : MonoBehaviour
             Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0f);
             markersPlaced.Add(Instantiate(roomMarkers[2], centerPosition + offset, identity));
         }
+
+        playerInstance.transform.position = centerPosition + Vector3.down * 3;
     }
 
     void AddRectangle(Vector2 position, Vector2Int sizeVector, RoomType roomType)
