@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Audio;
@@ -12,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource baseAudioSource;
     public AudioSource auxiliaryAudioSource;
     public AudioClip baseAudioClip;
+    public AudioSource bossAudioSource;
     public List<AudioClip> menuThemeClips;
     public AudioMixerGroup musicAudioMixerGroup;
 
@@ -27,6 +29,7 @@ public class AudioManager : MonoBehaviour
     private int[] audioSourcesToTrack = new int[10];
     private List<int> audioSourcesIndexesToStop = new List<int>();
     private double nextLoopStart;
+    private bool toBossMusic = false;
 
     //Debug
     [Space(20)]
@@ -44,7 +47,45 @@ public class AudioManager : MonoBehaviour
         if (testMenuTheme) StartMenuThemeIntro();
     }
 
-    void StartMenuThemeIntro()
+    public void TransitionToBossMusic()
+    {
+        bossAudioSource.Play();
+        StartCoroutine(FadeAudioSource(bossAudioSource, 0.75f, 4f));
+        StartCoroutine(FadeAudioSource(baseAudioSource, 0f, 4f));
+
+        for (int i = 0; i < 10; i++)
+        {
+            StartCoroutine(FadeAudioSource(musicAudioSources[i], 0f, 4f));
+        }
+    }
+
+    public void TransitionToDynamicMusic()
+    {
+        StartCoroutine(FadeAudioSource(bossAudioSource, 0f, 4f));
+        StartCoroutine(FadeAudioSource(baseAudioSource, 1f, 4f));
+
+        for (int i = 0; i < 10; i++)
+        {
+            StartCoroutine(FadeAudioSource(musicAudioSources[i], 1f, 4f));
+        }
+    }
+
+    public float fadeSpeed = 1.5f;
+
+    IEnumerator FadeAudioSource(AudioSource audioSource, float targetVolume, float duration)
+    {
+        float startVolume = audioSource.volume;
+        float time = 0f;
+        while (time < duration)
+        {
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        audioSource.volume = targetVolume;
+    }
+
+    public void StartMenuThemeIntro()
     {
         baseAudioSource.clip = menuThemeClips[0];
         baseAudioSource.loop = false;
@@ -54,7 +95,14 @@ public class AudioManager : MonoBehaviour
         auxiliaryAudioSource.PlayScheduled(startTime + menuThemeClips[0].samples / (double)menuThemeClips[0].frequency);
     }
 
-    void StartDynamicMusic()
+    public void StopMenuTheme()
+    {
+        baseAudioSource.Stop();
+        auxiliaryAudioSource.Stop();
+        baseAudioSource.loop = true;
+    }
+
+    public void StartDynamicMusic()
     {
         audioClipsBank[0] = barrelSlotClips;
         audioClipsBank[1] = sightClips;
@@ -72,17 +120,28 @@ public class AudioManager : MonoBehaviour
             musicAudioSources[i] = tempAudioSource;
             audioSourcesToTrack[i] = 10;
         }
-
         
         baseAudioSource.clip = baseAudioClip;
         double startTime = AudioSettings.dspTime +2; // 2 is for debug purposes
-        baseAudioSource.PlayScheduled(startTime);        
+        baseAudioSource.PlayScheduled(startTime);       
         nextLoopStart = startTime +baseAudioClip.samples / (double)baseAudioClip.frequency;
         
         StartCoroutine(InvokeAtDSPTime(RefreshActiveAudioSources));
 
         //Debug
         if (testDynamicMusic) Invoke(nameof(DebugRefreshAttachments), 0.5f);
+    }
+
+    public void StopDynamicMusic()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            musicAudioSources[i].Stop();
+        }
+
+        StopAllCoroutines();
+        baseAudioSource.Stop();
+        audioSourcesIndexesToStop.Clear();
     }
 
     IEnumerator InvokeAtDSPTime(Action method)

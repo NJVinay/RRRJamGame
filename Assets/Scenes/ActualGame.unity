@@ -572,6 +572,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4474787919268808983, guid: 798a15cea601bb649a7eb5fcc9dfc17f, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6580367707076363753, guid: 798a15cea601bb649a7eb5fcc9dfc17f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.7929831
@@ -653,14 +657,6 @@ PrefabInstance:
       propertyPath: playerInstance
       value: 
       objectReference: {fileID: 538382429}
-    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
-      propertyPath: roomMarkers.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569603865259409239, guid: 395a838d89c2acd4b806394661308793, type: 3}
-      propertyPath: 'roomMarkers.Array.data[3]'
-      value: 
-      objectReference: {fileID: 3847124934729737597, guid: 47e31bfb4c11a93498567fdc9c544125, type: 3}
     - target: {fileID: 7901457150586395688, guid: 395a838d89c2acd4b806394661308793, type: 3}
       propertyPath: m_SortingOrder
       value: 2
