@@ -640,21 +640,25 @@ public class MapGenerationScript : MonoBehaviour
 
     void PlacePlayerSpawnPoint()
     {
+        // Get the position of the player spawn room (center room)
         Vector3 centerPosition = rectangles[prefabRoomIndexes.Count].transform.position;
         Quaternion identity = Quaternion.identity;
 
-        // Player spawn marker (center offset down)
+        // Place the player spawn marker slightly below the center of the room
         markersPlaced.Add(Instantiate(roomMarkers[0], centerPosition + Vector3.down * 3, identity));
 
+        // Define the radius for weapon spawn markers and their angles
         float radius = 3f;
         float[] angles = { Mathf.PI / 6f, 5f * Mathf.PI / 6f };
 
+        // Place weapon spawn markers at calculated positions around the player spawn point
         foreach (float angle in angles)
         {
             Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0f);
-            markersPlaced.Add(Instantiate(roomMarkers[2], centerPosition + offset, identity));
+            markersPlaced.Add(Instantiate(roomMarkers[3], centerPosition + offset, identity));
         }
 
+        // Set the player's initial position to the spawn marker's position
         playerInstance.transform.position = centerPosition + Vector3.down * 3;
     }
 

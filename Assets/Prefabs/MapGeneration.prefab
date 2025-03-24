@@ -177,6 +177,7 @@ MonoBehaviour:
   - {fileID: 3847124934729737597, guid: 7a5b4ba68ed80af41b2f36c4b16d7259, type: 3}
   - {fileID: 3847124934729737597, guid: f75c6e790b7a9344d9a005b1fd33ce25, type: 3}
   - {fileID: 3847124934729737597, guid: 0f0ebdd53dd0bf64c8a524c1c64bc906, type: 3}
+  - {fileID: 3847124934729737597, guid: 47e31bfb4c11a93498567fdc9c544125, type: 3}
   hotelRooms:
   - {fileID: 9004926249166135519, guid: 8794aa9f2eec142efb6064fecda40480, type: 3}
   - {fileID: 9004926249166135519, guid: 1c23d4137dc2643d896e427d148c0645, type: 3}
@@ -243,12 +244,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b9e7698d2c7f47468b31d1a8e836d32, type: 2}
   - {fileID: 11400000, guid: 8923d92e105acd44fa3f2e7e426ede01, type: 2}
   - {fileID: 11400000, guid: b6220e6bb3055164985514a549fbd561, type: 2}
-  currentLevel: 0
   enemyRooms: 7
   transitionRooms: 20
   sizeTransitionRooms: 8
   variationTranstitionRooms: 10
   baseRoomPrefab: {fileID: 8849771514739765129, guid: 0cf75b526b78be24fb90dd6dc7457536, type: 3}
+  playerInstance: {fileID: 0}
 --- !u!1 &3157979076740582655
 GameObject:
   m_ObjectHideFlags: 0
