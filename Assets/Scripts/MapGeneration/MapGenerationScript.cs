@@ -72,14 +72,22 @@ public class MapGenerationScript : MonoBehaviour
 
     private Vector2Int[] hospitalSizeBank = new Vector2Int[16]
     {
-        new Vector2Int(0, 0), new Vector2Int(0, 0),
-        new Vector2Int(0, 0), new Vector2Int(0, 0), 
-        new Vector2Int(0, 0), new Vector2Int(0, 0),
-        new Vector2Int(0, 0), new Vector2Int(0, 0), 
-        new Vector2Int(0, 0), new Vector2Int(0, 0),
-        new Vector2Int(0, 0), new Vector2Int(0, 0),
-        new Vector2Int(0, 0), new Vector2Int(0, 0), 
-        new Vector2Int(0, 0), new Vector2Int(0, 0)
+        new Vector2Int(28, 24), // boss
+        new Vector2Int(24, 38),
+        new Vector2Int(54, 26), // enemy
+        new Vector2Int(32, 24), 
+        new Vector2Int(20, 38), 
+        new Vector2Int(34, 14),
+        new Vector2Int(16, 14), 
+        new Vector2Int(26, 16), 
+        new Vector2Int(14, 28), 
+        new Vector2Int(38, 16),
+        new Vector2Int(32, 22), 
+        new Vector2Int(20, 22),
+        new Vector2Int(24, 18),   // item
+        new Vector2Int(52, 14), 
+        new Vector2Int(28, 20), 
+        new Vector2Int(14, 30)
     };
 
     [Header("Offset Banks")]
@@ -111,22 +119,22 @@ public class MapGenerationScript : MonoBehaviour
 
     private Vector3Int[] hospitalOffsetBank = new Vector3Int[16]
     {
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0),
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0),
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0),
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0),
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0), 
-        new Vector3Int(0, 0, 0)
+        new Vector3Int(5, -1, 0),   // boss
+        new Vector3Int(4, -1, 0),
+        new Vector3Int(-7, -3, 0),   // enemy
+        new Vector3Int(3, -2, 0), 
+        new Vector3Int(10, -8, 0), 
+        new Vector3Int(3, 3, 0),
+        new Vector3Int(11, 3, 0), 
+        new Vector3Int(10, 3, 0), 
+        new Vector3Int(13, -4, 0), 
+        new Vector3Int(1, -9, 0),
+        new Vector3Int(9, -11, 0), 
+        new Vector3Int(12, -13, 0),
+        new Vector3Int(0, -9, 0),   // item
+        new Vector3Int(-8, -7, 0), 
+        new Vector3Int(5, -7, 0), 
+        new Vector3Int(6, 2, 0)
     };
 
     [Header("Map Generation Settings")]
