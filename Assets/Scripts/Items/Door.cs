@@ -35,9 +35,9 @@ public class Door : MonoBehaviour
             audioSource.PlayOneShot(doorOpenSound);
         }
 
-        else if(locked && player.keys > 0)
+        else if(locked && PlayerData.Instance.keys > 0)
         {
-            player.keys -= 1;
+            PlayerData.Instance.keys -= 1;
 
             // Disable collision
             doorCollider.enabled = false;
@@ -49,9 +49,9 @@ public class Door : MonoBehaviour
             audioSource.PlayOneShot(doorOpenSound);
         }
 
-        else if(bossLocked && player.hasBossKey)
+        else if(bossLocked && PlayerData.Instance.hasBossKey)
         {
-            player.hasBossKey = false;
+            PlayerData.Instance.hasBossKey = false;
 
             // Disable collision
             doorCollider.enabled = false;

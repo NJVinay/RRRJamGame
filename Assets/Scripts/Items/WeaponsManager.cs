@@ -87,9 +87,12 @@ public class WeaponsManager : MonoBehaviour
     public void Start()
     {
         WeaponCheck(); // Log the current weapon and its attachments.
-        RefreshAttachments(); // Refresh all stats based on attachments
+        if (PlayerData.Instance.selectedWeapon != null)
+        {
+            currentWeapon = PlayerData.Instance.selectedWeapon;
+            RefreshAttachments(); // Refresh all stats based on attachments
+        }
     }
-
     // Method to check and log the current weapon and its attachments.
     public void WeaponCheck()
     {

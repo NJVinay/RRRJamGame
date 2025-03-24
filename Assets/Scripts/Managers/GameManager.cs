@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    
     // ✅ Singleton Instance for global access
     public static GameManager Instance { get; private set; }
 
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Restarted");
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PlayerData.Instance.ResetData(); // Reset persistent data
     }
 
     // ✅ Pause/Resume Game

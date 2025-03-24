@@ -36,9 +36,7 @@ public class PlayerController : MonoBehaviour
     private GameObject currentInteractable; // Reference to the current interactable object.
     [SerializeField] GameObject descriptionBox; // Reference to the description box GameObject.
     [SerializeField] TMPro.TextMeshProUGUI descriptionText; // Reference to the TextMeshProUGUI component for the description text.
-    public bool hasBossKey = false; // Indicates if the player has the boss key.
-    public int keys = 0; // Number of keys collected by the player.
-
+    
     [Header("Crosshair Settings")]
     private Transform weaponObject;
     private Transform playerObject; // Reference to the player object

@@ -6,8 +6,6 @@ public class PlayerHealth : MonoBehaviour
 {
     public Image healthBar;      // Reference to the health bar UI element
     public float maxHealth = 100.0f; // Maximum health of the player
-    private float currentHealth;  // Current health of the player
-
     private Vector3 startPosition;
     private WeaponsManager weaponsManager; // Reference to the WeaponsManager for handling damage reduction
     [SerializeField] AudioClip damageSound; // Sound effect for taking damage.
@@ -16,11 +14,22 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
-        currentHealth = maxHealth; // Set current health to maximum at start
+        PlayerData.Instance.health = maxHealth; // Set current health to maximum at start
         UpdateHealthBar(); // Initialize health bar
         startPosition = transform.position; // Store the initial position of the player
         weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Initialize the WeaponsManager reference
         audioSource = GetComponent<AudioSource>(); // Initialize the AudioSource component.
+    }
+
+    private void Start()
+    {
+        // Initialize PlayerData health if needed
+        if (PlayerData.Instance.health <= 0)
+        {
+            PlayerData.Instance.health = maxHealth;
+        }
+        weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Initialize WeaponsManager
+        UpdateHealthBar(); // Initialize health bar
     }
 
     private void Update()
@@ -45,11 +54,11 @@ public class PlayerHealth : MonoBehaviour
             finalDamage = damageAmount * (1 - damageReduction);
         }
 
-        currentHealth -= finalDamage; // Decrease current health
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't drop below 0
+        PlayerData.Instance.health -= finalDamage; // Decrease current health
+        PlayerData.Instance.health = Mathf.Clamp(PlayerData.Instance.health, 0, maxHealth); // Ensure health doesn't drop below 0
         UpdateHealthBar(); // Update health bar UI
 
-        if (currentHealth <= 0)
+        if (PlayerData.Instance.health <= 0)
         {
             audioSource.PlayOneShot(deathSound); // Play the damage sound effect.
             Die(); // Call die function if player is dead
@@ -62,8 +71,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(float healingAmount)
     {
-        currentHealth += healingAmount; // Increase current health
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't exceed max health
+        PlayerData.Instance.health += healingAmount; // Increase current health
+        PlayerData.Instance.health = Mathf.Clamp(PlayerData.Instance.health, 0, maxHealth); // Ensure health doesn't exceed max health
         UpdateHealthBar(); // Update health bar UI
     }
 
@@ -71,7 +80,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (healthBar != null)
         {
-            healthBar.fillAmount = currentHealth / maxHealth; // Update the fill amount of the health bar
+            healthBar.fillAmount = PlayerData.Instance.health / maxHealth; // Update the fill amount of the health bar
         }
     }
 
@@ -79,7 +88,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player has died! Resetting position...");
         transform.position = startPosition;     // Reset the player's position to the starting position
-        currentHealth = maxHealth;               // Restore health
+        PlayerData.Instance.health = maxHealth;               // Restore health
         UpdateHealthBar();                       // Update health bar UI
     }
 }
