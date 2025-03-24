@@ -17,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         currentHealth = maxHealth; // Set current health to maximum at start
+        healthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Image>();
         UpdateHealthBar(); // Initialize health bar
         startPosition = transform.position; // Store the initial position of the player
         weaponsManager = FindFirstObjectByType<WeaponsManager>(); // Initialize the WeaponsManager reference

@@ -49,7 +49,12 @@ public class Enemy : MonoBehaviour
     private bool isAttacking;
 
     public AudioResource rangedAttackSound; // Add rangedAttackSound variable
+    public AudioResource painSound; // Add painSound variable
+    private float lastPainSoundTime = 0f; // Track the last pain sound time
     private AudioSource audioSource; // Add AudioSource component
+    private Rigidbody2D rb;
+
+    public float speed; // Add speed variable
 
     private void Awake()
     {
@@ -61,11 +66,14 @@ public class Enemy : MonoBehaviour
         aiPath = GetComponent<AIPath>();
         seeker = GetComponent<Seeker>();
         audioSource = GetComponent<AudioSource>(); // Initialize AudioSource
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
         UpdateMaterial();
+        speed += Random.Range(-0.5f, 0.5f); // Randomize speed based on itself by 0.5f
+        aiPath.maxSpeed = speed; // Set AIPath max speed to the randomized speed
     }
 
     private void Update()
@@ -94,8 +102,23 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            PlayPainSound(); // Play pain sound when taking damage
+        }
     }
 
+    private void PlayPainSound()
+    {
+        if (audioSource != null && painSound != null && Time.time >= lastPainSoundTime + 0.25f)
+        {
+            audioSource.Stop(); // Stop any currently playing audio
+            audioSource.resource = painSound;
+            audioSource.Play();
+            lastPainSoundTime = Time.time; // Update the last pain sound time
+        }
+    }
+ 
     private void FlipSprite()
     {
         if (meleeEnemy)
@@ -131,18 +154,20 @@ public class Enemy : MonoBehaviour
     {
         isAttacking = true;
         aiPath.canMove = false;
+        rb.linearVelocity = Vector2.zero;
         Animator animator = GetComponent<Animator>();
         if (meleeEnemy && animator != null)
         {
             animator.speed = 0;
         }
         yield return new WaitForSeconds(seconds);
-        aiPath.canMove = true;
+        rb.linearVelocity = Vector2.zero;
         if (meleeEnemy && animator != null)
         {
             animator.speed = 1;
         }
         isAttacking = false;
+        aiPath.canMove = true;
     }
 
     private void CheckMeleeRange()

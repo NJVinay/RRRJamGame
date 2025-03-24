@@ -80,8 +80,8 @@ public class WeaponsManager : MonoBehaviour
     // Method to initialize the WeaponsManager
     public void Initialize()
     {
-        playerController.FetchManagers();
-        audioManager.FetchManagers();
+        if(playerController != null) playerController.FetchManagers();
+        if(audioManager != null) audioManager.FetchManagers();
     }
 
     public void Start()

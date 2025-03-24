@@ -45,7 +45,7 @@ public class Explosion : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the explosion collided with an enemy
+        // Check if the explosion collided with an enemy or MothBoss
         if (collision.gameObject.CompareTag("Enemy"))
         {
             // Get the Enemy component and apply damage
@@ -53,6 +53,15 @@ public class Explosion : MonoBehaviour
             if (enemy != null)
             {   
                 enemy.TakeDamage(damage);
+            }
+        }
+        if (collision.gameObject.CompareTag("MothBoss"))
+        {
+            // Get the MothBoss component and apply damage
+            MothBoss mothBoss = collision.gameObject.GetComponent<MothBoss>();
+            if (mothBoss != null)
+            {   
+                mothBoss.TakeDamage(damage);
             }
         }
     }
