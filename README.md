@@ -1,4 +1,4 @@
 # RRRJamGame
 
-**GitHub Repository**: https://github.com/NJVinay/RRRJamGame
+**Live Demo**:  https://crudaluna.itch.io/barrelbound
 Common repository for RRR's first game jam entry
